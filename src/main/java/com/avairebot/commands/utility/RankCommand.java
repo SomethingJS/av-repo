@@ -1,48 +1,48 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.utility;
+package com.avbot.commands.utility;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.commands.administration.LevelCommand;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.controllers.PlayerController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.PlayerTransformer;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.imagegen.RankBackground;
-import com.avairebot.imagegen.RankBackgroundHandler;
-import com.avairebot.imagegen.renders.RankBackgroundRender;
-import com.avairebot.language.I18n;
-import com.avairebot.utilities.CacheUtil;
-import com.avairebot.utilities.MentionableUtil;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.commands.administration.LevelCommand;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.controllers.PlayerController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.PlayerTransformer;
+import com.avbot.factories.MessageFactory;
+import com.avbot.imagegen.RankBackground;
+import com.avbot.imagegen.RankBackgroundHandler;
+import com.avbot.imagegen.renders.RankBackgroundRender;
+import com.avbot.language.I18n;
+import com.avbot.utilities.CacheUtil;
+import com.avbot.utilities.MentionableUtil;
+import com.avbot.utilities.NumberUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -73,8 +73,8 @@ public class RankCommand extends Command {
 
     private static final Logger log = LoggerFactory.getLogger(RankCommand.class);
 
-    public RankCommand(AvaIre avaire) {
-        super(avaire, false);
+    public RankCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -162,13 +162,13 @@ public class RankCommand extends Command {
                 ? "Unranked"
                 : properties.getScore() + " / " + getUsersInGuild(context.getGuild());
 
-            long zeroExperience = avaire.getLevelManager().getExperienceFromLevel(guildTransformer, 0) - 100;
+            long zeroExperience = av.getLevelManager().getExperienceFromLevel(guildTransformer, 0) - 100;
             long experience = properties.getPlayer().getExperience() + zeroExperience;
 
-            long level = avaire.getLevelManager().getLevelFromExperience(guildTransformer, experience);
-            long current = avaire.getLevelManager().getExperienceFromLevel(guildTransformer, level);
+            long level = av.getLevelManager().getLevelFromExperience(guildTransformer, experience);
+            long current = av.getLevelManager().getExperienceFromLevel(guildTransformer, level);
 
-            long nextLevelXp = avaire.getLevelManager().getExperienceFromLevel(guildTransformer, level + 1);
+            long nextLevelXp = av.getLevelManager().getExperienceFromLevel(guildTransformer, level + 1);
             double percentage = ((double) (experience - current) / (nextLevelXp - current)) * 100;
 
             StringBuilder levelBarBuilder = new StringBuilder();
@@ -177,7 +177,7 @@ public class RankCommand extends Command {
             }
             String levelBar = levelBarBuilder.toString();
 
-            PlayerTransformer playerTransformer = PlayerController.fetchPlayer(avaire, context.getMessage(), author);
+            PlayerTransformer playerTransformer = PlayerController.fetchPlayer(av, context.getMessage(), author);
             if (playerTransformer != null) {
                 Integer selectedBackgroundId = playerTransformer.getPurchases()
                     .getSelectedPurchasesForType(
@@ -224,8 +224,8 @@ public class RankCommand extends Command {
         DatabaseProperties properties
     ) {
         MessageFactory.makeEmbeddedMessage(context.getChannel(), Color.decode("#E91E63"))
-            .setAuthor(author.getName(), "https://avairebot.com/leaderboard/" + context.getGuild().getId(), author.getEffectiveAvatarUrl())
-            .setFooter("https://avairebot.com/leaderboard/" + context.getGuild().getId())
+            .setAuthor(author.getName(), "https://avbot.com/leaderboard/" + context.getGuild().getId(), author.getEffectiveAvatarUrl())
+            .setFooter("https://avbot.com/leaderboard/" + context.getGuild().getId())
             .addField(context.i18n("fields.rank"), score, true)
             .addField(context.i18n("fields.level"), NumberUtil.formatNicely(level), true)
             .addField(context.i18n("fields.experience"), (experience - zeroExperience - 100 < 0 ? "0" : context.i18n("fields.total",
@@ -264,7 +264,7 @@ public class RankCommand extends Command {
             return;
         }
 
-        long xpForCurrentLevel = avaire.getLevelManager().getExperienceFromLevel(
+        long xpForCurrentLevel = av.getLevelManager().getExperienceFromLevel(
             context.getGuildTransformer(), level
         );
 
@@ -314,9 +314,9 @@ public class RankCommand extends Command {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 PlayerTransformer player = context.getAuthor().getIdLong() == author.getIdLong()
-                    ? context.getPlayerTransformer() : PlayerController.fetchPlayer(avaire, context.getMessage(), author);
+                    ? context.getPlayerTransformer() : PlayerController.fetchPlayer(av, context.getMessage(), author);
 
-                DataRow data = avaire.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
+                DataRow data = av.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                     .selectRaw("sum(`global_experience`) - (count(`user_id`) * 100) as `total`")
                     .where("user_id", author.getId())
                     .where("active", 1)
@@ -334,7 +334,7 @@ public class RankCommand extends Command {
 
     private String getScore(CommandMessage context, String userId) throws SQLException {
         Collection users = (Collection) CacheUtil.getUncheckedUnwrapped(cache, context.getGuild().getIdLong(), () ->
-            avaire.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                 .select("user_id as id")
                 .orderBy("experience", "desc")
                 .where("guild_id", context.getGuild().getId())

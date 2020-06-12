@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.commands;
+package com.avbot.contracts.commands;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandContainer;
-import com.avairebot.config.YamlConfiguration;
-import com.avairebot.database.controllers.PlayerController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.PlayerTransformer;
-import com.avairebot.handlers.DatabaseEventHolder;
+import com.avbot.av;
+import com.avbot.commands.CommandContainer;
+import com.avbot.config.YamlConfiguration;
+import com.avbot.database.controllers.PlayerController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.PlayerTransformer;
+import com.avbot.handlers.DatabaseEventHolder;
 import net.dv8tion.jda.core.entities.*;
 
 import javax.annotation.CheckReturnValue;
@@ -130,20 +130,20 @@ public interface CommandContext {
      * the {@link PlayerController player controller} instead.
      * <p>
      * This is just a shortcut for calling {@link #getDatabaseEventHolder()}{@link DatabaseEventHolder#getPlayer()},
-     * but if that returns null, then {@link PlayerController#fetchPlayer(AvaIre, Message)}
+     * but if that returns null, then {@link PlayerController#fetchPlayer(av, Message)}
      * will automatically be called instead.
      *
-     * @param avaire The main AvaIre instance used to communicate with the rest of the application.
+     * @param av The main av instance used to communicate with the rest of the application.
      * @return Possibly-null, the {@link PlayerTransformer player transformer} for the author of
      *         command context for the current guild, or {@code NULL} if something went wrong.
      */
     @Nullable
-    default PlayerTransformer getPlayerTransformerWithForce(@Nonnull AvaIre avaire) {
+    default PlayerTransformer getPlayerTransformerWithForce(@Nonnull av av) {
         PlayerTransformer playerTransformer = getPlayerTransformer();
         if (playerTransformer != null) {
             return playerTransformer;
         }
-        return PlayerController.fetchPlayer(avaire, getMessage());
+        return PlayerController.fetchPlayer(av, getMessage());
     }
 
     /**
@@ -219,17 +219,17 @@ public interface CommandContext {
     boolean canTalk();
 
     /**
-     * Returns the {@link YamlConfiguration configuration} for the current selected {@link com.avairebot.language.I18n I18n}
+     * Returns the {@link YamlConfiguration configuration} for the current selected {@link com.avbot.language.I18n I18n}
      * language, if the message was sent as a direct message, or if the guild doesn't have a valid language
-     * selected the {@link com.avairebot.language.I18n#defaultLanguage default language} will be used instead.
+     * selected the {@link com.avbot.language.I18n#defaultLanguage default language} will be used instead.
      *
-     * @return The selected {@link YamlConfiguration configuration} for the current messages {@link com.avairebot.language.I18n I18n} language.
+     * @return The selected {@link YamlConfiguration configuration} for the current messages {@link com.avbot.language.I18n I18n} language.
      */
     @Nonnull
     YamlConfiguration getI18n();
 
     /**
-     * Gets a string from the {@link com.avairebot.language.I18n I18n} language file with the
+     * Gets a string from the {@link com.avbot.language.I18n I18n} language file with the
      * command as a prefix, if you'd like to get a message from the language file without
      * using the command prefix you can use the {@link #i18nRaw(String)} method.
      * <br>
@@ -249,14 +249,14 @@ public interface CommandContext {
      *       10: 'faster than Sonic! :smiley_cat:'
      * </code></pre>
      *
-     * @param key The key of the {@link com.avairebot.language.I18n I18n} message.
+     * @param key The key of the {@link com.avbot.language.I18n I18n} message.
      * @return Possibly-null, the message that matches the given I18n string, or null if it doesn't exists.
      */
     @CheckReturnValue
     String i18n(@Nonnull String key);
 
     /**
-     * Gets a string from the {@link com.avairebot.language.I18n I18n} language file with the
+     * Gets a string from the {@link com.avbot.language.I18n I18n} language file with the
      * command as a prefix, if you'd like to get a message from the language file without
      * using the command prefix you can use the {@link #i18nRaw(String)} method.
      * <br>
@@ -282,7 +282,7 @@ public interface CommandContext {
      * Started First at Second
      * </code></pre>
      *
-     * @param key  The key of the {@link com.avairebot.language.I18n I18n} message.
+     * @param key  The key of the {@link com.avbot.language.I18n I18n} message.
      * @param args The arguments that should be replaced in the language message.
      * @return Possibly-null, the message that matches the given I18n string, or null if it doesn't exists.
      */
@@ -290,7 +290,7 @@ public interface CommandContext {
     String i18n(@Nonnull String key, Object... args);
 
     /**
-     * Gets a raw string from the {@link com.avairebot.language.I18n I18n} language file, this will ignore the command
+     * Gets a raw string from the {@link com.avbot.language.I18n I18n} language file, this will ignore the command
      * prefix, if you'd like to get a message using the command prefix you can use the {@link #i18n(String)} method.
      * <br>
      * <p><b>For example if we were to use the method from the Ping command:</b>
@@ -305,14 +305,14 @@ public interface CommandContext {
      *       10: 'faster than Sonic! :smiley_cat:'
      * </code></pre>
      *
-     * @param key The key of the {@link com.avairebot.language.I18n I18n} message.
+     * @param key The key of the {@link com.avbot.language.I18n I18n} message.
      * @return Possibly-null, the message that matches the given I18n string, or null if it doesn't exists.
      */
     @CheckReturnValue
     String i18nRaw(@Nonnull String key);
 
     /**
-     * Gets a raw string from the {@link com.avairebot.language.I18n I18n} language file, this will ignore the command
+     * Gets a raw string from the {@link com.avbot.language.I18n I18n} language file, this will ignore the command
      * prefix, if you'd like to get a message using the command prefix you can use the {@link #i18n(String)} method.
      * <br>
      * <p><b>For example if we were to use the method from the uptime command:</b>
@@ -333,7 +333,7 @@ public interface CommandContext {
      * Started First at Second
      * </code></pre>
      *
-     * @param key  The key of the {@link com.avairebot.language.I18n I18n} message.
+     * @param key  The key of the {@link com.avbot.language.I18n I18n} message.
      * @param args The arguments that should be replaced in the language message.
      * @return Possibly-null, the message that matches the given I18n string, or null if it doesn't exists.
      */
@@ -341,14 +341,14 @@ public interface CommandContext {
     String i18nRaw(@Nonnull String key, Object... args);
 
     /**
-     * Gets the {@link com.avairebot.language.I18n I18n} command prefix.
+     * Gets the {@link com.avbot.language.I18n I18n} command prefix.
      *
-     * @return The {@link com.avairebot.language.I18n I18n} command prefix.
+     * @return The {@link com.avbot.language.I18n I18n} command prefix.
      */
     String getI18nCommandPrefix();
 
     /**
-     * Generates the new {@link com.avairebot.language.I18n I18n} command prefix off the {@link CommandContainer Command Container}, then calls {@link #setI18nPrefix(String)} with the generated message, command prefixes are generated using the following format:
+     * Generates the new {@link com.avbot.language.I18n I18n} command prefix off the {@link CommandContainer Command Container}, then calls {@link #setI18nPrefix(String)} with the generated message, command prefixes are generated using the following format:
      * <br>
      * <pre><code>
      * command category.command class name.
@@ -360,14 +360,14 @@ public interface CommandContext {
      * utility.PingCommand.
      * </code></pre>
      *
-     * @param container The {@link CommandContainer Command Container} to use for generating the {@link com.avairebot.language.I18n I18n} prefix.
+     * @param container The {@link CommandContainer Command Container} to use for generating the {@link com.avbot.language.I18n I18n} prefix.
      */
     void setI18nCommandPrefix(@Nonnull CommandContainer container);
 
     /**
-     * Sts the {@link com.avairebot.language.I18n I18n} command prefix to the given string.
+     * Sts the {@link com.avbot.language.I18n I18n} command prefix to the given string.
      *
-     * @param i18nPrefix The string the {@link com.avairebot.language.I18n I18n} prefix should be set to.
+     * @param i18nPrefix The string the {@link com.avbot.language.I18n I18n} prefix should be set to.
      */
     void setI18nPrefix(@Nullable String i18nPrefix);
 }

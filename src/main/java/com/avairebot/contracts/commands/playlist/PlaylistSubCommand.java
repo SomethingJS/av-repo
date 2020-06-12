@@ -1,39 +1,39 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.commands.playlist;
+package com.avbot.contracts.commands.playlist;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.music.PlaylistCommand;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.PlaylistTransformer;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.music.PlaylistCommand;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.PlaylistTransformer;
 
 public abstract class PlaylistSubCommand {
 
     /**
-     * The main {@link AvaIre avaire} application instance.
+     * The main {@link av av} application instance.
      */
-    protected final AvaIre avaire;
+    protected final av av;
 
     /**
      * The parent playlist command, used for accessing command specific
@@ -44,11 +44,11 @@ public abstract class PlaylistSubCommand {
     /**
      * Creates a new playlist sub command instance.
      *
-     * @param avaire  The main avaire application instance.
+     * @param av  The main av application instance.
      * @param command The parent playlist command instance.
      */
-    public PlaylistSubCommand(AvaIre avaire, PlaylistCommand command) {
-        this.avaire = avaire;
+    public PlaylistSubCommand(av av, PlaylistCommand command) {
+        this.av = av;
         this.command = command;
     }
 

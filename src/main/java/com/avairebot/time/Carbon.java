@@ -1,27 +1,27 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.time;
+package com.avbot.time;
 
-import com.avairebot.exceptions.InvalidFormatException;
+import com.avbot.exceptions.InvalidFormatException;
 
 import javax.annotation.Nonnull;
 import java.text.ParseException;
@@ -34,7 +34,7 @@ import java.util.*;
  * Carbon was give by <i>Brian Nesbitt</i> at <a href="nesbot.com">nesbot.com</a> who
  * created <a href="http://carbon.nesbot.com/">Carbon for PHP</a> first.
  * <p>
- * Carbon works as a standalone utility that runs along side AvaIre, it's used to help
+ * Carbon works as a standalone utility that runs along side av, it's used to help
  * format <code>DATETIME</code> and other date fields in the database, and gives
  * you a quick and easy way to interact with the dates and calendars.
  *
@@ -2138,7 +2138,7 @@ public final class Carbon {
      * Creates a copy of the current Carbon instance.
      *
      * @return a copy of the current Carbon instance
-     * @see #Carbon(com.avairebot.time.Carbon)
+     * @see #Carbon(com.avbot.time.Carbon)
      */
     public Carbon copy() {
         return new Carbon(this);

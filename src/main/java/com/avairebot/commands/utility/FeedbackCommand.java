@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.utility;
+package com.avbot.commands.utility;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.factories.MessageFactory;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.database.collection.Collection;
+import com.avbot.factories.MessageFactory;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -47,8 +47,8 @@ public class FeedbackCommand extends Command {
         .expireAfterWrite(60, TimeUnit.SECONDS)
         .build();
 
-    public FeedbackCommand(AvaIre avaire) {
-        super(avaire);
+    public FeedbackCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class FeedbackCommand extends Command {
 
     @Override
     public String getDescription() {
-        return "Send feedback about Ava back to the developers and the staff team, any message passed to the command will be sent in the [#feedback](https://avairebot.com/support) channel on the [AvaIre Central](https://avairebot.com/support) server.";
+        return "Send feedback about Ava back to the developers and the staff team, any message passed to the command will be sent in the [#feedback](https://avbot.com/support) channel on the [av Central](https://avbot.com/support) server.";
     }
 
     @Override
@@ -83,8 +83,8 @@ public class FeedbackCommand extends Command {
 
     @Override
     public boolean onCommand(CommandMessage context, String[] args) {
-        TextChannel feedbackChannel = avaire.getShardManager().getTextChannelById(
-            avaire.getConstants().getFeedbackChannelId()
+        TextChannel feedbackChannel = av.getShardManager().getTextChannelById(
+            av.getConstants().getFeedbackChannelId()
         );
 
         if (feedbackChannel == null) {
@@ -138,7 +138,7 @@ public class FeedbackCommand extends Command {
             context.makeSuccess(context.i18n("success")).queue();
 
             try {
-                Collection collection = avaire.getDatabase().newQueryBuilder(Constants.FEEDBACK_TABLE_NAME).insert(statement -> {
+                Collection collection = av.getDatabase().newQueryBuilder(Constants.FEEDBACK_TABLE_NAME).insert(statement -> {
                     statement.set("user_id", context.getAuthor().getIdLong());
                     statement.set("channel_id", context.isGuildMessage() ? context.getMessageChannel().getIdLong() : null);
                     statement.set("message", message, true);
@@ -153,10 +153,10 @@ public class FeedbackCommand extends Command {
                     ).queue();
                 }
             } catch (SQLException e) {
-                AvaIre.getLogger().error("Failed to store feedback in the database: {}", e.getMessage(), e);
+                av.getLogger().error("Failed to store feedback in the database: {}", e.getMessage(), e);
             }
         }, err -> {
-            AvaIre.getLogger().error("Failed to send feedback message: " + err.getMessage(), err);
+            av.getLogger().error("Failed to send feedback message: " + err.getMessage(), err);
             context.makeError(context.i18n("failedToSend"))
                 .set("error", err.getMessage()).queue();
         });

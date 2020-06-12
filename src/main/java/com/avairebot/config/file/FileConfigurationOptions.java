@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.config.file;
+package com.avbot.config.file;
 
-import com.avairebot.config.MemoryConfiguration;
-import com.avairebot.config.MemoryConfigurationOptions;
-import com.avairebot.contracts.config.ConfigurationBase;
-import com.avairebot.contracts.config.file.FileConfiguration;
+import com.avbot.config.MemoryConfiguration;
+import com.avbot.config.MemoryConfigurationOptions;
+import com.avbot.contracts.config.ConfigurationBase;
+import com.avbot.contracts.config.file.FileConfiguration;
 
 /**
  * Various settings for controlling the input and output of a {@link

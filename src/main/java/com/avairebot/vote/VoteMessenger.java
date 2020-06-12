@@ -1,28 +1,28 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.vote;
+package com.avbot.vote;
 
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.factories.MessageFactory;
+import com.avbot.utilities.RestActionUtil;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -55,10 +55,10 @@ public class VoteMessenger {
     public MessageEmbed buildThanksForVotingMessage(@Nonnull String title, int points) {
         return MessageFactory.createEmbeddedBuilder()
             .setColor(Color.decode("#E91E63"))
-            .setTitle(title, "https://discordbots.org/bot/avaire")
+            .setTitle(title, "https://discordbots.org/bot/av")
             .setFooter("Don't want to receive messages when you vote? use \"!voteopt out\"", null)
             .setDescription(String.format(
-                "Thanks for voting for [AvaIre](https://discordbots.org/bot/avaire)! It's really appreciated ❤"
+                "Thanks for voting for [av](https://discordbots.org/bot/av)! It's really appreciated ❤"
                     + "\nYou now have **%s** vote points, rewards for vote points is coming soon! <a:lurk:425394751357845506>"
                     + "\nYou now also have access to the `!volume` and `!default-volume` commands for the next 12 hours on servers you have permission to run them on, you can also save up your vote points to buy special rank backgrounds using the `!backgrounds` command.", points))
             .build();
@@ -98,9 +98,9 @@ public class VoteMessenger {
     public void sendMustVoteMessage(@Nonnull MessageChannel channel, @Nullable String feature) {
         channel.sendMessage(MessageFactory.createEmbeddedBuilder()
             .setColor(Color.decode("#E91E63"))
-            .setTitle("Vote for AvaIre on DBL", "https://discordbots.org/bot/avaire")
+            .setTitle("Vote for av on DBL", "https://discordbots.org/bot/av")
             .setDescription(String.format(
-                "You must vote to %s, voting is free and only takes a few seconds\nTo get started, head over to:\n\nhttps://discordbots.org/bot/avaire\n\nOnce you've voted you'll gain access to this, and other commands for the next 12 hours!",
+                "You must vote to %s, voting is free and only takes a few seconds\nTo get started, head over to:\n\nhttps://discordbots.org/bot/av\n\nOnce you've voted you'll gain access to this, and other commands for the next 12 hours!",
                 feature == null ? "use this command" : feature
             ))
             .build()

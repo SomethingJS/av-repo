@@ -1,28 +1,28 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.commands;
+package com.avbot.contracts.commands;
 
-import com.avairebot.AvaIre;
-import com.avairebot.database.transformers.GuildTransformer;
+import com.avbot.av;
+import com.avbot.database.transformers.GuildTransformer;
 import net.dv8tion.jda.core.entities.Role;
 
 import javax.annotation.Nonnull;
@@ -31,23 +31,23 @@ import javax.annotation.Nullable;
 public abstract class MuteableCommand extends Command {
 
     /**
-     * Creates the given command instance by calling {@link Command#Command(AvaIre, boolean)} with allowDM set to true.
+     * Creates the given command instance by calling {@link Command#Command(av, boolean)} with allowDM set to true.
      *
-     * @param avaire The AvaIre class instance.
+     * @param av The av class instance.
      */
-    public MuteableCommand(AvaIre avaire) {
-        super(avaire);
+    public MuteableCommand(av av) {
+        super(av);
     }
 
     /**
      * Creates the given command instance with the given
-     * AvaIre instance and the allowDM settings.
+     * av instance and the allowDM settings.
      *
-     * @param avaire  The AvaIre class instance.
+     * @param av  The av class instance.
      * @param allowDM Determines if the command can be used in DMs.
      */
-    public MuteableCommand(AvaIre avaire, boolean allowDM) {
-        super(avaire, allowDM);
+    public MuteableCommand(av av, boolean allowDM) {
+        super(av, allowDM);
     }
 
     /**

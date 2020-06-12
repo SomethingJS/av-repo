@@ -1,34 +1,34 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.database.collection.DataRow;
+import com.avbot.utilities.NumberUtil;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -39,8 +39,8 @@ import java.util.List;
 
 public class FeedbackResponseCommand extends SystemCommand {
 
-    public FeedbackResponseCommand(AvaIre avaire) {
-        super(avaire);
+    public FeedbackResponseCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class FeedbackResponseCommand extends SystemCommand {
             return sendErrorMessage(context, "errors.invalidProperty", "id", "feedback id");
         }
 
-        TextChannel channel = avaire.getShardManager().getTextChannelById(feedback.getString("channel_id"));
+        TextChannel channel = av.getShardManager().getTextChannelById(feedback.getString("channel_id"));
         if (channel == null) {
             return sendErrorMessage(context, "The original text channel for the given feedback ID no longer exists, can't send feedback message.");
         }
@@ -101,7 +101,7 @@ public class FeedbackResponseCommand extends SystemCommand {
             .setTitle("Feedback Response by " + buildAuthorString(context.getAuthor()))
             .addField("Original Feedback", feedback.getString("message"), false);
 
-        User originalAuthor = avaire.getShardManager().getUserById(feedback.getString("user_id"));
+        User originalAuthor = av.getShardManager().getUserById(feedback.getString("user_id"));
         if (originalAuthor != null) {
             response.addField("Original Feedback By", buildAuthorString(originalAuthor), false);
         }
@@ -113,7 +113,7 @@ public class FeedbackResponseCommand extends SystemCommand {
                 .queue();
 
             try {
-                avaire.getDatabase().newQueryBuilder(Constants.FEEDBACK_TABLE_NAME)
+                av.getDatabase().newQueryBuilder(Constants.FEEDBACK_TABLE_NAME)
                     .where("id", feedback.getInt("id"))
                     .update(statement -> {
                         statement.set("response", message, true);
@@ -137,7 +137,7 @@ public class FeedbackResponseCommand extends SystemCommand {
         }
 
         try {
-            return avaire.getDatabase().newQueryBuilder(Constants.FEEDBACK_TABLE_NAME)
+            return av.getDatabase().newQueryBuilder(Constants.FEEDBACK_TABLE_NAME)
                 .where("id", id)
                 .get().first();
         } catch (SQLException ignored) {

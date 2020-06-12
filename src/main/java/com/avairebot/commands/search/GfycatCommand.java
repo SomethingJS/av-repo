@@ -1,32 +1,32 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.search;
+package com.avbot.commands.search;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.factories.RequestFactory;
-import com.avairebot.requests.Response;
-import com.avairebot.requests.service.GfycatService;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.factories.RequestFactory;
+import com.avbot.requests.Response;
+import com.avbot.requests.service.GfycatService;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,8 +36,8 @@ import java.util.function.Consumer;
 
 public class GfycatCommand extends Command {
 
-    public GfycatCommand(AvaIre avaire) {
-        super(avaire);
+    public GfycatCommand(av av) {
+        super(av);
     }
 
     @Override

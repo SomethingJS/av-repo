@@ -1,34 +1,34 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.chat.MessageType;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.*;
-import com.avairebot.database.transformers.ChannelTransformer;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.utilities.MentionableUtil;
+import com.avbot.av;
+import com.avbot.chat.MessageType;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.*;
+import com.avbot.database.transformers.ChannelTransformer;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.utilities.MentionableUtil;
 import net.dv8tion.jda.core.entities.User;
 
 import javax.annotation.Nonnull;
@@ -40,8 +40,8 @@ import java.util.List;
 @CacheFingerprint(name = "welcome-goodbye-message-command")
 public class GoodbyeMessageCommand extends ChannelModuleCommand {
 
-    public GoodbyeMessageCommand(AvaIre avaire) {
-        super(avaire);
+    public GoodbyeMessageCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class GoodbyeMessageCommand extends ChannelModuleCommand {
 
     @Override
     public String getDescription() {
-        return "Sets the message that should be sent when a user leaves the server, this command can only be used if the goodbye module is enabled for the current channel.\nThe goodbye message has support for [placeholders](https://github.com/avaire/avaire/wiki/placeholders), allowing for customizing the message a bit more for each user.\nhttps://github.com/avaire/avaire/wiki/placeholders";
+        return "Sets the message that should be sent when a user leaves the server, this command can only be used if the goodbye module is enabled for the current channel.\nThe goodbye message has support for [placeholders](https://github.com/av/av/wiki/placeholders), allowing for customizing the message a bit more for each user.\nhttps://github.com/av/av/wiki/placeholders";
     }
 
     @Override

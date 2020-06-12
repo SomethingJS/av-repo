@@ -1,34 +1,34 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.query;
+package com.avbot.database.query;
 
-import com.avairebot.contracts.database.Database;
-import com.avairebot.contracts.database.Database.QueryType;
-import com.avairebot.contracts.database.QueryClause;
-import com.avairebot.contracts.database.query.ChangeableClosure;
-import com.avairebot.contracts.database.query.ClauseConsumer;
-import com.avairebot.database.DatabaseManager;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.scheduler.ScheduleHandler;
+import com.avbot.contracts.database.Database;
+import com.avbot.contracts.database.Database.QueryType;
+import com.avbot.contracts.database.QueryClause;
+import com.avbot.contracts.database.query.ChangeableClosure;
+import com.avbot.contracts.database.query.ClauseConsumer;
+import com.avbot.database.DatabaseManager;
+import com.avbot.database.collection.Collection;
+import com.avbot.scheduler.ScheduleHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -781,7 +781,7 @@ public final class QueryBuilder {
     }
 
     /**
-     * Runs the {@link com.avairebot.database.DatabaseManager#queryUpdate(QueryBuilder)} method with
+     * Runs the {@link com.avbot.database.DatabaseManager#queryUpdate(QueryBuilder)} method with
      * the current instance of the query builder, and the given items from the changeable closure.
      *
      * @param closure The changeable closure that should be run.
@@ -815,7 +815,7 @@ public final class QueryBuilder {
     }
 
     /**
-     * Runs the {@link com.avairebot.database.DatabaseManager#queryUpdate(QueryBuilder)}
+     * Runs the {@link com.avbot.database.DatabaseManager#queryUpdate(QueryBuilder)}
      * method with the current instance of the query builder.
      *
      * @param arrays The list of items that should be updated
@@ -830,7 +830,7 @@ public final class QueryBuilder {
     }
 
     /**
-     * Runs the {@link com.avairebot.database.DatabaseManager#queryUpdate(QueryBuilder)}
+     * Runs the {@link com.avbot.database.DatabaseManager#queryUpdate(QueryBuilder)}
      * method with the current instance of the query builder.
      *
      * @param items The map of items that should be updated
@@ -861,7 +861,7 @@ public final class QueryBuilder {
     }
 
     /**
-     * Runs the {@link com.avairebot.database.DatabaseManager#queryInsert(QueryBuilder)} method with
+     * Runs the {@link com.avbot.database.DatabaseManager#queryInsert(QueryBuilder)} method with
      * the current instance of the query builder, and the given items from the changeable closure.
      *
      * @param closure The changeable closure that should be run.
@@ -894,7 +894,7 @@ public final class QueryBuilder {
     }
 
     /**
-     * Runs the {@link com.avairebot.database.DatabaseManager#queryInsert(QueryBuilder) }
+     * Runs the {@link com.avbot.database.DatabaseManager#queryInsert(QueryBuilder) }
      * method with the current instance of the query builder.
      *
      * @param arrays The list of items that should be inserted
@@ -908,7 +908,7 @@ public final class QueryBuilder {
     }
 
     /**
-     * Runs the {@link com.avairebot.database.DatabaseManager#queryInsert(QueryBuilder)}
+     * Runs the {@link com.avbot.database.DatabaseManager#queryInsert(QueryBuilder)}
      * method with the current instance of the query builder.
      *
      * @param items The map of items that should be inserted
@@ -938,7 +938,7 @@ public final class QueryBuilder {
     }
 
     /**
-     * Runs the {@link com.avairebot.database.DatabaseManager#queryUpdate(QueryBuilder) }
+     * Runs the {@link com.avbot.database.DatabaseManager#queryUpdate(QueryBuilder) }
      * method with the current instance of the query builder.
      *
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements

@@ -1,34 +1,34 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.handlers.adapter;
+package com.avbot.handlers.adapter;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.handlers.EventAdapter;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.ChannelTransformer;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.permissions.Permissions;
-import com.avairebot.utilities.StringReplacementUtil;
+import com.avbot.av;
+import com.avbot.contracts.handlers.EventAdapter;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.ChannelTransformer;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.factories.MessageFactory;
+import com.avbot.permissions.Permissions;
+import com.avbot.utilities.StringReplacementUtil;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -44,16 +44,16 @@ public class MemberEventAdapter extends EventAdapter {
     private static final Logger log = LoggerFactory.getLogger(MemberEventAdapter.class);
 
     /**
-     * Instantiates the event adapter and sets the avaire class instance.
+     * Instantiates the event adapter and sets the av class instance.
      *
-     * @param avaire The AvaIre application class instance.
+     * @param av The av application class instance.
      */
-    public MemberEventAdapter(AvaIre avaire) {
-        super(avaire);
+    public MemberEventAdapter(av av) {
+        super(av);
     }
 
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
-        GuildTransformer transformer = GuildController.fetchGuild(avaire, event.getGuild());
+        GuildTransformer transformer = GuildController.fetchGuild(av, event.getGuild());
         if (transformer == null) {
             log.warn("Failed to get a valid guild transformer during member join! User:{}, Guild:{}",
                 event.getMember().getUser().getId(), event.getGuild().getId()
@@ -98,7 +98,7 @@ public class MemberEventAdapter extends EventAdapter {
         // and the user is still registered as muted for the server.
         if (transformer.getMuteRole() != null) {
             Role mutedRole = event.getGuild().getRoleById(transformer.getMuteRole());
-            if (canGiveRole(event, mutedRole) && avaire.getMuteManger().isMuted(event.getGuild().getIdLong(), event.getUser().getIdLong())) {
+            if (canGiveRole(event, mutedRole) && av.getMuteManger().isMuted(event.getGuild().getIdLong(), event.getUser().getIdLong())) {
                 event.getGuild().getController().addRolesToMember(
                     event.getMember(), mutedRole
                 ).queue();
@@ -120,7 +120,7 @@ public class MemberEventAdapter extends EventAdapter {
     }
 
     public void onGuildMemberLeave(GuildMemberLeaveEvent event) {
-        GuildTransformer transformer = GuildController.fetchGuild(avaire, event.getGuild());
+        GuildTransformer transformer = GuildController.fetchGuild(av, event.getGuild());
         if (transformer == null) {
             log.warn("Failed to get a valid guild transformer during member leave! User:{}, Guild:{}",
                 event.getMember().getUser().getId(), event.getGuild().getId()

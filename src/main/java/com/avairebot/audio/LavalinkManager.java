@@ -1,29 +1,29 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.audio;
+package com.avbot.audio;
 
-import com.avairebot.AvaIre;
-import com.avairebot.scheduler.ScheduleHandler;
-import com.avairebot.shared.DiscordConstants;
+import com.avbot.av;
+import com.avbot.scheduler.ScheduleHandler;
+import com.avbot.shared.DiscordConstants;
 import lavalink.client.io.LavalinkSocket;
 import lavalink.client.io.Link;
 import lavalink.client.io.jda.JdaLavalink;
@@ -51,24 +51,24 @@ public class LavalinkManager {
      * Start the Lavalink Manager, checking if Lavalink is enabled is enabled
      * in the config, as well as connecting to all the Lavalink nodes.
      *
-     * @param avaire The AvaIre application instance.
+     * @param av The av application instance.
      */
-    public void start(AvaIre avaire) {
-        enabled = avaire.getConfig().getBoolean("lavalink.enabled", false);
+    public void start(av av) {
+        enabled = av.getConfig().getBoolean("lavalink.enabled", false);
 
         if (!isEnabled()) {
             return;
         }
 
-        List<Map<?, ?>> nodes = avaire.getConfig().getMapList("lavalink.nodes");
+        List<Map<?, ?>> nodes = av.getConfig().getMapList("lavalink.nodes");
         if (nodes.isEmpty()) {
             enabled = false;
             return;
         }
 
-        lavalink = new JdaLavalink(avaire.getConfig().getString("discord.clientId", "" + DiscordConstants.AVAIRE_BOT_ID),
-            avaire.getSettings().getShardCount() < 1 ? 1 : avaire.getSettings().getShardCount(),
-            shardId -> avaire.getShardManager().getShardById(shardId)
+        lavalink = new JdaLavalink(av.getConfig().getString("discord.clientId", "" + DiscordConstants.av_BOT_ID),
+            av.getSettings().getShardCount() < 1 ? 1 : av.getSettings().getShardCount(),
+            shardId -> av.getShardManager().getShardById(shardId)
         );
         Runtime.getRuntime().addShutdownHook(new Thread(lavalink::shutdown, "lavalink-shutdown-hook"));
 

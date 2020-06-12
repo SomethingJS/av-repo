@@ -1,31 +1,31 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.controllers;
+package com.avbot.database.controllers;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.database.transformers.PlayerTransformer;
-import com.avairebot.level.ExperienceEntity;
-import com.avairebot.utilities.CacheUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.database.transformers.PlayerTransformer;
+import com.avbot.level.ExperienceEntity;
+import com.avbot.utilities.CacheUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -54,12 +54,12 @@ public class PlayerController {
     };
 
     @CheckReturnValue
-    public static PlayerTransformer fetchPlayer(AvaIre avaire, Message message) {
-        return fetchPlayer(avaire, message, message.getAuthor());
+    public static PlayerTransformer fetchPlayer(av av, Message message) {
+        return fetchPlayer(av, message, message.getAuthor());
     }
 
     @CheckReturnValue
-    public static PlayerTransformer fetchPlayer(AvaIre avaire, Message message, User user) {
+    public static PlayerTransformer fetchPlayer(av av, Message message, User user) {
         if (!message.getChannelType().isGuild()) {
             return null;
         }
@@ -71,7 +71,7 @@ public class PlayerController {
                 PlayerTransformer transformer = new PlayerTransformer(
                     user.getIdLong(),
                     message.getGuild().getIdLong(),
-                    avaire.getDatabase()
+                    av.getDatabase()
                         .newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                         .select(requiredPlayerColumns)
                         .where("experiences.user_id", user.getId())
@@ -85,7 +85,7 @@ public class PlayerController {
                     transformer.setDiscriminator(user.getDiscriminator());
                     transformer.setAvatar(user.getAvatarId());
 
-                    avaire.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
+                    av.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                         .insert(statement -> {
                             statement.set("guild_id", message.getGuild().getId())
                                 .set("user_id", user.getId())
@@ -96,7 +96,7 @@ public class PlayerController {
                                 .set("global_experience", 100);
                         });
 
-                    return mergeWithExperienceEntity(avaire, transformer);
+                    return mergeWithExperienceEntity(av, transformer);
                 }
 
                 if (isChanged(user, transformer)) {
@@ -108,7 +108,7 @@ public class PlayerController {
                 }
 
                 if (!transformer.isActive()) {
-                    avaire.getDatabase()
+                    av.getDatabase()
                         .newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                         .where("experiences.user_id", user.getId())
                         .andWhere("experiences.guild_id", message.getGuild().getId())
@@ -117,7 +117,7 @@ public class PlayerController {
                         });
                 }
 
-                return mergeWithExperienceEntity(avaire, transformer);
+                return mergeWithExperienceEntity(av, transformer);
             } catch (Exception ex) {
                 log.error("Failed to fetch player transformer from the database, error: {}", ex.getMessage(), ex);
 
@@ -126,8 +126,8 @@ public class PlayerController {
         });
     }
 
-    private static PlayerTransformer mergeWithExperienceEntity(AvaIre avaire, PlayerTransformer transformer) {
-        List<ExperienceEntity> entities = avaire.getLevelManager().getExperienceEntities(transformer);
+    private static PlayerTransformer mergeWithExperienceEntity(av av, PlayerTransformer transformer) {
+        List<ExperienceEntity> entities = av.getLevelManager().getExperienceEntities(transformer);
         if (entities.isEmpty()) {
             return transformer;
         }

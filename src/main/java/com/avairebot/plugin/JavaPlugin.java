@@ -1,42 +1,42 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.plugin;
+package com.avbot.plugin;
 
-import com.avairebot.AvaIre;
-import com.avairebot.cache.CacheManager;
-import com.avairebot.commands.CategoryHandler;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.config.Configuration;
-import com.avairebot.config.YamlConfiguration;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.database.migrations.Migration;
-import com.avairebot.contracts.middleware.Middleware;
-import com.avairebot.database.DatabaseManager;
-import com.avairebot.database.migrate.Migrations;
-import com.avairebot.exceptions.InvalidConfigurationException;
-import com.avairebot.language.I18n;
-import com.avairebot.language.Language;
-import com.avairebot.language.LanguageContainer;
-import com.avairebot.middleware.MiddlewareHandler;
+import com.avbot.av;
+import com.avbot.cache.CacheManager;
+import com.avbot.commands.CategoryHandler;
+import com.avbot.commands.CommandHandler;
+import com.avbot.config.Configuration;
+import com.avbot.config.YamlConfiguration;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.database.migrations.Migration;
+import com.avbot.contracts.middleware.Middleware;
+import com.avbot.database.DatabaseManager;
+import com.avbot.database.migrate.Migrations;
+import com.avbot.exceptions.InvalidConfigurationException;
+import com.avbot.language.I18n;
+import com.avbot.language.Language;
+import com.avbot.language.LanguageContainer;
+import com.avbot.middleware.MiddlewareHandler;
 import net.dv8tion.jda.bot.sharding.ShardManager;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.dv8tion.jda.core.utils.Checks;
@@ -55,19 +55,19 @@ public abstract class JavaPlugin {
 
     private Logger log = LoggerFactory.getLogger(JavaPlugin.class);
 
-    private AvaIre avaire;
+    private av av;
     private PluginLoader loader;
 
     private Configuration config = null;
 
     /**
-     * Initializes the plugin by setting the global avaire
+     * Initializes the plugin by setting the global av
      * application instance and preparing some data.
      *
-     * @param avaire The global avaire application instance.
+     * @param av The global av application instance.
      */
-    final void init(AvaIre avaire, PluginLoader loader) {
-        this.avaire = avaire;
+    final void init(av av, PluginLoader loader) {
+        this.av = av;
         this.loader = loader;
         this.log = LoggerFactory.getLogger(this.getClass().getCanonicalName());
     }
@@ -126,20 +126,20 @@ public abstract class JavaPlugin {
      * @return <code>True</code> on success, <code>False</code> if the category already exists.
      */
     public final boolean registerCategory(String name, String defaultPrefix) {
-        return CategoryHandler.addCategory(avaire, name, defaultPrefix);
+        return CategoryHandler.addCategory(av, name, defaultPrefix);
     }
 
     /**
      * Registers database migration to the migration containers, the migrations
      * will be used in {@link Migrations#up() up()}, {@link Migrations#down() down()} and {@link Migrations#rollback(int) rollback(int)}
      * <p>
-     * All migrations must follow the {@link com.avairebot.contracts.database.migrations.Migration Migration contract}.
+     * All migrations must follow the {@link com.avbot.contracts.database.migrations.Migration Migration contract}.
      *
      * @param migration The migration that should be registered
-     * @see com.avairebot.contracts.database.migrations.Migration
+     * @see com.avbot.contracts.database.migrations.Migration
      */
     public final void registerMigration(Migration migration) {
-        avaire.getDatabase().getMigrations().register(migration);
+        av.getDatabase().getMigrations().register(migration);
     }
 
     /**
@@ -204,12 +204,12 @@ public abstract class JavaPlugin {
     }
 
     /**
-     * Returns the global AvaIre application instance.
+     * Returns the global av application instance.
      *
-     * @return The global AvaIre application instance.
+     * @return The global av application instance.
      */
-    public final AvaIre getAvaire() {
-        return avaire;
+    public final av getav() {
+        return av;
     }
 
     /**
@@ -219,7 +219,7 @@ public abstract class JavaPlugin {
      * @return A list of bot shard entries.
      */
     public final ShardManager getShardManager() {
-        return avaire.getShardManager();
+        return av.getShardManager();
     }
 
     /**
@@ -229,7 +229,7 @@ public abstract class JavaPlugin {
      * @return The application cache manager.
      */
     public final CacheManager getCache() {
-        return avaire.getCache();
+        return av.getCache();
     }
 
     /**
@@ -238,7 +238,7 @@ public abstract class JavaPlugin {
      * @return The application database manager.
      */
     public final DatabaseManager getDatabase() {
-        return avaire.getDatabase();
+        return av.getDatabase();
     }
 
     /**

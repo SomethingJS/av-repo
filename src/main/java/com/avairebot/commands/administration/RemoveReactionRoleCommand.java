@@ -1,40 +1,40 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.controllers.ReactionController;
-import com.avairebot.database.transformers.GuildTypeTransformer;
-import com.avairebot.database.transformers.ReactionTransformer;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.controllers.ReactionController;
+import com.avbot.database.transformers.GuildTypeTransformer;
+import com.avbot.database.transformers.ReactionTransformer;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RestActionUtil;
 import net.dv8tion.jda.core.entities.Emote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +50,8 @@ public class RemoveReactionRoleCommand extends Command {
 
     private static final Logger log = LoggerFactory.getLogger(RemoveReactionRoleCommand.class);
 
-    public RemoveReactionRoleCommand(AvaIre avaire) {
-        super(avaire, false);
+    public RemoveReactionRoleCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class RemoveReactionRoleCommand extends Command {
     @Override
     @SuppressWarnings("ConstantConditions")
     public boolean onCommand(CommandMessage context, String[] args) {
-        Collection collection = ReactionController.fetchReactions(avaire, context.getGuild());
+        Collection collection = ReactionController.fetchReactions(av, context.getGuild());
         if (collection == null) {
             return sendErrorMessage(context, "errors.errorOccurredWhileLoading",
                 "reaction roles"
@@ -154,7 +154,7 @@ public class RemoveReactionRoleCommand extends Command {
         }
 
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
                 .where("guild_id", context.getGuild().getId())
                 .where("message_id", row.getString("message_id"))
                 .delete();
@@ -193,16 +193,16 @@ public class RemoveReactionRoleCommand extends Command {
         }
         try {
             if (transformer.getRoles().isEmpty()) {
-                avaire.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
+                av.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
                     .where("guild_id", context.getGuild().getId())
                     .where("message_id", row.getString("message_id"))
                     .delete();
             } else {
-                avaire.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
+                av.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
                     .where("guild_id", transformer.getGuildId())
                     .where("message_id", transformer.getMessageId())
                     .update(statement -> {
-                        statement.set("roles", AvaIre.gson.toJson(transformer.getRoles()));
+                        statement.set("roles", av.gson.toJson(transformer.getRoles()));
                     });
             }
 
@@ -213,7 +213,7 @@ public class RemoveReactionRoleCommand extends Command {
             context.makeSuccess(context.i18n("deletedEmote"))
                 .set("emote", emote.getAsMention())
                 .set("roleSlots", reactionLimits.getRolesPerMessage() - transformer.getRoles().size())
-                .set("messageSlots", reactionLimits.getMessages() - ReactionController.fetchReactions(avaire, context.getGuild()).size())
+                .set("messageSlots", reactionLimits.getMessages() - ReactionController.fetchReactions(av, context.getGuild()).size())
                 .queue(successMessage -> successMessage.delete().queueAfter(15, TimeUnit.SECONDS, null, RestActionUtil.ignore));
         } catch (SQLException e) {
             e.printStackTrace();

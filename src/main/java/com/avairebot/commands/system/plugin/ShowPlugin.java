@@ -1,34 +1,34 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system.plugin;
+package com.avbot.commands.system.plugin;
 
-import com.avairebot.AvaIre;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.system.PluginCommand;
-import com.avairebot.contracts.commands.plugin.PluginSubCommand;
-import com.avairebot.contracts.plugin.Plugin;
-import com.avairebot.contracts.plugin.PluginRelease;
-import com.avairebot.contracts.plugin.PluginSourceManager;
+import com.avbot.av;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.system.PluginCommand;
+import com.avbot.contracts.commands.plugin.PluginSubCommand;
+import com.avbot.contracts.plugin.Plugin;
+import com.avbot.contracts.plugin.PluginRelease;
+import com.avbot.contracts.plugin.PluginSourceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +38,11 @@ public class ShowPlugin extends PluginSubCommand {
     /**
      * Creates a new plugin sub command instance.
      *
-     * @param avaire  The main avaire application instance.
+     * @param av  The main av application instance.
      * @param command The parent plugin command instance.
      */
-    public ShowPlugin(AvaIre avaire, PluginCommand command) {
-        super(avaire, command);
+    public ShowPlugin(av av, PluginCommand command) {
+        super(av, command);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ShowPlugin extends PluginSubCommand {
             return command.sendErrorMessage(context, "You must include the name of the plugin you'd like to see information about!");
         }
 
-        Plugin plugin = avaire.getPluginManager().getPluginByName(args[0]);
+        Plugin plugin = av.getPluginManager().getPluginByName(args[0]);
         if (plugin == null) {
             return command.sendErrorMessage(context, "Couldn't find any plugin called `{0}`, are you sure it exists?", args[0]);
         }

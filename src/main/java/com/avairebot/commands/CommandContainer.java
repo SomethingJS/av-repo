@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands;
+package com.avbot.commands;
 
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.middleware.Middleware;
-import com.avairebot.middleware.MiddlewareHandler;
-import com.avairebot.middleware.ThrottleMiddleware;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.middleware.Middleware;
+import com.avbot.middleware.MiddlewareHandler;
+import com.avbot.middleware.ThrottleMiddleware;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -120,7 +120,7 @@ public class CommandContainer {
     }
 
     /**
-     * The source URI used by the {@link com.avairebot.commands.utility.SourceCommand source code command}
+     * The source URI used by the {@link com.avbot.commands.utility.SourceCommand source code command}
      * to find out where the source code for a given command can be found.
      *
      * @return Possibly-null, the URI to where the code for the command can be found.

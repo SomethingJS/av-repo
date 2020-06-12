@@ -1,42 +1,42 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.music.playlist;
+package com.avbot.commands.music.playlist;
 
-import com.avairebot.AvaIre;
-import com.avairebot.chat.SimplePaginator;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.music.PlaylistCommand;
-import com.avairebot.contracts.commands.playlist.PlaylistSubCommand;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.PlaylistTransformer;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.chat.SimplePaginator;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.music.PlaylistCommand;
+import com.avbot.contracts.commands.playlist.PlaylistSubCommand;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.PlaylistTransformer;
+import com.avbot.utilities.NumberUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SendSongsInPlaylist extends PlaylistSubCommand {
 
-    public SendSongsInPlaylist(AvaIre avaire, PlaylistCommand command) {
-        super(avaire, command);
+    public SendSongsInPlaylist(av av, PlaylistCommand command) {
+        super(av, command);
     }
 
     @Override

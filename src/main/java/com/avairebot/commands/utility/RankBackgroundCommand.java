@@ -1,44 +1,44 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.utility;
+package com.avbot.commands.utility;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.chat.SimplePaginator;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandContext;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.controllers.PurchaseController;
-import com.avairebot.database.transformers.PlayerTransformer;
-import com.avairebot.imagegen.RankBackground;
-import com.avairebot.imagegen.RankBackgroundHandler;
-import com.avairebot.imagegen.renders.RankBackgroundRender;
-import com.avairebot.shared.DiscordConstants;
-import com.avairebot.utilities.ComparatorUtil;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RandomUtil;
-import com.avairebot.vote.VoteCacheEntity;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.chat.SimplePaginator;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandContext;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.controllers.PurchaseController;
+import com.avbot.database.transformers.PlayerTransformer;
+import com.avbot.imagegen.RankBackground;
+import com.avbot.imagegen.RankBackgroundHandler;
+import com.avbot.imagegen.renders.RankBackgroundRender;
+import com.avbot.shared.DiscordConstants;
+import com.avbot.utilities.ComparatorUtil;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RandomUtil;
+import com.avbot.vote.VoteCacheEntity;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import org.slf4j.Logger;
@@ -58,8 +58,8 @@ public class RankBackgroundCommand extends Command {
 
     private static final Logger log = LoggerFactory.getLogger(RankBackgroundCommand.class);
 
-    public RankBackgroundCommand(AvaIre avaire) {
-        super(avaire, false);
+    public RankBackgroundCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class RankBackgroundCommand extends Command {
             "Rank backgrounds are used for the `%srank` command, when a user has a rank",
             "background selected, their rank and experience will be displayed using a generated",
             "image instead, the background image can be changed at any time.",
-            "You can buy backgrounds using [vote points](https://discordbots.org/bot/avaire), use `%svote` for more info."
+            "You can buy backgrounds using [vote points](https://discordbots.org/bot/av), use `%svote` for more info."
         ), prefix, prefix);
     }
 
@@ -162,12 +162,12 @@ public class RankBackgroundCommand extends Command {
     }
 
     private boolean handleList(CommandMessage context, String[] args) {
-        PlayerTransformer player = context.getPlayerTransformerWithForce(avaire);
+        PlayerTransformer player = context.getPlayerTransformerWithForce(av);
         if (player == null) {
             return sendErrorMessage(context, "errors.errorOccurredWhileLoading", "player transformer");
         }
 
-        VoteCacheEntity voteEntity = avaire.getVoteManager().getVoteEntity(context.getAuthor());
+        VoteCacheEntity voteEntity = av.getVoteManager().getVoteEntity(context.getAuthor());
         int votePoints = voteEntity == null ? 0 : voteEntity.getVotePoints();
 
         SimplePaginator<Integer> paginator = new SimplePaginator<>(
@@ -211,13 +211,13 @@ public class RankBackgroundCommand extends Command {
             return sendErrorMessage(context, "errors.invalidProperty", "background name", "background");
         }
 
-        long zeroExperience = avaire.getLevelManager().getExperienceFromLevel(0) - 100;
+        long zeroExperience = av.getLevelManager().getExperienceFromLevel(0) - 100;
         long experience = 74187 + zeroExperience + RandomUtil.getInteger(1433);
 
-        long level = avaire.getLevelManager().getLevelFromExperience(experience);
-        long current = avaire.getLevelManager().getExperienceFromLevel(level);
+        long level = av.getLevelManager().getLevelFromExperience(experience);
+        long current = av.getLevelManager().getExperienceFromLevel(level);
 
-        long nextLevelXp = avaire.getLevelManager().getExperienceFromLevel(level + 1);
+        long nextLevelXp = av.getLevelManager().getExperienceFromLevel(level + 1);
         double percentage = ((double) (experience - current) / (nextLevelXp - current)) * 100;
 
         RankBackgroundRender render = new RankBackgroundRender(context.getAuthor())
@@ -260,7 +260,7 @@ public class RankBackgroundCommand extends Command {
             return sendErrorMessage(context, "errors.invalidProperty", "background name", "background");
         }
 
-        PlayerTransformer player = context.getPlayerTransformerWithForce(avaire);
+        PlayerTransformer player = context.getPlayerTransformerWithForce(av);
         if (player == null) {
             return sendErrorMessage(context, "errors.errorOccurredWhileLoading", "player transformer");
         }
@@ -272,7 +272,7 @@ public class RankBackgroundCommand extends Command {
             return false;
         }
 
-        VoteCacheEntity voteEntity = avaire.getVoteManager().getVoteEntity(context.getAuthor());
+        VoteCacheEntity voteEntity = av.getVoteManager().getVoteEntity(context.getAuthor());
         int votePoints = voteEntity == null ? 0 : voteEntity.getVotePoints();
 
         if (background.getCost() > votePoints) {
@@ -282,14 +282,14 @@ public class RankBackgroundCommand extends Command {
         }
 
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.PURCHASES_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.PURCHASES_TABLE_NAME)
                 .insert(statement -> {
                     statement.set("user_id", context.getAuthor().getIdLong());
                     statement.set("type", background.getPurchaseType());
                     statement.set("type_id", background.getId());
                 });
 
-            avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
                 .where("user_id", context.getAuthor().getIdLong())
                 .update(statement -> {
                     statement.setRaw("points", "`points` - " + background.getCost());
@@ -320,7 +320,7 @@ public class RankBackgroundCommand extends Command {
             return sendErrorMessage(context, "errors.invalidProperty", "background name", "background");
         }
 
-        PlayerTransformer player = context.getPlayerTransformerWithForce(avaire);
+        PlayerTransformer player = context.getPlayerTransformerWithForce(av);
         if (player == null) {
             return sendErrorMessage(context, "errors.errorOccurredWhileLoading", "player transformer");
         }
@@ -335,7 +335,7 @@ public class RankBackgroundCommand extends Command {
         }
 
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
                 .where("user_id", context.getAuthor().getIdLong())
                 .update(statement -> statement.set("selected_bg", background.getId()));
 
@@ -354,14 +354,14 @@ public class RankBackgroundCommand extends Command {
     }
 
     private boolean handleDisable(CommandMessage context) {
-        PlayerTransformer player = context.getPlayerTransformerWithForce(avaire);
+        PlayerTransformer player = context.getPlayerTransformerWithForce(av);
         if (player == null) {
             return sendErrorMessage(context, "errors.errorOccurredWhileLoading", "player transformer");
         }
 
         try {
             if (player.getPurchases().getSelectedPurchasesForType(RankBackgroundHandler.getPurchaseType()) != null) {
-                avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
+                av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
                     .where("user_id", context.getAuthor().getIdLong())
                     .update(statement -> statement.set("selected_bg", null));
 

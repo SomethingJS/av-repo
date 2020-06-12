@@ -1,31 +1,31 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.cache.adapters;
+package com.avbot.cache.adapters;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.cache.CacheItem;
-import com.avairebot.contracts.cache.CacheAdapter;
-import com.avairebot.shared.ExitCodes;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.cache.CacheItem;
+import com.avbot.contracts.cache.CacheAdapter;
+import com.avbot.shared.ExitCodes;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
@@ -73,7 +73,7 @@ public class FileAdapter extends CacheAdapter {
 
             return get(token);
         } catch (Exception e) {
-            AvaIre.getLogger().error(e.getMessage(), e);
+            av.getLogger().error(e.getMessage(), e);
             return null;
         }
     }
@@ -91,7 +91,7 @@ public class FileAdapter extends CacheAdapter {
         }
 
         try {
-            CacheItem item = AvaIre.gson.fromJson(new String(Files.readAllBytes(cacheFile.toPath())), CacheItem.class);
+            CacheItem item = av.gson.fromJson(new String(Files.readAllBytes(cacheFile.toPath())), CacheItem.class);
             if (item == null) {
                 return false;
             }
@@ -113,7 +113,7 @@ public class FileAdapter extends CacheAdapter {
         }
 
         try {
-            return AvaIre.gson.fromJson(new String(Files.readAllBytes(cacheFile.toPath())), CacheItem.class);
+            return av.gson.fromJson(new String(Files.readAllBytes(cacheFile.toPath())), CacheItem.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -128,7 +128,7 @@ public class FileAdapter extends CacheAdapter {
         }
 
         try {
-            CacheItem item = AvaIre.gson.fromJson(new String(Files.readAllBytes(cacheFile.toPath())), CacheItem.class);
+            CacheItem item = av.gson.fromJson(new String(Files.readAllBytes(cacheFile.toPath())), CacheItem.class);
             if (item == null) {
                 return false;
             }
@@ -148,7 +148,7 @@ public class FileAdapter extends CacheAdapter {
         }
 
         try {
-            CacheItem item = AvaIre.gson.fromJson(new String(Files.readAllBytes(cacheFile.toPath())), CacheItem.class);
+            CacheItem item = av.gson.fromJson(new String(Files.readAllBytes(cacheFile.toPath())), CacheItem.class);
             if (item == null) {
                 return null;
             }
@@ -205,7 +205,7 @@ public class FileAdapter extends CacheAdapter {
             fw = new FileWriter(file, false);
             bw = new BufferedWriter(fw);
 
-            bw.write(AvaIre.gson.toJson(cacheItem) + "\n");
+            bw.write(av.gson.toJson(cacheItem) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
             return false;

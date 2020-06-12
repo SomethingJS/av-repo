@@ -1,38 +1,38 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.music.playlist;
+package com.avbot.commands.music.playlist;
 
-import com.avairebot.AvaIre;
-import com.avairebot.audio.AudioHandler;
-import com.avairebot.audio.TrackRequestContext;
-import com.avairebot.audio.VoiceConnectStatus;
-import com.avairebot.audio.exceptions.InvalidSearchProviderException;
-import com.avairebot.audio.exceptions.SearchingException;
-import com.avairebot.audio.searcher.SearchTrackResultHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.music.PlaylistCommand;
-import com.avairebot.contracts.commands.playlist.PlaylistSubCommand;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.PlaylistTransformer;
+import com.avbot.av;
+import com.avbot.audio.AudioHandler;
+import com.avbot.audio.TrackRequestContext;
+import com.avbot.audio.VoiceConnectStatus;
+import com.avbot.audio.exceptions.InvalidSearchProviderException;
+import com.avbot.audio.exceptions.SearchingException;
+import com.avbot.audio.searcher.SearchTrackResultHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.music.PlaylistCommand;
+import com.avbot.contracts.commands.playlist.PlaylistSubCommand;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.PlaylistTransformer;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
@@ -42,8 +42,8 @@ import java.util.function.Consumer;
 
 public class LoadPlaylist extends PlaylistSubCommand {
 
-    public LoadPlaylist(AvaIre avaire, PlaylistCommand command) {
-        super(avaire, command);
+    public LoadPlaylist(av av, PlaylistCommand command) {
+        super(av, command);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class LoadPlaylist extends PlaylistSubCommand {
             // We can just ignore this since we can't load the song due to the
             // music provider that it's using is disabled at the moment.
         } catch (SearchingException e) {
-            AvaIre.getLogger().error("Searching exception were thrown while loading a playlist: {}", e.getMessage(), e);
+            av.getLogger().error("Searching exception were thrown while loading a playlist: {}", e.getMessage(), e);
         }
 
         if (success != null) {

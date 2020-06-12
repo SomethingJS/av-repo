@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.music;
+package com.avbot.commands.music;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.audio.DJGuildLevel;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.factories.MessageFactory;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.audio.DJGuildLevel;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.factories.MessageFactory;
 
 import javax.annotation.Nonnull;
 import java.sql.SQLException;
@@ -40,8 +40,8 @@ import java.util.List;
 
 public class DJLevelCommand extends Command {
 
-    public DJLevelCommand(AvaIre avaire) {
-        super(avaire, false);
+    public DJLevelCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class DJLevelCommand extends Command {
         }
 
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .where("id", context.getGuild().getId())
                 .update(statement -> statement.set("dj_level", level.getId()));
             transformer.setDJLevel(level);
@@ -139,7 +139,7 @@ public class DJLevelCommand extends Command {
                 .queue();
         } catch (SQLException e) {
             e.printStackTrace();
-            AvaIre.getLogger().error(e.getMessage(), e);
+            av.getLogger().error(e.getMessage(), e);
         }
 
         return false;

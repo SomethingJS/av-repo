@@ -1,39 +1,39 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.commands;
+package com.avbot.contracts.commands;
 
-import com.avairebot.AvaIre;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.commands.Category;
-import com.avairebot.commands.CategoryHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.contracts.middleware.Middleware;
-import com.avairebot.contracts.reflection.Reflectionable;
-import com.avairebot.language.I18n;
-import com.avairebot.middleware.MiddlewareHandler;
-import com.avairebot.plugin.JavaPlugin;
-import com.avairebot.utilities.RestActionUtil;
-import com.avairebot.utilities.StringReplacementUtil;
+import com.avbot.av;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.commands.Category;
+import com.avbot.commands.CategoryHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.contracts.middleware.Middleware;
+import com.avbot.contracts.reflection.Reflectionable;
+import com.avbot.language.I18n;
+import com.avbot.middleware.MiddlewareHandler;
+import com.avbot.plugin.JavaPlugin;
+import com.avbot.utilities.RestActionUtil;
+import com.avbot.utilities.StringReplacementUtil;
 import net.dv8tion.jda.core.entities.Message;
 
 import javax.annotation.Nonnull;
@@ -61,42 +61,42 @@ public abstract class Command extends Reflectionable {
     );
 
     /**
-     * Create the given command instance by calling {@link #Command(AvaIre)} with the avaire instance and allowDM set to true.
+     * Create the given command instance by calling {@link #Command(av)} with the av instance and allowDM set to true.
      *
      * @param plugin The plugin instance that is registering the command.
      */
     public Command(JavaPlugin plugin) {
-        this(plugin.getAvaire());
+        this(plugin.getav());
     }
 
     /**
-     * Create the given command instance by calling {@link #Command(AvaIre, boolean)} with the avaire instance.
+     * Create the given command instance by calling {@link #Command(av, boolean)} with the av instance.
      *
      * @param plugin  The plugin instance that is registering the command.
      * @param allowDM Determines if the command can be used in DMs.
      */
     public Command(JavaPlugin plugin, boolean allowDM) {
-        this(plugin.getAvaire(), allowDM);
+        this(plugin.getav(), allowDM);
     }
 
     /**
-     * Creates the given command instance by calling {@link #Command(AvaIre, boolean)} with allowDM set to true.
+     * Creates the given command instance by calling {@link #Command(av, boolean)} with allowDM set to true.
      *
-     * @param avaire The AvaIre class instance.
+     * @param av The av class instance.
      */
-    public Command(AvaIre avaire) {
-        this(avaire, true);
+    public Command(av av) {
+        this(av, true);
     }
 
     /**
      * Creates the given command instance with the given
-     * AvaIre instance and the allowDM settings.
+     * av instance and the allowDM settings.
      *
-     * @param avaire  The AvaIre class instance.
+     * @param av  The av class instance.
      * @param allowDM Determines if the command can be used in DMs.
      */
-    public Command(AvaIre avaire, boolean allowDM) {
-        super(avaire);
+    public Command(av av, boolean allowDM) {
+        super(av);
 
         this.allowDM = allowDM;
     }
@@ -212,7 +212,7 @@ public abstract class Command extends Reflectionable {
      * command message event fails the command will never be executed.
      *
      * @return An immutable list of command middlewares that should be invoked before the command.
-     * @see com.avairebot.contracts.middleware.Middleware
+     * @see com.avbot.contracts.middleware.Middleware
      */
     public List<String> getMiddleware() {
         return Collections.emptyList();
@@ -233,7 +233,7 @@ public abstract class Command extends Reflectionable {
      * Gets the category the command should belong to, if null is returned
      * the files package name will be used instead, for example:
      * <p>
-     * com.avairebot.avaire.commands.utility.PingCommand, the 2nd package from the
+     * com.avbot.av.commands.utility.PingCommand, the 2nd package from the
      * right which in this case is utility, will be used as the category.
      *
      * @return Possibly null, or the command category.

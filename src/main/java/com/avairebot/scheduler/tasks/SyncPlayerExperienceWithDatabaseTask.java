@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.scheduler.tasks;
+package com.avbot.scheduler.tasks;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.contracts.scheduler.Task;
-import com.avairebot.level.ExperienceEntity;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.contracts.scheduler.Task;
+import com.avbot.level.ExperienceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,15 +37,15 @@ public class SyncPlayerExperienceWithDatabaseTask implements Task {
     private static final Logger log = LoggerFactory.getLogger(SyncPlayerExperienceWithDatabaseTask.class);
 
     @Override
-    public void handle(AvaIre avaire) {
-        if (avaire.getLevelManager().getExperienceQueue().isEmpty()) {
+    public void handle(av av) {
+        if (av.getLevelManager().getExperienceQueue().isEmpty()) {
             return;
         }
 
         List<ExperienceEntity> experienceQueue;
-        synchronized (avaire.getLevelManager().getExperienceQueue()) {
-            experienceQueue = new ArrayList<>(avaire.getLevelManager().getExperienceQueue());
-            avaire.getLevelManager().getExperienceQueue().clear();
+        synchronized (av.getLevelManager().getExperienceQueue()) {
+            experienceQueue = new ArrayList<>(av.getLevelManager().getExperienceQueue());
+            av.getLevelManager().getExperienceQueue().clear();
         }
 
         try {
@@ -56,7 +56,7 @@ public class SyncPlayerExperienceWithDatabaseTask implements Task {
 
             log.debug("Starting \"Player Experience\" update task with query: " + query);
 
-            avaire.getDatabase().queryBatch(query, statement -> {
+            av.getDatabase().queryBatch(query, statement -> {
                 for (ExperienceEntity entity : experienceQueue) {
                     statement.setInt(1, entity.isExcludeLocal() ? 0 : entity.getExperience());
                     statement.setInt(2, entity.getExperience());

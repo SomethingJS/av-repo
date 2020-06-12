@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.commands;
+package com.avbot.contracts.commands;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.database.transformers.ChannelTransformer;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.utilities.StringReplacementUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.database.transformers.ChannelTransformer;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.factories.MessageFactory;
+import com.avbot.utilities.StringReplacementUtil;
 import net.dv8tion.jda.core.entities.User;
 
 import javax.annotation.Nonnull;
@@ -45,10 +45,10 @@ public abstract class ChannelModuleCommand extends Command {
     /**
      * Creates a new channel module instance that won't work in DMs.
      *
-     * @param avaire The main {@link AvaIre avaire} application instance.
+     * @param av The main {@link av av} application instance.
      */
-    public ChannelModuleCommand(AvaIre avaire) {
-        super(avaire, false);
+    public ChannelModuleCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -110,13 +110,13 @@ public abstract class ChannelModuleCommand extends Command {
      */
     protected boolean updateDatabase(CommandMessage context, GuildTransformer guildTransformer, Supplier<Boolean> callback) {
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .andWhere("id", context.getGuild().getId())
                 .update(statement -> statement.set("channels", guildTransformer.channelsToJson(), true));
 
             return callback.get();
         } catch (SQLException ex) {
-            AvaIre.getLogger().error(ex.getMessage(), ex);
+            av.getLogger().error(ex.getMessage(), ex);
 
             context.makeError("Failed to save the guild settings: " + ex.getMessage()).queue();
             return false;

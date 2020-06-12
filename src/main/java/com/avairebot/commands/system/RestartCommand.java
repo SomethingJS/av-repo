@@ -1,29 +1,29 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.commands.ApplicationShutdownCommand;
-import com.avairebot.shared.ExitCodes;
+import com.avbot.av;
+import com.avbot.contracts.commands.ApplicationShutdownCommand;
+import com.avbot.shared.ExitCodes;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,8 +31,8 @@ import java.util.List;
 
 public class RestartCommand extends ApplicationShutdownCommand {
 
-    public RestartCommand(AvaIre avaire) {
-        super(avaire);
+    public RestartCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class RestartCommand extends ApplicationShutdownCommand {
 
     @Override
     public String getDescription() {
-        return "Schedule a time the bot should be automatically-restarted, the bot will shutdown, then start back up again.\nThis requires [avaire/watchdog](https://github.com/avaire/watchdog) to work, without it the bot will just shutdown.";
+        return "Schedule a time the bot should be automatically-restarted, the bot will shutdown, then start back up again.\nThis requires [av/watchdog](https://github.com/av/watchdog) to work, without it the bot will just shutdown.";
     }
 
     @Override

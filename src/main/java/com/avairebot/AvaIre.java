@@ -1,80 +1,80 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot;
+package com.avbot;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.filter.ThresholdFilter;
-import com.avairebot.admin.BotAdmin;
-import com.avairebot.ai.IntelligenceManager;
-import com.avairebot.ai.dialogflow.DialogFlowService;
-import com.avairebot.audio.AudioHandler;
-import com.avairebot.audio.GuildMusicManager;
-import com.avairebot.audio.LavalinkManager;
-import com.avairebot.audio.cache.AudioState;
-import com.avairebot.blacklist.Blacklist;
-import com.avairebot.cache.CacheManager;
-import com.avairebot.cache.CacheType;
-import com.avairebot.chat.ConsoleColor;
-import com.avairebot.commands.CategoryDataContext;
-import com.avairebot.commands.CategoryHandler;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.administration.ChangePrefixCommand;
-import com.avairebot.commands.utility.SourceCommand;
-import com.avairebot.commands.utility.StatsCommand;
-import com.avairebot.commands.utility.UptimeCommand;
-import com.avairebot.config.*;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.database.migrations.Migration;
-import com.avairebot.contracts.database.seeder.Seeder;
-import com.avairebot.contracts.scheduler.Job;
-import com.avairebot.database.DatabaseManager;
-import com.avairebot.database.serializer.PlaylistSongSerializer;
-import com.avairebot.database.transformers.PlaylistTransformer;
-import com.avairebot.exceptions.InvalidApplicationEnvironmentException;
-import com.avairebot.exceptions.InvalidPluginException;
-import com.avairebot.exceptions.InvalidPluginsPathException;
-import com.avairebot.handlers.EventEmitter;
-import com.avairebot.handlers.MainEventHandler;
-import com.avairebot.handlers.PluginEventHandler;
-import com.avairebot.handlers.events.ApplicationShutdownEvent;
-import com.avairebot.imagegen.RankBackgroundHandler;
-import com.avairebot.language.I18n;
-import com.avairebot.level.LevelManager;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.middleware.*;
-import com.avairebot.mute.MuteManager;
-import com.avairebot.plugin.PluginLoader;
-import com.avairebot.plugin.PluginManager;
-import com.avairebot.scheduler.ScheduleHandler;
-import com.avairebot.servlet.WebServlet;
-import com.avairebot.servlet.routes.*;
-import com.avairebot.shard.ShardEntityCounter;
-import com.avairebot.shared.DiscordConstants;
-import com.avairebot.shared.ExitCodes;
-import com.avairebot.shared.SentryConstants;
-import com.avairebot.time.Carbon;
-import com.avairebot.utilities.AutoloaderUtil;
-import com.avairebot.vote.VoteManager;
+import com.avbot.admin.BotAdmin;
+import com.avbot.ai.IntelligenceManager;
+import com.avbot.ai.dialogflow.DialogFlowService;
+import com.avbot.audio.AudioHandler;
+import com.avbot.audio.GuildMusicManager;
+import com.avbot.audio.LavalinkManager;
+import com.avbot.audio.cache.AudioState;
+import com.avbot.blacklist.Blacklist;
+import com.avbot.cache.CacheManager;
+import com.avbot.cache.CacheType;
+import com.avbot.chat.ConsoleColor;
+import com.avbot.commands.CategoryDataContext;
+import com.avbot.commands.CategoryHandler;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.administration.ChangePrefixCommand;
+import com.avbot.commands.utility.SourceCommand;
+import com.avbot.commands.utility.StatsCommand;
+import com.avbot.commands.utility.UptimeCommand;
+import com.avbot.config.*;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.database.migrations.Migration;
+import com.avbot.contracts.database.seeder.Seeder;
+import com.avbot.contracts.scheduler.Job;
+import com.avbot.database.DatabaseManager;
+import com.avbot.database.serializer.PlaylistSongSerializer;
+import com.avbot.database.transformers.PlaylistTransformer;
+import com.avbot.exceptions.InvalidApplicationEnvironmentException;
+import com.avbot.exceptions.InvalidPluginException;
+import com.avbot.exceptions.InvalidPluginsPathException;
+import com.avbot.handlers.EventEmitter;
+import com.avbot.handlers.MainEventHandler;
+import com.avbot.handlers.PluginEventHandler;
+import com.avbot.handlers.events.ApplicationShutdownEvent;
+import com.avbot.imagegen.RankBackgroundHandler;
+import com.avbot.language.I18n;
+import com.avbot.level.LevelManager;
+import com.avbot.metrics.Metrics;
+import com.avbot.middleware.*;
+import com.avbot.mute.MuteManager;
+import com.avbot.plugin.PluginLoader;
+import com.avbot.plugin.PluginManager;
+import com.avbot.scheduler.ScheduleHandler;
+import com.avbot.servlet.WebServlet;
+import com.avbot.servlet.routes.*;
+import com.avbot.shard.ShardEntityCounter;
+import com.avbot.shared.DiscordConstants;
+import com.avbot.shared.ExitCodes;
+import com.avbot.shared.SentryConstants;
+import com.avbot.time.Carbon;
+import com.avbot.utilities.AutoloaderUtil;
+import com.avbot.vote.VoteManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
@@ -106,7 +106,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 
-public class AvaIre {
+public class av {
 
     public static final Gson gson = new GsonBuilder()
         .registerTypeAdapter(
@@ -117,9 +117,9 @@ public class AvaIre {
         .serializeNulls()
         .create();
 
-    private static final Logger log = LoggerFactory.getLogger(AvaIre.class);
+    private static final Logger log = LoggerFactory.getLogger(av.class);
 
-    protected static AvaIre avaire;
+    protected static av av;
 
     private static Environment applicationEnvironment;
     private final Settings settings;
@@ -141,9 +141,9 @@ public class AvaIre {
     private int shutdownCode = ExitCodes.EXIT_CODE_RESTART;
     private ShardManager shardManager = null;
 
-    public AvaIre(Settings settings) throws IOException, SQLException, InvalidApplicationEnvironmentException {
+    public av(Settings settings) throws IOException, SQLException, InvalidApplicationEnvironmentException {
         this.settings = settings;
-        AvaIre.avaire = this;
+        av.av = this;
 
         System.out.println(getVersionInfo(settings));
 
@@ -151,7 +151,7 @@ public class AvaIre {
         log.debug("Starting the application with debug logging enabled!");
         log.debug("====================================================\n");
 
-        log.info("Bootstrapping AvaIre v" + AppInfo.getAppInfo().version);
+        log.info("Bootstrapping av v" + AppInfo.getAppInfo().version);
         Reflections.log = null;
 
         this.eventEmitter = new EventEmitter(this);
@@ -313,7 +313,7 @@ public class AvaIre {
             LinkedHashMap<String, CategoryDataContext> map = CommandHandler.generateCommandMapFrom(null);
 
             try (FileWriter file = new FileWriter("commandMap.json")) {
-                file.write(AvaIre.gson.toJson(map));
+                file.write(av.gson.toJson(map));
 
                 log.info("The `commandMap.json` file has been generated successfully!");
             } catch (IOException e) {
@@ -335,7 +335,7 @@ public class AvaIre {
 
         if (settings.usePluginsIndex()) {
             log.info("Loads plugins from the plugin index");
-            pluginManager.loadPluginsFromIndex(avaire);
+            pluginManager.loadPluginsFromIndex(av);
         }
 
         log.info("Preparing blacklist and syncing the list with the database");
@@ -403,7 +403,7 @@ public class AvaIre {
         muteManger = new MuteManager(this);
 
         log.info("Preparing Lavalink");
-        AudioHandler.setAvaire(this);
+        AudioHandler.setav(this);
         LavalinkManager.LavalinkManagerHolder.lavalink.start(this);
 
         try {
@@ -436,8 +436,8 @@ public class AvaIre {
         return applicationEnvironment;
     }
 
-    public static AvaIre getInstance() {
-        return avaire;
+    public static av getInstance() {
+        return av;
     }
 
     static String getVersionInfo(@Nullable Settings settings) {

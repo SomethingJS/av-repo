@@ -1,29 +1,29 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.scheduler.jobs;
+package com.avbot.scheduler.jobs;
 
-import com.avairebot.AppInfo;
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.scheduler.Job;
+import com.avbot.AppInfo;
+import com.avbot.av;
+import com.avbot.contracts.scheduler.Job;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.SelfUser;
 import okhttp3.*;
@@ -42,20 +42,20 @@ public class SyncStatsWithBeaconJob extends Job {
 
     private final OkHttpClient client = new OkHttpClient();
 
-    public SyncStatsWithBeaconJob(AvaIre avaire) {
-        super(avaire, 5, 180, TimeUnit.MINUTES);
+    public SyncStatsWithBeaconJob(av av) {
+        super(av, 5, 180, TimeUnit.MINUTES);
     }
 
     @Override
     public void run() {
-        SelfUser selfUser = avaire.getSelfUser();
+        SelfUser selfUser = av.getSelfUser();
         if (selfUser == null) {
             return;
         }
 
         Request.Builder request = new Request.Builder()
-            .addHeader("User-Agent", "AvaIre v" + AppInfo.getAppInfo().version)
-            .url("https://beacon.avairebot.com/v1/bot/" + selfUser.getId())
+            .addHeader("User-Agent", "av v" + AppInfo.getAppInfo().version)
+            .url("https://beacon.avbot.com/v1/bot/" + selfUser.getId())
             .post(RequestBody.create(json, buildPayload(selfUser)));
 
         Response response = null;
@@ -79,7 +79,7 @@ public class SyncStatsWithBeaconJob extends Job {
         main.put("bot", bot);
 
         JSONArray shards = new JSONArray();
-        for (JDA shard : avaire.getShardManager().getShards()) {
+        for (JDA shard : av.getShardManager().getShards()) {
             JSONObject shardObj = new JSONObject();
 
             shardObj.put("id", shard.getShardInfo().getShardId());

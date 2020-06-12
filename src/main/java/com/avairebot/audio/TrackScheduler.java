@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.audio;
+package com.avbot.audio;
 
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.audio.AudioEventWrapper;
-import com.avairebot.contracts.debug.EvalContext;
-import com.avairebot.database.transformers.PlaylistTransformer;
-import com.avairebot.handlers.events.MusicEndedEvent;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.audio.AudioEventWrapper;
+import com.avbot.contracts.debug.EvalContext;
+import com.avbot.database.transformers.PlaylistTransformer;
+import com.avbot.handlers.events.MusicEndedEvent;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RestActionUtil;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -252,7 +252,7 @@ public class TrackScheduler extends AudioEventWrapper {
             context.getJDA(), context.getGuild()
         );
 
-        manager.avaire.getEventEmitter().push(event);
+        manager.av.getEventEmitter().push(event);
 
         if (event.isCancelled()) {
             return;

@@ -1,29 +1,29 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.cache.adapters;
+package com.avbot.cache.adapters;
 
-import com.avairebot.AvaIre;
-import com.avairebot.cache.CacheItem;
-import com.avairebot.contracts.cache.CacheAdapter;
+import com.avbot.av;
+import com.avbot.cache.CacheItem;
+import com.avbot.contracts.cache.CacheAdapter;
 
 import java.util.Map;
 import java.util.Set;
@@ -52,7 +52,7 @@ public class MemoryAdapter extends CacheAdapter {
 
             return item.getValue();
         } catch (Exception e) {
-            AvaIre.getLogger().error(e.getMessage(), e);
+            av.getLogger().error(e.getMessage(), e);
             return null;
         }
     }

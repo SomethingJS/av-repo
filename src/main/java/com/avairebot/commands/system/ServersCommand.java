@@ -1,43 +1,43 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.chat.SimplePaginator;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.contracts.commands.sort.ServerComparable;
-import com.avairebot.time.Carbon;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.chat.SimplePaginator;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.contracts.commands.sort.ServerComparable;
+import com.avbot.time.Carbon;
+import com.avbot.utilities.NumberUtil;
 import net.dv8tion.jda.core.entities.Guild;
 
 import java.util.*;
 
 public class ServersCommand extends SystemCommand {
 
-    public ServersCommand(AvaIre avaire) {
-        super(avaire);
+    public ServersCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class ServersCommand extends SystemCommand {
         try {
             long id = Long.parseLong(args[0]);
 
-            Guild guild = avaire.getShardManager().getGuildById(id);
+            Guild guild = av.getShardManager().getGuildById(id);
             if (guild == null) {
                 return sendErrorMessage(context, "No guilds found with an ID of `{0}`", args[0]);
             }
@@ -161,7 +161,7 @@ public class ServersCommand extends SystemCommand {
         }
 
         List<Server> servers = new ArrayList<>();
-        for (Guild guild : avaire.getShardManager().getGuilds()) {
+        for (Guild guild : av.getShardManager().getGuilds()) {
             servers.add(new Server(guild));
         }
 

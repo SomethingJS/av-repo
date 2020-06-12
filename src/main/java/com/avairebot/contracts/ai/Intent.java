@@ -1,40 +1,40 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.ai;
+package com.avbot.contracts.ai;
 
 import ai.api.model.AIResponse;
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.reflection.Reflectionable;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.reflection.Reflectionable;
 
 public abstract class Intent extends Reflectionable {
 
     /**
      * Creates the DialogFlow AI intent action.
      *
-     * @param avaire The main {@link AvaIre avaire} instance.
+     * @param av The main {@link av av} instance.
      */
-    public Intent(AvaIre avaire) {
-        super(avaire);
+    public Intent(av av) {
+        super(av);
     }
 
     /**

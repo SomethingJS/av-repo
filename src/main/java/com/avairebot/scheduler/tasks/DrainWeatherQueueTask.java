@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.scheduler.tasks;
+package com.avbot.scheduler.tasks;
 
-import com.avairebot.AvaIre;
-import com.avairebot.chat.MessageType;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.contracts.scheduler.Task;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.factories.RequestFactory;
-import com.avairebot.language.I18n;
-import com.avairebot.requests.Response;
-import com.avairebot.requests.service.WeatherService;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.chat.MessageType;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.contracts.scheduler.Task;
+import com.avbot.factories.MessageFactory;
+import com.avbot.factories.RequestFactory;
+import com.avbot.language.I18n;
+import com.avbot.requests.Response;
+import com.avbot.requests.service.WeatherService;
+import com.avbot.utilities.NumberUtil;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.slf4j.Logger;
@@ -71,7 +71,7 @@ public class DrainWeatherQueueTask implements Task {
     }
 
     @Override
-    public void handle(AvaIre avaire) {
+    public void handle(av av) {
         if (queue.isEmpty()) {
             return;
         }
@@ -81,7 +81,7 @@ public class DrainWeatherQueueTask implements Task {
             return;
         }
 
-        String apiToken = avaire.getConfig().getString("apiKeys.openWeatherMap");
+        String apiToken = av.getConfig().getString("apiKeys.openWeatherMap");
         if (apiToken == null || apiToken.trim().length() == 0) {
             return;
         }
@@ -89,14 +89,14 @@ public class DrainWeatherQueueTask implements Task {
         log.debug("Loading weather data by {} with the query: {}", entity.userId, entity.query);
 
         RequestFactory.makeGET("http://api.openweathermap.org/data/2.5/weather")
-            .addParameter("appid", avaire.getConfig().getString("apiKeys.openWeatherMap"))
+            .addParameter("appid", av.getConfig().getString("apiKeys.openWeatherMap"))
             .addParameter("units", "metric")
             .addParameter("q", String.join(" ", entity.query))
-            .send((Consumer<Response>) response -> accept(avaire, response, entity));
+            .send((Consumer<Response>) response -> accept(av, response, entity));
     }
 
-    private void accept(AvaIre avaire, Response response, WeatherEntity entity) {
-        TextChannel textChannel = avaire.getShardManager().getTextChannelById(entity.channelId);
+    private void accept(av av, Response response, WeatherEntity entity) {
+        TextChannel textChannel = av.getShardManager().getTextChannelById(entity.channelId);
         if (textChannel == null || !textChannel.canTalk()) {
             return;
         }

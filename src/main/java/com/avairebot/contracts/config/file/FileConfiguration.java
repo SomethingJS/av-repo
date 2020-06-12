@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.config.file;
+package com.avbot.contracts.config.file;
 
-import com.avairebot.config.MemoryConfiguration;
-import com.avairebot.config.file.FileConfigurationOptions;
-import com.avairebot.contracts.config.ConfigurationBase;
-import com.avairebot.exceptions.InvalidConfigurationException;
+import com.avbot.config.MemoryConfiguration;
+import com.avbot.config.file.FileConfigurationOptions;
+import com.avbot.contracts.config.ConfigurationBase;
+import com.avbot.exceptions.InvalidConfigurationException;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import org.apache.commons.lang3.Validate;

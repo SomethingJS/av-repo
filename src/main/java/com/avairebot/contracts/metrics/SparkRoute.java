@@ -1,27 +1,27 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.metrics;
+package com.avbot.contracts.metrics;
 
-import com.avairebot.AvaIre;
+import com.avbot.av;
 import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
@@ -71,8 +71,8 @@ public abstract class SparkRoute implements Route {
      */
     @SuppressWarnings("WeakerAccess")
     protected String getAuthorizationToken() {
-        return AvaIre.getInstance().getConfig().getString("web-servlet.authToken",
-            AvaIre.getInstance().getConfig().getString("metrics.authToken", "avaire-auth-token")
+        return av.getInstance().getConfig().getString("web-servlet.authToken",
+            av.getInstance().getConfig().getString("metrics.authToken", "av-auth-token")
         );
     }
 }

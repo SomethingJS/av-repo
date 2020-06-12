@@ -10,15 +10,15 @@ RUN gradle build --no-daemon
 
 FROM openjdk:11-jre-slim AS runtime
 
-WORKDIR /opt/avaire/
+WORKDIR /opt/av/
 
-RUN adduser --disabled-password --gecos '' avaire; \
-    chown avaire:avaire -R /opt/avaire; \
-    chmod u+w /opt/avaire; \
-    chmod 0755 -R /opt/avaire
+RUN adduser --disabled-password --gecos '' av; \
+    chown av:av -R /opt/av; \
+    chmod u+w /opt/av; \
+    chmod 0755 -R /opt/av
 
-USER avaire
+USER av
 
-COPY --from=build /home/gradle/src/AvaIre.jar /bin/
+COPY --from=build /home/gradle/src/av.jar /bin/
 
-CMD ["java","-jar","/bin/AvaIre.jar","-env","--use-plugin-index"]
+CMD ["java","-jar","/bin/av.jar","-env","--use-plugin-index"]

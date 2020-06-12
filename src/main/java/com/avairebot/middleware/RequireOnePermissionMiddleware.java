@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.middleware;
+package com.avbot.middleware;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.middleware.Middleware;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.middleware.permission.PermissionCheck;
-import com.avairebot.middleware.permission.PermissionCommon;
-import com.avairebot.middleware.permission.PermissionType;
-import com.avairebot.permissions.Permissions;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.middleware.Middleware;
+import com.avbot.factories.MessageFactory;
+import com.avbot.middleware.permission.PermissionCheck;
+import com.avbot.middleware.permission.PermissionCommon;
+import com.avbot.middleware.permission.PermissionType;
+import com.avbot.permissions.Permissions;
+import com.avbot.utilities.RestActionUtil;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 
@@ -40,8 +40,8 @@ import java.util.stream.Collectors;
 
 public class RequireOnePermissionMiddleware extends Middleware {
 
-    public RequireOnePermissionMiddleware(AvaIre avaire) {
-        super(avaire);
+    public RequireOnePermissionMiddleware(av av) {
+        super(av);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class RequireOnePermissionMiddleware extends Middleware {
         }
 
         if (args.length < 2) {
-            AvaIre.getLogger().warn(String.format(
+            av.getLogger().warn(String.format(
                 "\"%s\" is parsing invalid amount of arguments to the require middleware, 2 arguments are required.", stack.getCommand()
             ));
             return stack.next();

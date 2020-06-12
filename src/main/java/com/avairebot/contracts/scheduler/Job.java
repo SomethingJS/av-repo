@@ -1,28 +1,28 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.scheduler;
+package com.avbot.contracts.scheduler;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.reflection.Reflectional;
+import com.avbot.av;
+import com.avbot.contracts.reflection.Reflectional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,10 +35,10 @@ public abstract class Job extends TimerTask implements Reflectional {
     private static final Logger log = LoggerFactory.getLogger(Job.class);
 
     /**
-     * The AvaIre class instance, this is used to access
+     * The av class instance, this is used to access
      * and interact with the rest of the application.
      */
-    protected final AvaIre avaire;
+    protected final av av;
 
     /**
      * The amount of time the job should be delayed before starting,
@@ -59,49 +59,49 @@ public abstract class Job extends TimerTask implements Reflectional {
     private final TimeUnit unit;
 
     /**
-     * Instantiates the job instance with the given AvaIre application instance, with
+     * Instantiates the job instance with the given av application instance, with
      * a delay of 0, period of 1, and time unit of {@link TimeUnit#MINUTES}.
      *
-     * @param avaire The AvaIre application instance.
+     * @param av The av application instance.
      */
-    public Job(AvaIre avaire) {
-        this(avaire, 0);
+    public Job(av av) {
+        this(av, 0);
     }
 
     /**
-     * Instantiates the job instance with the given AvaIre application instance and delay,
+     * Instantiates the job instance with the given av application instance and delay,
      * setting the default period to 1 along with a time unit of {@link TimeUnit#MINUTES}.
      *
-     * @param avaire The AvaIre application instance.
+     * @param av The av application instance.
      * @param delay  The delay before the command should be executed for the first time.
      */
-    public Job(AvaIre avaire, long delay) {
-        this(avaire, delay, 1);
+    public Job(av av, long delay) {
+        this(av, delay, 1);
     }
 
     /**
-     * Instantiates the job instance with the given AvaIre application instance, delay,
+     * Instantiates the job instance with the given av application instance, delay,
      * and period, setting the default time unit to {@link TimeUnit#MINUTES}.
      *
-     * @param avaire The AvaIre application instance.
+     * @param av The av application instance.
      * @param delay  The delay before the command should be executed for the first time.
      * @param period The time in between executions after the job has already run once.
      */
-    public Job(AvaIre avaire, long delay, long period) {
-        this(avaire, delay, period, TimeUnit.MINUTES);
+    public Job(av av, long delay, long period) {
+        this(av, delay, period, TimeUnit.MINUTES);
     }
 
     /**
-     * Instantiates the job instance with the given AvaIre application
+     * Instantiates the job instance with the given av application
      * instance, delay, and, period and time unit.
      *
-     * @param avaire The AvaIre application instance.
+     * @param av The av application instance.
      * @param delay  The delay before the command should be executed for the first time.
      * @param period The time in between executions after the job has already run once.
      * @param unit   The unit of time the job should measure the delay and periods in.
      */
-    public Job(AvaIre avaire, long delay, long period, TimeUnit unit) {
-        this.avaire = avaire;
+    public Job(av av, long delay, long period, TimeUnit unit) {
+        this.av = av;
 
         this.delay = delay;
         this.period = period;
@@ -144,8 +144,8 @@ public abstract class Job extends TimerTask implements Reflectional {
     protected void handleTask(Task... tasks) {
         for (Task task : tasks) {
             try {
-                log.trace("Invoking {}#handle(avaire)", task.getClass().getName());
-                task.handle(avaire);
+                log.trace("Invoking {}#handle(av)", task.getClass().getName());
+                task.handle(av);
             } catch (Exception ex) {
                 log.error("An error occurred while running the {} class, message: {}",
                     task.getClass().getSimpleName(), ex.getMessage(), ex
@@ -156,6 +156,6 @@ public abstract class Job extends TimerTask implements Reflectional {
 
     @Override
     public int hashCode() {
-        return Objects.hash(avaire, delay, period, unit);
+        return Objects.hash(av, delay, period, unit);
     }
 }

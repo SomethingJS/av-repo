@@ -1,31 +1,31 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.contracts.commands.Command;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.contracts.commands.Command;
 
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -34,8 +34,8 @@ import java.util.List;
 
 public class VoteOptCommand extends Command {
 
-    public VoteOptCommand(AvaIre avaire) {
-        super(avaire);
+    public VoteOptCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class VoteOptCommand extends Command {
         }
 
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
                 .useAsync(true)
                 .where("user_id", context.getAuthor().getIdLong())
                 .update(statement -> statement.set("opt_in", opt));
@@ -101,7 +101,7 @@ public class VoteOptCommand extends Command {
             .set("type", context.i18n("type." + (opt == 0 ? "out" : "in")))
             .queue();
 
-        avaire.getVoteManager().getVoteEntityWithFallback(context.getAuthor()).setOptIn(opt == 1);
+        av.getVoteManager().getVoteEntityWithFallback(context.getAuthor()).setOptIn(opt == 1);
 
         return true;
     }

@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.commands;
+package com.avbot.contracts.commands;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandContainer;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.contracts.commands.interactions.Lottery;
-import com.avairebot.language.I18n;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.utilities.CacheUtil;
-import com.avairebot.utilities.MentionableUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandContainer;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.contracts.commands.interactions.Lottery;
+import com.avbot.language.I18n;
+import com.avbot.metrics.Metrics;
+import com.avbot.utilities.CacheUtil;
+import com.avbot.utilities.MentionableUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -55,7 +55,7 @@ public abstract class InteractionCommand extends Command {
      * The Guava cache instance, used for caching the sent messages, and
      * helps determine if the response message should be sent or not.
      *
-     * @see Metrics#setup(AvaIre) Metrics setup.
+     * @see Metrics#setup(av) Metrics setup.
      */
     public static final Cache<String, Lottery> cache = CacheBuilder.newBuilder()
         .recordStats()
@@ -65,10 +65,10 @@ public abstract class InteractionCommand extends Command {
     /**
      * Creates a new interaction command instance.
      *
-     * @param avaire The main {@link AvaIre avaire} application instance.
+     * @param av The main {@link av av} application instance.
      */
-    public InteractionCommand(AvaIre avaire) {
-        super(avaire, false);
+    public InteractionCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -90,8 +90,8 @@ public abstract class InteractionCommand extends Command {
     @Override
     public List<String> getExampleUsage() {
         return Arrays.asList(
-            "`:command @AvaIre`",
-            "`:command @AvaIre @Senither`",
+            "`:command @av`",
+            "`:command @av @Senither`",
             "`:command @Someone @Me`"
         );
     }

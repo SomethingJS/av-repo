@@ -1,42 +1,42 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.utility.RankCommand;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.controllers.PlayerController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.PlayerTransformer;
-import com.avairebot.level.LevelManager;
-import com.avairebot.utilities.MentionableUtil;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RandomUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.utility.RankCommand;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.controllers.PlayerController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.PlayerTransformer;
+import com.avbot.level.LevelManager;
+import com.avbot.utilities.MentionableUtil;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RandomUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.Permission;
@@ -62,8 +62,8 @@ public class AdministrateExperienceCommand extends Command {
 
     private static final Logger log = LoggerFactory.getLogger(AdministrateExperienceCommand.class);
 
-    public AdministrateExperienceCommand(AvaIre avaire) {
-        super(avaire, false);
+    public AdministrateExperienceCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -199,7 +199,7 @@ public class AdministrateExperienceCommand extends Command {
             }
         }
 
-        PlayerTransformer player = PlayerController.fetchPlayer(avaire, context.getMessage(), user);
+        PlayerTransformer player = PlayerController.fetchPlayer(av, context.getMessage(), user);
         if (player == null) {
             return sendErrorMessage(context, "errors.errorOccurredWhileLoading", "player XP");
         }
@@ -284,7 +284,7 @@ public class AdministrateExperienceCommand extends Command {
 
     private boolean handleSync(CommandMessage context, PlayerTransformer player, User user) {
         try {
-            Collection collection = avaire.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
+            Collection collection = av.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                 .select("global_experience")
                 .where("user_id", user.getId())
                 .where("guild_id", context.getGuild().getId())
@@ -341,7 +341,7 @@ public class AdministrateExperienceCommand extends Command {
         }
 
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                 .where("guild_id", context.getGuild().getId())
                 .update(statement -> {
                     statement.setRaw("experience", "`global_experience`");
@@ -387,7 +387,7 @@ public class AdministrateExperienceCommand extends Command {
         }
 
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                 .where("guild_id", context.getGuild().getId())
                 .update(statement -> {
                     statement.set("experience", 100);
@@ -409,7 +409,7 @@ public class AdministrateExperienceCommand extends Command {
 
     private boolean updatePlayerRecord(PlayerTransformer player) {
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                 .where("user_id", player.getUserId())
                 .where("guild_id", player.getGuildId())
                 .update(statement -> statement.set("experience", player.getExperience()));

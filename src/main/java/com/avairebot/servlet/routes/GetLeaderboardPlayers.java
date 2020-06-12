@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.servlet.routes;
+package com.avbot.servlet.routes;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.utility.LeaderboardCommand;
-import com.avairebot.contracts.metrics.SparkRoute;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.utilities.CacheUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.utility.LeaderboardCommand;
+import com.avbot.contracts.metrics.SparkRoute;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.utilities.CacheUtil;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import org.json.JSONArray;
@@ -48,12 +48,12 @@ public class GetLeaderboardPlayers extends SparkRoute {
         try {
             Long guildId = Long.parseLong(request.params("id"));
 
-            Guild guild = AvaIre.getInstance().getShardManager().getGuildById(guildId);
+            Guild guild = av.getInstance().getShardManager().getGuildById(guildId);
             if (guild == null) {
                 return buildResponse(response, 404, "Invalid guild ID given, no guild found with the given id.");
             }
 
-            GuildTransformer transformer = GuildController.fetchGuild(AvaIre.getInstance(), guild);
+            GuildTransformer transformer = GuildController.fetchGuild(av.getInstance(), guild);
 
             JSONObject root = new JSONObject();
             root.put("id", guild.getId());
@@ -118,7 +118,7 @@ public class GetLeaderboardPlayers extends SparkRoute {
     private Collection loadTop100(String guildId) {
         return (Collection) CacheUtil.getUncheckedUnwrapped(LeaderboardCommand.cache, guildId, () -> {
             try {
-                return AvaIre.getInstance().getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
+                return av.getInstance().getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                     .where("guild_id", guildId)
                     .orderBy("experience", "desc")
                     .take(100)

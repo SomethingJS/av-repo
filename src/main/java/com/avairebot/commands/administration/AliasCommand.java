@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandContainer;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.transformers.GuildTransformer;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandContainer;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.transformers.GuildTransformer;
 import net.dv8tion.jda.core.entities.Message;
 
 import javax.annotation.Nonnull;
@@ -41,8 +41,8 @@ import java.util.List;
 
 public class AliasCommand extends Command {
 
-    public AliasCommand(AvaIre avaire) {
-        super(avaire, false);
+    public AliasCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class AliasCommand extends Command {
     public List<String> getExampleUsage(@Nullable Message message) {
         //noinspection ConstantConditions
         return Collections.singletonList(String.format(
-            "`:command !ava %srepeat **Website:** https://avairebot.com/`",
+            "`:command !ava %srepeat **Website:** https://avbot.com/`",
             message == null
                 ? CommandHandler.getCommand(AliasCommand.class).getCategory().getPrefix()
                 : generateCommandPrefix(message)
@@ -170,8 +170,8 @@ public class AliasCommand extends Command {
     }
 
     private void updateGuildAliases(CommandMessage message, GuildTransformer transformer) throws SQLException {
-        avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+        av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
             .where("id", message.getGuild().getId())
-            .update(statement -> statement.set("aliases", AvaIre.gson.toJson(transformer.getAliases()), true));
+            .update(statement -> statement.set("aliases", av.gson.toJson(transformer.getAliases()), true));
     }
 }

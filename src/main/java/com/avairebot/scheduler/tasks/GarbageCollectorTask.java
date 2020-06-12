@@ -1,40 +1,40 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.scheduler.tasks;
+package com.avbot.scheduler.tasks;
 
-import com.avairebot.AvaIre;
-import com.avairebot.audio.AudioHandler;
-import com.avairebot.audio.AudioSession;
-import com.avairebot.audio.GuildMusicManager;
-import com.avairebot.audio.LavalinkManager;
-import com.avairebot.blacklist.Ratelimit;
-import com.avairebot.cache.CacheType;
-import com.avairebot.cache.adapters.MemoryAdapter;
-import com.avairebot.commands.administration.MuteRoleCommand;
-import com.avairebot.contracts.commands.InteractionCommand;
-import com.avairebot.contracts.scheduler.Task;
-import com.avairebot.handlers.adapter.JDAStateEventAdapter;
-import com.avairebot.handlers.adapter.MessageEventAdapter;
-import com.avairebot.scheduler.jobs.LavalinkGarbageNodeCollectorJob;
+import com.avbot.av;
+import com.avbot.audio.AudioHandler;
+import com.avbot.audio.AudioSession;
+import com.avbot.audio.GuildMusicManager;
+import com.avbot.audio.LavalinkManager;
+import com.avbot.blacklist.Ratelimit;
+import com.avbot.cache.CacheType;
+import com.avbot.cache.adapters.MemoryAdapter;
+import com.avbot.commands.administration.MuteRoleCommand;
+import com.avbot.contracts.commands.InteractionCommand;
+import com.avbot.contracts.scheduler.Task;
+import com.avbot.handlers.adapter.JDAStateEventAdapter;
+import com.avbot.handlers.adapter.MessageEventAdapter;
+import com.avbot.scheduler.jobs.LavalinkGarbageNodeCollectorJob;
 import lavalink.client.io.Link;
 import lavalink.client.io.jda.JdaLink;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -44,14 +44,14 @@ import java.util.Map;
 public class GarbageCollectorTask implements Task {
 
     @Override
-    public void handle(AvaIre avaire) {
+    public void handle(av av) {
         // Clears the user cache set for DM info messages, this will reset
         // the list, allowing users to get the DM info message again.
         MessageEventAdapter.hasReceivedInfoMessageInTheLastMinute.clear();
 
         // Remove cache entries from the memory cache adapter
         // if the keys are still stored by has expired.
-        MemoryAdapter adapter = (MemoryAdapter) avaire.getCache().getAdapter(CacheType.MEMORY);
+        MemoryAdapter adapter = (MemoryAdapter) av.getCache().getAdapter(CacheType.MEMORY);
         adapter.getCacheKeys().removeIf(key -> !adapter.has(key));
 
         // Clean music managers and audio sessions by removing

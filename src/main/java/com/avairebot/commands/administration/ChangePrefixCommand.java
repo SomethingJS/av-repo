@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.Category;
-import com.avairebot.commands.CategoryHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.transformers.GuildTransformer;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.Category;
+import com.avbot.commands.CategoryHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.transformers.GuildTransformer;
 
 import javax.annotation.Nonnull;
 import java.sql.SQLException;
@@ -40,8 +40,8 @@ import java.util.List;
 
 public class ChangePrefixCommand extends Command {
 
-    public ChangePrefixCommand(AvaIre avaire) {
-        super(avaire, false);
+    public ChangePrefixCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ChangePrefixCommand extends Command {
 
     @Override
     public String getDescription() {
-        return "Sets the prefix that should be used for all commands in a given category, if no prefix is provided the category prefix will be reset back to the default instead, each category in AvaIre can have a different prefix, or you can choose to change them all at the same time.";
+        return "Sets the prefix that should be used for all commands in a given category, if no prefix is provided the category prefix will be reset back to the default instead, each category in av can have a different prefix, or you can choose to change them all at the same time.";
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ChangePrefixCommand extends Command {
 
     @Override
     public List<String> getExampleUsage() {
-        if (avaire.getSettings().isMusicOnlyMode()) {
+        if (av.getSettings().isMusicOnlyMode()) {
             return Arrays.asList(
                 "`:command all a!` - Sets the prefix for all commands to `a!`.",
                 "`:command all` - Resets the prefix back to using the default."
@@ -195,10 +195,10 @@ public class ChangePrefixCommand extends Command {
     }
 
     private void updateGuildPrefixes(CommandMessage context, GuildTransformer transformer) throws SQLException {
-        avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+        av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
             .where("id", context.getGuild().getId())
             .update(statement -> {
-                statement.set("prefixes", AvaIre.gson.toJson(transformer.getPrefixes()), true);
+                statement.set("prefixes", av.gson.toJson(transformer.getPrefixes()), true);
             });
     }
 }

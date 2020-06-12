@@ -1,34 +1,34 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.audio;
+package com.avbot.audio;
 
-import com.avairebot.AvaIre;
-import com.avairebot.audio.searcher.SearchProvider;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.permissions.Permissions;
-import com.avairebot.utilities.RestActionUtil;
-import com.avairebot.utilities.RoleUtil;
+import com.avbot.av;
+import com.avbot.audio.searcher.SearchProvider;
+import com.avbot.commands.CommandMessage;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.permissions.Permissions;
+import com.avbot.utilities.RestActionUtil;
+import com.avbot.utilities.RoleUtil;
 import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
@@ -55,7 +55,7 @@ public class AudioHandler {
         new HashMap<>(),
         new HashMap<>()
     );
-    private static AvaIre avaire;
+    private static av av;
 
     public final Map<Long, GuildMusicManager> musicManagers;
     public final Map<String, AudioSession> audioSessions;
@@ -66,8 +66,8 @@ public class AudioHandler {
         this.audioSessions = audioSessions;
     }
 
-    public static void setAvaire(AvaIre avaire) {
-        AudioHandler.avaire = avaire;
+    public static void setav(av av) {
+        AudioHandler.av = av;
     }
 
     public static AudioHandler getDefaultAudioHandler() {
@@ -76,16 +76,16 @@ public class AudioHandler {
 
     public AudioPlayerManager getPlayerManager() {
         if (playerManager == null) {
-            playerManager = new AudioPlayerManagerConfiguration(avaire).get();
+            playerManager = new AudioPlayerManagerConfiguration(av).get();
 
             playerManager.getConfiguration().setResamplingQuality(
                 AudioConfiguration.ResamplingQuality.valueOf(
-                    avaire.getConfig().getString("audio-quality.resampling", "medium").toUpperCase()
+                    av.getConfig().getString("audio-quality.resampling", "medium").toUpperCase()
                 )
             );
 
             playerManager.getConfiguration().setOpusEncodingQuality(
-                avaire.getConfig().getInt("audio-quality.encoding", AudioConfiguration.OPUS_QUALITY_MAX)
+                av.getConfig().getInt("audio-quality.encoding", AudioConfiguration.OPUS_QUALITY_MAX)
             );
 
             if (LavalinkManager.LavalinkManagerHolder.lavalink.isEnabled()) {
@@ -149,7 +149,7 @@ public class AudioHandler {
 
         if (string.startsWith("local:")) {
             string = string.substring(6, string.length()).trim();
-            if (requester != null && avaire.getBotAdmins().getUserById(requester.getIdLong()).isAdmin()) {
+            if (requester != null && av.getBotAdmins().getUserById(requester.getIdLong()).isAdmin()) {
                 return new TrackRequestContext(string.substring(6, string.length()).trim(), SearchProvider.LOCAL);
             }
         }
@@ -261,7 +261,7 @@ public class AudioHandler {
         GuildMusicManager musicManager = musicManagers.get(guild.getIdLong());
 
         if (musicManager == null && getPlayerManager() != null) {
-            musicManager = new GuildMusicManager(avaire, guild);
+            musicManager = new GuildMusicManager(av, guild);
 
             musicManagers.put(guild.getIdLong(), musicManager);
         }
@@ -344,8 +344,8 @@ public class AudioHandler {
     }
 
     @CheckReturnValue
-    public boolean canRunDJAction(AvaIre avaire, Message message, DJGuildLevel level) {
-        GuildTransformer transformer = GuildController.fetchGuild(avaire, message);
+    public boolean canRunDJAction(av av, Message message, DJGuildLevel level) {
+        GuildTransformer transformer = GuildController.fetchGuild(av, message);
 
         if (transformer == null) {
             return level.getLevel() <= DJGuildLevel.getNormal().getLevel();

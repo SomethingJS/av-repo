@@ -1,32 +1,32 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.controllers;
+package com.avbot.database.controllers;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.transformers.ReactionTransformer;
-import com.avairebot.utilities.CacheUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.transformers.ReactionTransformer;
+import com.avbot.utilities.CacheUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -55,16 +55,16 @@ public class ReactionController {
      * will be returned instead, if the message was not sent in a server then
      * {@code NULL} will be returned.
      *
-     * @param avaire  The avaire instance, used to talking to the database.
+     * @param av  The av instance, used to talking to the database.
      * @param message The JDA message instance for the current message.
      * @return Possibly null, the reaction collections for the current guild, or null.
      */
     @CheckReturnValue
-    public static Collection fetchReactions(AvaIre avaire, Message message) {
+    public static Collection fetchReactions(av av, Message message) {
         if (!message.getChannelType().isGuild()) {
             return null;
         }
-        return fetchReactions(avaire, message.getGuild());
+        return fetchReactions(av, message.getGuild());
     }
 
     /**
@@ -72,12 +72,12 @@ public class ReactionController {
      * if the server doesn't have any reaction roles an empty collection
      * will be returned instead,
      *
-     * @param avaire The avaire instance, used to talking to the database.
+     * @param av The av instance, used to talking to the database.
      * @param guild  The JDA guild instance for the current guild.
      * @return Possibly null, the reaction collections for the current guild, or null.
      */
     @CheckReturnValue
-    public static Collection fetchReactions(@Nonnull AvaIre avaire, @Nullable Guild guild) {
+    public static Collection fetchReactions(@Nonnull av av, @Nullable Guild guild) {
         if (guild == null) {
             return null;
         }
@@ -86,7 +86,7 @@ public class ReactionController {
             log.debug("Guild Reaction cache for " + guild.getId() + " was refreshed");
 
             try {
-                return avaire.getDatabase()
+                return av.getDatabase()
                     .newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
                     .selectAll()
                     .where("guild_id", guild.getId())
@@ -105,13 +105,13 @@ public class ReactionController {
      * if the message doesn't have any reaction roles attached to it
      * then {@code NULL} will be returned instead.
      *
-     * @param avaire  The avaire instance, used to talking to the database.
+     * @param av  The av instance, used to talking to the database.
      * @param message The JDA message instance for the current message.
      * @return Possibly null, the reaction message transformer containing the reaction roles for the given message.
      */
     @CheckReturnValue
-    public static ReactionTransformer fetchReactionFromMessage(AvaIre avaire, Message message) {
-        Collection reactions = fetchReactions(avaire, message);
+    public static ReactionTransformer fetchReactionFromMessage(av av, Message message) {
+        Collection reactions = fetchReactions(av, message);
         if (reactions == null) {
             return null;
         }

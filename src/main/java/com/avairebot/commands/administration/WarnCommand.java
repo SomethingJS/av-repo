@@ -1,37 +1,37 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.modlog.Modlog;
-import com.avairebot.modlog.ModlogAction;
-import com.avairebot.modlog.ModlogType;
-import com.avairebot.utilities.MentionableUtil;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.modlog.Modlog;
+import com.avbot.modlog.ModlogAction;
+import com.avbot.modlog.ModlogType;
+import com.avbot.utilities.MentionableUtil;
+import com.avbot.utilities.RestActionUtil;
 import net.dv8tion.jda.core.entities.User;
 
 import javax.annotation.Nonnull;
@@ -42,8 +42,8 @@ import java.util.List;
 
 public class WarnCommand extends Command {
 
-    public WarnCommand(AvaIre avaire) {
-        super(avaire, false);
+    public WarnCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class WarnCommand extends Command {
             reason
         );
 
-        String caseId = Modlog.log(avaire, context.getGuild(), transformer, modlogAction);
+        String caseId = Modlog.log(av, context.getGuild(), transformer, modlogAction);
 
         if (caseId == null) {
             return sendErrorMessage(context, context.i18n("failedToLogWarning"));

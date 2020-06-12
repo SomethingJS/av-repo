@@ -1,31 +1,31 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.scheduler.jobs;
+package com.avbot.scheduler.jobs;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.contracts.scheduler.Job;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.contracts.scheduler.Job;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
 import net.dv8tion.jda.core.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,13 +46,13 @@ public class CleanupPlayerRecordsJob extends Job {
 
     private static final Logger log = LoggerFactory.getLogger(CleanupPlayerRecordsJob.class);
 
-    public CleanupPlayerRecordsJob(AvaIre avaire) {
-        super(avaire, 0, 1, TimeUnit.HOURS);
+    public CleanupPlayerRecordsJob(av av) {
+        super(av, 0, 1, TimeUnit.HOURS);
     }
 
     @Override
     public void run() {
-        if (!avaire.areWeReadyYet()) {
+        if (!av.areWeReadyYet()) {
             return;
         }
 
@@ -69,7 +69,7 @@ public class CleanupPlayerRecordsJob extends Job {
 
             log.debug("Starting \"Player Cleanup\" job with query: " + query);
 
-            avaire.getDatabase().queryBatch(query, statement -> {
+            av.getDatabase().queryBatch(query, statement -> {
                 for (InactiveUser entity : inactiveUsers) {
                     statement.setString(1, entity.userId);
                     statement.setString(2, entity.guildId);
@@ -91,7 +91,7 @@ public class CleanupPlayerRecordsJob extends Job {
             for (DataRow dataRow : getUsersFromDatabase()) {
                 if (guild == null || !guild.getId().equalsIgnoreCase(dataRow.getString("guild_id"))) {
                     try {
-                        guild = avaire.getShardManager().getGuildById(dataRow.getString("guild_id"));
+                        guild = av.getShardManager().getGuildById(dataRow.getString("guild_id"));
                     } catch (Exception ignored) {
                         inactiveUsers.add(createInactiveUser(dataRow));
                         continue;
@@ -122,7 +122,7 @@ public class CleanupPlayerRecordsJob extends Job {
     }
 
     private Collection getUsersFromDatabase() throws SQLException {
-        return avaire.getDatabase()
+        return av.getDatabase()
             .newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
             .select("user_id", "guild_id")
             .where("active", 1)

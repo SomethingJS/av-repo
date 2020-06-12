@@ -1,29 +1,29 @@
 version: "3.7"
 services:
-    avaire:
-        image: avaire
+    av:
+        image: av
         build:
             context: .
         depends_on:
-            - avairedb
+            - avdb
         restart: on-failure
         environment:
-            - AVA_DATABASE_DATABASE=avaire
-            - AVA_DATABASE_HOSTNAME=avairedb
-            - AVA_DATABASE_USERNAME=avaire
-            - AVA_DATABASE_PASSWORD=avaire
+            - AVA_DATABASE_DATABASE=av
+            - AVA_DATABASE_HOSTNAME=avdb
+            - AVA_DATABASE_USERNAME=av
+            - AVA_DATABASE_PASSWORD=av
         volumes:
-            - C:\avaire:/opt/avaire
-    avairedb:
-        container_name: avairedb
+            - C:\av:/opt/av
+    avdb:
+        container_name: avdb
         image: mariadb
         restart: on-failure
         expose:
             - "3306"
         environment:
-            - MYSQL_DATABASE=avaire
-            - MYSQL_USER=avaire
-            - MYSQL_PASSWORD=avaire
+            - MYSQL_DATABASE=av
+            - MYSQL_USER=av
+            - MYSQL_PASSWORD=av
             - MYSQL_RANDOM_ROOT_PASSWORD=yes
 volumes:
-    avaire:
+    av:

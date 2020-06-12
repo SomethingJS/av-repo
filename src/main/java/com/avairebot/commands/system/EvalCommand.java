@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.utilities.NumberUtil;
 import net.dv8tion.jda.core.entities.ChannelType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +46,8 @@ public class EvalCommand extends SystemCommand {
     private Future lastTask;
     private ScriptEngine engine;
 
-    public EvalCommand(AvaIre avaire) {
-        super(avaire);
+    public EvalCommand(av av) {
+        super(av);
 
         engine = new ScriptEngineManager()
             .getEngineByName("nashorn");
@@ -63,16 +63,16 @@ public class EvalCommand extends SystemCommand {
                 "Packages.net.dv8tion.jda.core.managers," +
                 "Packages.net.dv8tion.jda.core.managers.impl," +
                 "Packages.net.dv8tion.jda.core.utils," +
-                "Packages.com.avairebot.database.controllers," +
-                "Packages.com.avairebot.permissions," +
-                "Packages.com.avairebot.utilities," +
-                "Packages.com.avairebot.factories," +
-                "Packages.com.avairebot.language," +
-                "Packages.com.avairebot.metrics," +
-                "Packages.com.avairebot.logger," +
-                "Packages.com.avairebot.cache," +
-                "Packages.com.avairebot.audio," +
-                "Packages.com.avairebot.time);");
+                "Packages.com.avbot.database.controllers," +
+                "Packages.com.avbot.permissions," +
+                "Packages.com.avbot.utilities," +
+                "Packages.com.avbot.factories," +
+                "Packages.com.avbot.language," +
+                "Packages.com.avbot.metrics," +
+                "Packages.com.avbot.logger," +
+                "Packages.com.avbot.cache," +
+                "Packages.com.avbot.audio," +
+                "Packages.com.avbot.time);");
         } catch (ScriptException e) {
             log.error("Failed to init eval command", e);
         }
@@ -136,7 +136,7 @@ public class EvalCommand extends SystemCommand {
         engine.put("message", context.getMessage());
         engine.put("channel", context.getChannel());
         engine.put("jda", context.getJDA());
-        engine.put("avaire", avaire);
+        engine.put("av", av);
 
         if (context.getMessage().isFromType(ChannelType.TEXT)) {
             engine.put("guild", context.getGuild());
@@ -153,7 +153,7 @@ public class EvalCommand extends SystemCommand {
                         + "with (imports) {\n" + source + "\n}"
                         + "})();");
 
-                AvaIre.getLogger().debug("Eval output: {}", out == null ? "NULL" : out.toString());
+                av.getLogger().debug("Eval output: {}", out == null ? "NULL" : out.toString());
                 String output = out == null ? ":thumbsup::skin-tone-3:" : "```\n" + out.toString() + "\n```";
 
                 context.getMessageChannel().sendMessage(String.format("**Input** ```java\n%s```\n**Output**\n%s\nEval took _%sms_",

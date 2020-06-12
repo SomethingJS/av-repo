@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.controllers;
+package com.avbot.database.controllers;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.utilities.CacheUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.utilities.CacheUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -63,29 +63,29 @@ public class GuildController {
      * Fetches the guild transformer from the cache, if it doesn't exist in the
      * cache it will be loaded into the cache and then returned afterwords.
      *
-     * @param avaire  The avaire instance, used to talking to the database.
+     * @param av  The av instance, used to talking to the database.
      * @param message The JDA message instance for the current message.
      * @return Possibly null, the guild transformer instance for the current guild, or null.
      */
     @CheckReturnValue
-    public static GuildTransformer fetchGuild(AvaIre avaire, Message message) {
+    public static GuildTransformer fetchGuild(av av, Message message) {
         if (!message.getChannelType().isGuild()) {
             return null;
         }
-        return fetchGuild(avaire, message.getGuild());
+        return fetchGuild(av, message.getGuild());
     }
 
     /**
      * Fetches the guild transformer from the cache, if it doesn't exist in the
      * cache it will be loaded into the cache and then returned afterwords.
      *
-     * @param avaire The avaire instance, used to talking to the database.
+     * @param av The av instance, used to talking to the database.
      * @param guild  The JDA guild instance for the current guild.
      * @return Possibly null, the guild transformer instance for the current guild, or null.
      */
     @CheckReturnValue
-    public static GuildTransformer fetchGuild(AvaIre avaire, Guild guild) {
-        return (GuildTransformer) CacheUtil.getUncheckedUnwrapped(cache, guild.getIdLong(), () -> loadGuildFromDatabase(avaire, guild));
+    public static GuildTransformer fetchGuild(av av, Guild guild) {
+        return (GuildTransformer) CacheUtil.getUncheckedUnwrapped(cache, guild.getIdLong(), () -> loadGuildFromDatabase(av, guild));
     }
 
     public static String buildChannelData(List<TextChannel> textChannels) {
@@ -99,7 +99,7 @@ public class GuildController {
 
             channels.add(item);
         }
-        return AvaIre.gson.toJson(channels);
+        return av.gson.toJson(channels);
     }
 
     public static String buildRoleData(List<Role> roles) {
@@ -122,18 +122,18 @@ public class GuildController {
 
             rolesMap.add(item);
         }
-        return AvaIre.gson.toJson(rolesMap);
+        return av.gson.toJson(rolesMap);
     }
 
     public static void forgetCache(long guildId) {
         cache.invalidate(guildId);
     }
 
-    private static GuildTransformer loadGuildFromDatabase(AvaIre avaire, Guild guild) {
+    private static GuildTransformer loadGuildFromDatabase(av av, Guild guild) {
         log.debug("Guild cache for " + guild.getId() + " was refreshed");
 
         try {
-            GuildTransformer transformer = new GuildTransformer(guild, avaire.getDatabase()
+            GuildTransformer transformer = new GuildTransformer(guild, av.getDatabase()
                 .newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .select(requiredGuildColumns)
                 .leftJoin("guild_types", "guilds.type", "guild_types.id")
@@ -142,7 +142,7 @@ public class GuildController {
 
             if (!transformer.hasData()) {
                 try {
-                    avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+                    av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                         .insert(statement -> {
                             statement.set("id", guild.getId())
                                 .set("owner", guild.getOwner().getUser().getId())
@@ -155,7 +155,7 @@ public class GuildController {
                             }
                         });
                 } catch (Exception ex) {
-                    AvaIre.getLogger().error(ex.getMessage(), ex);
+                    av.getLogger().error(ex.getMessage(), ex);
                 }
                 return new GuildTransformer(guild);
             }

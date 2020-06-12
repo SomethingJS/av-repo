@@ -1,25 +1,25 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot;
+package com.avbot;
 
 import java.io.File;
 
@@ -48,11 +48,11 @@ public class Constants {
     public static final String INSTALLED_PLUGINS_TABLE_NAME = "installed_plugins";
 
     // Package Specific Information
-    public static final String PACKAGE_MIGRATION_PATH = "com.avairebot.database.migrate";
-    public static final String PACKAGE_SEEDER_PATH = "com.avairebot.database.seeder";
-    public static final String PACKAGE_COMMAND_PATH = "com.avairebot.commands";
-    public static final String PACKAGE_INTENTS_PATH = "com.avairebot.ai.dialogflow.intents";
-    public static final String PACKAGE_JOB_PATH = "com.avairebot.scheduler";
+    public static final String PACKAGE_MIGRATION_PATH = "com.avbot.database.migrate";
+    public static final String PACKAGE_SEEDER_PATH = "com.avbot.database.seeder";
+    public static final String PACKAGE_COMMAND_PATH = "com.avbot.commands";
+    public static final String PACKAGE_INTENTS_PATH = "com.avbot.ai.dialogflow.intents";
+    public static final String PACKAGE_JOB_PATH = "com.avbot.scheduler";
 
     // Emojis
     public static final String EMOTE_ONLINE = "<:online:324986081378435072>";
@@ -66,5 +66,5 @@ public class Constants {
     public static final String AUDIO_HAS_SENT_NOW_PLAYING_METADATA = "has-sent-now-playing";
 
     // Command source link
-    public static final String SOURCE_URI = "https://github.com/avaire/avaire/tree/master/src/main/java/com/avairebot/commands/%s/%s.java";
+    public static final String SOURCE_URI = "https://github.com/av/av/tree/master/src/main/java/com/avbot/commands/%s/%s.java";
 }

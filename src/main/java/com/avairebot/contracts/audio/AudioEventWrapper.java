@@ -1,32 +1,32 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.audio;
+package com.avbot.contracts.audio;
 
-import com.avairebot.audio.AudioTrackContainer;
-import com.avairebot.audio.GuildMusicManager;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.debug.EvalAudioEventWrapper;
-import com.avairebot.handlers.events.NowPlayingEvent;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.audio.AudioTrackContainer;
+import com.avbot.audio.GuildMusicManager;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.debug.EvalAudioEventWrapper;
+import com.avbot.handlers.events.NowPlayingEvent;
+import com.avbot.utilities.RestActionUtil;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -127,7 +127,7 @@ public abstract class AudioEventWrapper extends EvalAudioEventWrapper {
             manager.getGuild().getJDA(), manager.getGuild(), container
         );
 
-        manager.getAvaire().getEventEmitter().push(nowPlayingEvent);
+        manager.getav().getEventEmitter().push(nowPlayingEvent);
 
         final boolean repeatSingle = manager.getRepeatState().equals(GuildMusicManager.RepeatState.SINGLE);
         if (repeatSingle && container.hasMetadataKey("has-sent-now-playing")) {

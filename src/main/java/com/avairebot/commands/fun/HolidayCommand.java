@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.fun;
+package com.avbot.commands.fun;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.factories.RequestFactory;
-import com.avairebot.requests.Request;
-import com.avairebot.requests.Response;
-import com.avairebot.requests.service.HolidayService;
-import com.avairebot.utilities.ColorUtil;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.contracts.commands.Command;
+import com.avbot.factories.RequestFactory;
+import com.avbot.requests.Request;
+import com.avbot.requests.Response;
+import com.avbot.requests.service.HolidayService;
+import com.avbot.utilities.ColorUtil;
+import com.avbot.utilities.RestActionUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
@@ -46,8 +46,8 @@ public class HolidayCommand extends Command {
         .expireAfterWrite(1, TimeUnit.DAYS)
         .build();
 
-    public HolidayCommand(AvaIre avaire) {
-        super(avaire);
+    public HolidayCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class HolidayCommand extends Command {
     }
 
     private String getValidAPIToken() {
-        String holidayApiClientToken = avaire.getConfig().getString("apiKeys.holidayapi", "invalid");
+        String holidayApiClientToken = av.getConfig().getString("apiKeys.holidayapi", "invalid");
         if (holidayApiClientToken.equals("invalid") || holidayApiClientToken.length() != 36) {
             return null;
         }

@@ -1,31 +1,31 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.transformers;
+package com.avbot.database.transformers;
 
-import com.avairebot.AvaIre;
-import com.avairebot.audio.DJGuildLevel;
-import com.avairebot.contracts.database.transformers.Transformer;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.audio.DJGuildLevel;
+import com.avbot.contracts.database.transformers.Transformer;
+import com.avbot.database.collection.DataRow;
+import com.avbot.utilities.NumberUtil;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 import net.dv8tion.jda.core.entities.Guild;
@@ -119,7 +119,7 @@ public class GuildTransformer extends Transformer {
             }
 
             if (data.getString("aliases", null) != null) {
-                HashMap<String, String> dbAliases = AvaIre.gson.fromJson(
+                HashMap<String, String> dbAliases = av.gson.fromJson(
                     data.getString("aliases"),
                     new TypeToken<HashMap<String, String>>() {
                     }.getType());
@@ -130,7 +130,7 @@ public class GuildTransformer extends Transformer {
             }
 
             if (data.getString("prefixes", null) != null) {
-                HashMap<String, String> dbPrefixes = AvaIre.gson.fromJson(
+                HashMap<String, String> dbPrefixes = av.gson.fromJson(
                     data.getString("prefixes"),
                     new TypeToken<HashMap<String, String>>() {
                     }.getType());
@@ -141,7 +141,7 @@ public class GuildTransformer extends Transformer {
             }
 
             if (data.getString("claimable_roles", null) != null) {
-                HashMap<String, String> dbSelfAssignableRoles = AvaIre.gson.fromJson(
+                HashMap<String, String> dbSelfAssignableRoles = av.gson.fromJson(
                     data.getString("claimable_roles"),
                     new TypeToken<HashMap<String, String>>() {
                     }.getType());
@@ -152,7 +152,7 @@ public class GuildTransformer extends Transformer {
             }
 
             if (data.getString("level_roles", null) != null) {
-                HashMap<String, String> dbLevelRoles = AvaIre.gson.fromJson(
+                HashMap<String, String> dbLevelRoles = av.gson.fromJson(
                     data.getString("level_roles"),
                     new TypeToken<HashMap<String, String>>() {
                     }.getType());
@@ -163,7 +163,7 @@ public class GuildTransformer extends Transformer {
             }
 
             if (data.getString("level_exempt_channels", null) != null) {
-                List<String> dbExemptExperienceChannels = AvaIre.gson.fromJson(
+                List<String> dbExemptExperienceChannels = av.gson.fromJson(
                     data.getString("level_exempt_channels"),
                     new TypeToken<List<String>>() {
                     }.getType());
@@ -180,7 +180,7 @@ public class GuildTransformer extends Transformer {
             }
 
             if (data.getString("level_exempt_roles", null) != null) {
-                List<String> dbExemptExperienceChannels = AvaIre.gson.fromJson(
+                List<String> dbExemptExperienceChannels = av.gson.fromJson(
                     data.getString("level_exempt_roles"),
                     new TypeToken<List<String>>() {
                     }.getType());
@@ -197,7 +197,7 @@ public class GuildTransformer extends Transformer {
             }
 
             if (data.getString("modules", null) != null) {
-                HashMap<String, Map<String, String>> dbModules = AvaIre.gson.fromJson(
+                HashMap<String, Map<String, String>> dbModules = av.gson.fromJson(
                     data.getString("modules"),
                     new TypeToken<HashMap<String, Map<String, String>>>() {
                     }.getType());
@@ -208,7 +208,7 @@ public class GuildTransformer extends Transformer {
             }
 
             if (data.getString("channels", null) != null) {
-                HashMap<String, Object> dbChannels = AvaIre.gson.fromJson(
+                HashMap<String, Object> dbChannels = av.gson.fromJson(
                     data.getString("channels"),
                     new TypeToken<HashMap<String, Object>>() {
                     }.getType());
@@ -463,6 +463,6 @@ public class GuildTransformer extends Transformer {
             objects.put(transformer.getId(), transformer.toMap());
         }
 
-        return AvaIre.gson.toJson(objects);
+        return av.gson.toJson(objects);
     }
 }

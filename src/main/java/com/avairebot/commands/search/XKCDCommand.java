@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.search;
+package com.avbot.commands.search;
 
-import com.avairebot.AvaIre;
-import com.avairebot.cache.CacheType;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.factories.RequestFactory;
-import com.avairebot.requests.Response;
-import com.avairebot.time.Carbon;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RandomUtil;
+import com.avbot.av;
+import com.avbot.cache.CacheType;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.factories.RequestFactory;
+import com.avbot.requests.Response;
+import com.avbot.time.Carbon;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RandomUtil;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -43,8 +43,8 @@ import java.util.function.Consumer;
 
 public class XKCDCommand extends Command {
 
-    public XKCDCommand(AvaIre avaire) {
-        super(avaire);
+    public XKCDCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class XKCDCommand extends Command {
     }
 
     private int getLatestComicNumber() {
-        return ((Double) avaire.getCache().getAdapter(CacheType.FILE).remember("xkcd.latest", 720, () -> {
+        return ((Double) av.getCache().getAdapter(CacheType.FILE).remember("xkcd.latest", 720, () -> {
             try {
                 Connection.Response response = Jsoup.connect("https://xkcd.com/info.0.json")
                     .ignoreContentType(true).execute();

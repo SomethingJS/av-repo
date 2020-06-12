@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.handlers.adapter;
+package com.avbot.handlers.adapter;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.contracts.handlers.EventAdapter;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.controllers.ReactionController;
-import com.avairebot.database.query.QueryBuilder;
-import com.avairebot.database.transformers.ReactionTransformer;
-import com.avairebot.scheduler.tasks.DrainReactionRoleQueueTask;
-import com.avairebot.utilities.RoleUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.contracts.handlers.EventAdapter;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.controllers.ReactionController;
+import com.avbot.database.query.QueryBuilder;
+import com.avbot.database.transformers.ReactionTransformer;
+import com.avbot.scheduler.tasks.DrainReactionRoleQueueTask;
+import com.avbot.utilities.RoleUtil;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
@@ -45,12 +45,12 @@ import java.util.List;
 
 public class ReactionEmoteEventAdapter extends EventAdapter {
 
-    public ReactionEmoteEventAdapter(AvaIre avaire) {
-        super(avaire);
+    public ReactionEmoteEventAdapter(av av) {
+        super(av);
     }
 
     public void onEmoteRemoved(EmoteRemovedEvent event) {
-        Collection collection = ReactionController.fetchReactions(avaire, event.getGuild());
+        Collection collection = ReactionController.fetchReactions(av, event.getGuild());
         if (collection == null || collection.isEmpty()) {
             return;
         }
@@ -61,7 +61,7 @@ public class ReactionEmoteEventAdapter extends EventAdapter {
 
             if (transformer.removeReaction(event.getEmote())) {
                 try {
-                    QueryBuilder query = avaire.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
+                    QueryBuilder query = av.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
                         .useAsync(true)
                         .where("guild_id", transformer.getGuildId())
                         .where("message_id", transformer.getMessageId());
@@ -70,7 +70,7 @@ public class ReactionEmoteEventAdapter extends EventAdapter {
                         query.delete();
                     } else {
                         query.update(statement -> {
-                            statement.set("roles", AvaIre.gson.toJson(transformer.getRoles()));
+                            statement.set("roles", av.gson.toJson(transformer.getRoles()));
                         });
                     }
 
@@ -147,7 +147,7 @@ public class ReactionEmoteEventAdapter extends EventAdapter {
             return null;
         }
 
-        Collection collection = ReactionController.fetchReactions(avaire, guild);
+        Collection collection = ReactionController.fetchReactions(av, guild);
         if (collection == null || collection.isEmpty()) {
             return null;
         }

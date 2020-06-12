@@ -1,29 +1,29 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.scheduler.tasks;
+package com.avbot.scheduler.tasks;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.scheduler.Task;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.contracts.scheduler.Task;
+import com.avbot.utilities.NumberUtil;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Game;
 
@@ -36,31 +36,31 @@ public class ChangeGameTask implements Task {
     private int index = 0;
 
     @Override
-    public void handle(AvaIre avaire) {
-        if (hasCustomStatus || !avaire.areWeReadyYet()) {
+    public void handle(av av) {
+        if (hasCustomStatus || !av.areWeReadyYet()) {
             return;
         }
 
-        if (index >= avaire.getConfig().getStringList("playing").size()) {
+        if (index >= av.getConfig().getStringList("playing").size()) {
             index = 0;
         }
 
-        String playing = avaire.getConfig().getStringList("playing").get(index);
+        String playing = av.getConfig().getStringList("playing").get(index);
 
         if (playing.trim().length() != 0) {
-            for (JDA shard : avaire.getShardManager().getShards()) {
-                shard.getPresence().setGame(getGameFromType(avaire, playing, shard));
+            for (JDA shard : av.getShardManager().getShards()) {
+                shard.getPresence().setGame(getGameFromType(av, playing, shard));
             }
         } else {
-            avaire.getShardManager().setGame(null);
+            av.getShardManager().setGame(null);
         }
 
         index++;
     }
 
-    private Game getGameFromType(AvaIre avaire, String status, JDA shard) {
+    private Game getGameFromType(av av, String status, JDA shard) {
         if (!status.contains(":")) {
-            return Game.playing(formatGame(avaire, status, shard));
+            return Game.playing(formatGame(av, status, shard));
         }
 
         String[] split = status.split(":");
@@ -68,24 +68,24 @@ public class ChangeGameTask implements Task {
         switch (split[0].toLowerCase()) {
             case "listen":
             case "listening":
-                return Game.listening(formatGame(avaire, status, shard));
+                return Game.listening(formatGame(av, status, shard));
 
             case "watch":
             case "watching":
-                return Game.watching(formatGame(avaire, status, shard));
+                return Game.watching(formatGame(av, status, shard));
 
             case "stream":
             case "streaming":
-                return Game.streaming(formatGame(avaire, status, shard), "https://www.twitch.tv/senither");
+                return Game.streaming(formatGame(av, status, shard), "https://www.twitch.tv/senither");
 
             default:
-                return Game.playing(formatGame(avaire, status, shard));
+                return Game.playing(formatGame(av, status, shard));
         }
     }
 
-    private String formatGame(AvaIre avaire, String game, JDA shard) {
-        game = game.replaceAll("%users%", NumberUtil.formatNicely(avaire.getShardEntityCounter().getUsers()));
-        game = game.replaceAll("%guilds%", NumberUtil.formatNicely(avaire.getShardEntityCounter().getGuilds()));
+    private String formatGame(av av, String game, JDA shard) {
+        game = game.replaceAll("%users%", NumberUtil.formatNicely(av.getShardEntityCounter().getUsers()));
+        game = game.replaceAll("%guilds%", NumberUtil.formatNicely(av.getShardEntityCounter().getGuilds()));
 
         game = game.replaceAll("%shard%", shard.getShardInfo().getShardString());
         game = game.replaceAll("%shard-id%", "" + shard.getShardInfo().getShardId());

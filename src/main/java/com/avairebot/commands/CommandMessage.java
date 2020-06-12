@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands;
+package com.avbot.commands;
 
-import com.avairebot.chat.MessageType;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.config.YamlConfiguration;
-import com.avairebot.contracts.commands.CommandContext;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.PlayerTransformer;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.handlers.DatabaseEventHolder;
-import com.avairebot.language.I18n;
+import com.avbot.chat.MessageType;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.config.YamlConfiguration;
+import com.avbot.contracts.commands.CommandContext;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.PlayerTransformer;
+import com.avbot.factories.MessageFactory;
+import com.avbot.handlers.DatabaseEventHolder;
+import com.avbot.language.I18n;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;

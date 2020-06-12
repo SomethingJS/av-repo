@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system.plugin;
+package com.avbot.commands.system.plugin;
 
-import com.avairebot.AvaIre;
-import com.avairebot.cache.CacheType;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.system.PluginCommand;
-import com.avairebot.contracts.commands.plugin.PluginSubCommand;
-import com.avairebot.contracts.plugin.Plugin;
-import com.avairebot.plugin.PluginLoader;
+import com.avbot.av;
+import com.avbot.cache.CacheType;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.system.PluginCommand;
+import com.avbot.contracts.commands.plugin.PluginSubCommand;
+import com.avbot.contracts.plugin.Plugin;
+import com.avbot.plugin.PluginLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,11 +42,11 @@ public class UninstallPlugin extends PluginSubCommand {
     /**
      * Creates a new plugin sub command instance.
      *
-     * @param avaire  The main avaire application instance.
+     * @param av  The main av application instance.
      * @param command The parent plugin command instance.
      */
-    public UninstallPlugin(AvaIre avaire, PluginCommand command) {
-        super(avaire, command);
+    public UninstallPlugin(av av, PluginCommand command) {
+        super(av, command);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class UninstallPlugin extends PluginSubCommand {
             return command.sendErrorMessage(context, "You must include the name of the plugin you'd like to uninstall!");
         }
 
-        Plugin plugin = avaire.getPluginManager().getPluginByName(args[0]);
+        Plugin plugin = av.getPluginManager().getPluginByName(args[0]);
         if (plugin == null) {
             return command.sendErrorMessage(context, "Couldn't find any plugin called `{0}`, are you sure it exists?", args[0]);
         }
@@ -69,17 +69,17 @@ public class UninstallPlugin extends PluginSubCommand {
         if (!loader.getClassLoader().getFile().delete()) {
             List<String> pluginsToDelete = new ArrayList<>();
 
-            Object deletePlugins = avaire.getCache().getAdapter(CacheType.FILE).get("deleted-plugins");
+            Object deletePlugins = av.getCache().getAdapter(CacheType.FILE).get("deleted-plugins");
             if (deletePlugins instanceof List) {
                 pluginsToDelete.addAll((List<String>) deletePlugins);
             }
 
             pluginsToDelete.add(loader.getClassLoader().getFile().toString());
-            avaire.getCache().getAdapter(CacheType.FILE)
+            av.getCache().getAdapter(CacheType.FILE)
                 .put("deleted-plugins", pluginsToDelete, 10800);
         }
 
-        avaire.getPluginManager().unloadPlugin(plugin);
+        av.getPluginManager().unloadPlugin(plugin);
 
         try {
             deletePluginIndex(plugin);
@@ -102,7 +102,7 @@ public class UninstallPlugin extends PluginSubCommand {
      *         or {@code NULL} if there were no match.
      */
     private PluginLoader getPluginLoaderFromPlugin(Plugin plugin) {
-        for (PluginLoader pluginLoader : avaire.getPluginManager().getPlugins()) {
+        for (PluginLoader pluginLoader : av.getPluginManager().getPlugins()) {
             if (pluginLoader.getName().equalsIgnoreCase(plugin.getName())) {
                 return pluginLoader;
             }

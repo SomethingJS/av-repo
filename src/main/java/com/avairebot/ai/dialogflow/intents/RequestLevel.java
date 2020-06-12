@@ -1,41 +1,41 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.ai.dialogflow.intents;
+package com.avbot.ai.dialogflow.intents;
 
 import ai.api.model.AIResponse;
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandContainer;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.utility.RankCommand;
-import com.avairebot.contracts.ai.Intent;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.factories.MessageFactory;
+import com.avbot.av;
+import com.avbot.commands.CommandContainer;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.utility.RankCommand;
+import com.avbot.contracts.ai.Intent;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.factories.MessageFactory;
 
 @SuppressWarnings("unused")
 public class RequestLevel extends Intent {
 
-    public RequestLevel(AvaIre avaire) {
-        super(avaire);
+    public RequestLevel(av av) {
+        super(av);
     }
 
     @Override

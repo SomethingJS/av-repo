@@ -1,29 +1,29 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.database.seeder;
+package com.avbot.contracts.database.seeder;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.reflection.Reflectionable;
-import com.avairebot.database.query.QueryBuilder;
+import com.avbot.av;
+import com.avbot.contracts.reflection.Reflectionable;
+import com.avbot.database.query.QueryBuilder;
 
 import java.sql.SQLException;
 
@@ -32,10 +32,10 @@ public abstract class Seeder extends Reflectionable {
     /**
      * Creates a new seeder class instance.
      *
-     * @param avaire The main {@link AvaIre avaire} application instance.
+     * @param av The main {@link av av} application instance.
      */
-    public Seeder(AvaIre avaire) {
-        super(avaire);
+    public Seeder(av av) {
+        super(av);
     }
 
     /**
@@ -48,7 +48,7 @@ public abstract class Seeder extends Reflectionable {
 
     /**
      * Attempts to seeder the database, this is automatically executed from the
-     * {@link com.avairebot.database.seeder.SeederManager#run()} method.
+     * {@link com.avbot.database.seeder.SeederManager#run()} method.
      *
      * @return the result of the schematic instance call
      * @throws SQLException if a database access error occurs,
@@ -66,7 +66,7 @@ public abstract class Seeder extends Reflectionable {
      * @return A new query builder instance set to the table defined for the seeder.
      */
     protected QueryBuilder createQuery() {
-        return avaire.getDatabase().newQueryBuilder(table());
+        return av.getDatabase().newQueryBuilder(table());
     }
 
     /**

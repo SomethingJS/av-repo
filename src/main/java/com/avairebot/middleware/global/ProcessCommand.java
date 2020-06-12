@@ -1,38 +1,38 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.middleware.global;
+package com.avbot.middleware.global;
 
-import com.avairebot.AvaIre;
-import com.avairebot.chat.ConsoleColor;
-import com.avairebot.commands.AliasCommandContainer;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.middleware.Middleware;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.middleware.MiddlewareStack;
-import com.avairebot.shared.SentryConstants;
-import com.avairebot.utilities.ArrayUtil;
-import com.avairebot.utilities.CheckPermissionUtil;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.chat.ConsoleColor;
+import com.avbot.commands.AliasCommandContainer;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.middleware.Middleware;
+import com.avbot.factories.MessageFactory;
+import com.avbot.metrics.Metrics;
+import com.avbot.middleware.MiddlewareStack;
+import com.avbot.shared.SentryConstants;
+import com.avbot.utilities.ArrayUtil;
+import com.avbot.utilities.CheckPermissionUtil;
+import com.avbot.utilities.RestActionUtil;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import io.prometheus.client.Histogram;
 import net.dv8tion.jda.core.entities.Message;
@@ -61,8 +61,8 @@ public class ProcessCommand extends Middleware {
         "%reset%s %cyan[%reset%s%cyan]"
     );
 
-    public ProcessCommand(AvaIre avaire) {
-        super(avaire);
+    public ProcessCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ProcessCommand extends Middleware {
             }
 
             return runMessageCheck(message, () -> {
-                message.getTextChannel().sendMessage("I don't have the `Embed Links` permission, the permission is required for all of my commands to work.\nhttps://avairebot.com/missing-embed-permissions.png\nThis error can sometimes occur when the `everyone` role has it disabled and no other roles enables it.\nThis message will be automatically deleted in 30 seconds.")
+                message.getTextChannel().sendMessage("I don't have the `Embed Links` permission, the permission is required for all of my commands to work.\nhttps://avbot.com/missing-embed-permissions.png\nThis error can sometimes occur when the `everyone` role has it disabled and no other roles enables it.\nThis message will be automatically deleted in 30 seconds.")
                     .queue(newMessage -> newMessage.delete().queueAfter(30, TimeUnit.SECONDS, null, RestActionUtil.ignore));
 
                 return false;
@@ -83,7 +83,7 @@ public class ProcessCommand extends Middleware {
 
         String[] arguments = ArrayUtil.toArguments(message.getContentRaw());
 
-        AvaIre.getLogger().info(commandOutput
+        av.getLogger().info(commandOutput
             .replace("%command%", stack.getCommand().getName())
             .replace("%category%", stack.getCommandContainer().getCategory().getName())
             .replace("%author%", generateUsername(message))

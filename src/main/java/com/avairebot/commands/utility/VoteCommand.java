@@ -1,37 +1,37 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.utility;
+package com.avbot.commands.utility;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.music.PlayCommand;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.language.I18n;
-import com.avairebot.time.Carbon;
-import com.avairebot.vote.VoteCacheEntity;
-import com.avairebot.vote.VoteEntity;
+import com.avbot.av;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.music.PlayCommand;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.language.I18n;
+import com.avbot.time.Carbon;
+import com.avbot.vote.VoteCacheEntity;
+import com.avbot.vote.VoteEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -40,8 +40,8 @@ import java.util.List;
 
 public class VoteCommand extends Command {
 
-    public VoteCommand(AvaIre avaire) {
-        super(avaire);
+    public VoteCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class VoteCommand extends Command {
 
     @Override
     public boolean onCommand(CommandMessage context, String[] args) {
-        VoteCacheEntity voteEntity = avaire.getVoteManager().getVoteEntity(context.getAuthor());
+        VoteCacheEntity voteEntity = av.getVoteManager().getVoteEntity(context.getAuthor());
 
         if (args.length > 0 && args[0].equalsIgnoreCase("check")) {
             return checkUser(context, voteEntity);
@@ -98,7 +98,7 @@ public class VoteCommand extends Command {
             "Try run `{1}vote check`"
         )), CommandHandler.getCommand(PlayCommand.class).getCategory().getPrefix(context.getMessage()), utilityPrefix);
 
-        Carbon expire = avaire.getVoteManager().getExpireTime(context.getAuthor());
+        Carbon expire = av.getVoteManager().getExpireTime(context.getAuthor());
         if (expire != null && expire.isFuture()) {
             note = "You have already voted today, thanks for that btw!\nYou can vote again in " + expire.diffForHumans() + ".";
         }
@@ -106,12 +106,12 @@ public class VoteCommand extends Command {
         context.makeSuccess(String.join("\n", Arrays.asList(
             "Enjoy using the bot? Consider voting for the bot to help it grow, it's free but means a lot to the team behind Ava ❤",
             "",
-            "https://discordbots.org/bot/avaire",
+            "https://discordbots.org/bot/av",
             "",
             ":note"
         )))
             .set("note", note)
-            .setTitle("Vote for AvaIre on DBL", "https://discordbots.org/bot/avaire")
+            .setTitle("Vote for av on DBL", "https://discordbots.org/bot/av")
             .setFooter("You have " + (voteEntity == null ? 0 : voteEntity.getVotePoints()) + " vote points")
             .queue();
 
@@ -119,7 +119,7 @@ public class VoteCommand extends Command {
     }
 
     private boolean checkUser(CommandMessage context, VoteCacheEntity voteEntity) {
-        Carbon expire = avaire.getVoteManager().getExpireTime(context.getAuthor());
+        Carbon expire = av.getVoteManager().getExpireTime(context.getAuthor());
         if (expire != null && expire.isFuture()) {
             context.makeInfo("You have already voted today, thanks for that btw!\nYou can vote again in :time.")
                 .setFooter("You have " + (voteEntity == null ? 0 : voteEntity.getVotePoints()) + " vote points")
@@ -128,7 +128,7 @@ public class VoteCommand extends Command {
             return true;
         }
 
-        boolean wasAdded = avaire.getVoteManager().queueEntity(new VoteEntity(
+        boolean wasAdded = av.getVoteManager().queueEntity(new VoteEntity(
             context.getAuthor().getIdLong(),
             context.getMessageChannel().getIdLong()
         ));

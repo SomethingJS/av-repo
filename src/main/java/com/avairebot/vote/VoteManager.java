@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.vote;
+package com.avbot.vote;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.scheduler.tasks.DrainVoteQueueTask;
-import com.avairebot.servlet.routes.GetVote;
-import com.avairebot.servlet.routes.PostVote;
-import com.avairebot.time.Carbon;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.metrics.Metrics;
+import com.avbot.scheduler.tasks.DrainVoteQueueTask;
+import com.avbot.servlet.routes.GetVote;
+import com.avbot.servlet.routes.PostVote;
+import com.avbot.time.Carbon;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import org.slf4j.Logger;
@@ -50,18 +50,18 @@ public class VoteManager {
     private static final VoteMessenger messenger = new VoteMessenger();
     private static long lastCheck = -1;
 
-    private final AvaIre avaire;
+    private final av av;
 
     /**
-     * Creates the vote manager instance with the given AvaIre
+     * Creates the vote manager instance with the given av
      * application instance, the vote manager will setup all
      * the vote metrics, and then sync the vote entities
      * from the database into memory.
      *
-     * @param avaire The main AvaIre instance.
+     * @param av The main av instance.
      */
-    public VoteManager(AvaIre avaire) {
-        this.avaire = avaire;
+    public VoteManager(av av) {
+        this.av = av;
 
         for (VoteMetricType type : VoteMetricType.values()) {
             Metrics.dblVotes.labels(type.getName()).inc(0);
@@ -70,8 +70,8 @@ public class VoteManager {
 
         if (isEnabled()) {
             syncWithDatabase();
-            avaire.getServlet().registerPost("/vote", new PostVote());
-            avaire.getServlet().registerGet("/votes/:ids", new GetVote());
+            av.getServlet().registerPost("/vote", new PostVote());
+            av.getServlet().registerGet("/votes/:ids", new GetVote());
         }
     }
 
@@ -254,12 +254,12 @@ public class VoteManager {
         }
 
         try {
-            Collection collection = avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
+            Collection collection = av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
                 .where("user_id", userId).take(1).get();
 
             int finalPoints = points;
             if (collection.isEmpty()) {
-                avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
+                av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
                     .insert(statement -> {
                         statement.set("user_id", userId);
                         statement.set("expires_in", voteLog.get(userId).getCarbon().toDayDateTimeString());
@@ -272,7 +272,7 @@ public class VoteManager {
                 return;
             }
 
-            avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
                 .useAsync(true)
                 .where("user_id", userId)
                 .update(statement -> {
@@ -302,7 +302,7 @@ public class VoteManager {
         }
 
         try {
-            Collection collection = avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
+            Collection collection = av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
                 .where("user_id", userId).take(1).get();
 
             if (collection.isEmpty()) {
@@ -367,13 +367,13 @@ public class VoteManager {
      * @return <code>True</code> if the vote manager is enabled, <code>False</code> otherwise.
      */
     public boolean isEnabled() {
-        return avaire.getConfig().getBoolean("vote-lock.enabled", false);
+        return av.getConfig().getBoolean("vote-lock.enabled", false);
     }
 
     private void syncWithDatabase() {
         log.info("Syncing votes with the database...");
         try {
-            Collection collection = avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME).get();
+            Collection collection = av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME).get();
 
             if (collection.isEmpty()) {
                 return;

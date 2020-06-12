@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.Category;
-import com.avairebot.commands.CategoryHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.middleware.global.IsCategoryEnabled;
-import com.avairebot.utilities.ComparatorUtil;
+import com.avbot.av;
+import com.avbot.commands.Category;
+import com.avbot.commands.CategoryHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.middleware.global.IsCategoryEnabled;
+import com.avbot.utilities.ComparatorUtil;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,8 +35,8 @@ import java.util.List;
 
 public class GlobalToggleCategoryCommand extends SystemCommand {
 
-    public GlobalToggleCategoryCommand(AvaIre avaire) {
-        super(avaire);
+    public GlobalToggleCategoryCommand(av av) {
+        super(av);
     }
 
     @Override

@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.connections;
+package com.avbot.database.connections;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.database.StatementInterface;
-import com.avairebot.contracts.database.connections.HostnameDatabase;
-import com.avairebot.database.DatabaseManager;
-import com.avairebot.database.grammar.mysql.*;
-import com.avairebot.database.query.QueryBuilder;
-import com.avairebot.database.schema.Blueprint;
-import com.avairebot.language.I18n;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.contracts.database.StatementInterface;
+import com.avbot.contracts.database.connections.HostnameDatabase;
+import com.avbot.database.DatabaseManager;
+import com.avbot.database.grammar.mysql.*;
+import com.avbot.database.query.QueryBuilder;
+import com.avbot.database.schema.Blueprint;
+import com.avbot.language.I18n;
+import com.avbot.utilities.NumberUtil;
 
 import javax.annotation.Nonnull;
 import java.sql.*;
@@ -47,11 +47,11 @@ public class MySQL extends HostnameDatabase {
     public MySQL(DatabaseManager dbm) {
         this(
             dbm,
-            dbm.getAvaire().getConfig().getString("database.hostname"),
+            dbm.getav().getConfig().getString("database.hostname"),
             3306,
-            dbm.getAvaire().getConfig().getString("database.database"),
-            dbm.getAvaire().getConfig().getString("database.username"),
-            dbm.getAvaire().getConfig().getString("database.password")
+            dbm.getav().getConfig().getString("database.database"),
+            dbm.getav().getConfig().getString("database.username"),
+            dbm.getav().getConfig().getString("database.password")
         );
     }
 
@@ -76,7 +76,7 @@ public class MySQL extends HostnameDatabase {
 
             return true;
         } catch (ClassNotFoundException ex) {
-            AvaIre.getLogger().error("MySQL DataSource class missing.", ex);
+            av.getLogger().error("MySQL DataSource class missing.", ex);
         }
 
         return false;
@@ -87,7 +87,7 @@ public class MySQL extends HostnameDatabase {
         try {
             String url = String.format("jdbc:mysql://%s:%d/%s?autoReconnect=true&verifyServerCertificate=%s&useSSL=true",
                 getHostname(), getPort(), getDatabase(),
-                dbm.getAvaire().getConfig().getBoolean("database.verifyServerCertificate", true) ? "true" : "false"
+                dbm.getav().getConfig().getBoolean("database.verifyServerCertificate", true) ? "true" : "false"
             );
 
             if (initialize()) {
@@ -103,7 +103,7 @@ public class MySQL extends HostnameDatabase {
         } catch (SQLException ex) {
             String reason = "Could not establish a MySQL connection, SQLException: " + ex.getMessage();
 
-            AvaIre.getLogger().error(reason, ex);
+            av.getLogger().error(reason, ex);
             throw new SQLException(reason);
         }
 
@@ -118,7 +118,7 @@ public class MySQL extends HostnameDatabase {
             case USE:
                 exception = new SQLException("Please create a new connection to use a different database.");
 
-                AvaIre.getLogger().error("Please create a new connection to use a different database.", exception);
+                av.getLogger().error("Please create a new connection to use a different database.", exception);
                 throw exception;
 
             case PREPARE:
@@ -126,7 +126,7 @@ public class MySQL extends HostnameDatabase {
             case DEALLOCATE:
                 exception = new SQLException("Please use the prepare() method to prepare a query.");
 
-                AvaIre.getLogger().error("Please use the prepare() method to prepare a query.", exception);
+                av.getLogger().error("Please use the prepare() method to prepare a query.", exception);
                 throw exception;
         }
     }
@@ -154,7 +154,7 @@ public class MySQL extends HostnameDatabase {
         try {
             return MySQLStatement.valueOf(statement[0].toUpperCase());
         } catch (IllegalArgumentException ex) {
-            AvaIre.getLogger().error(String.format("Unknown statement: \"%s\"", statement[0]), ex);
+            av.getLogger().error(String.format("Unknown statement: \"%s\"", statement[0]), ex);
         }
 
         return null;
@@ -173,7 +173,7 @@ public class MySQL extends HostnameDatabase {
                 }
             }
         } catch (SQLException ex) {
-            AvaIre.getLogger().error(String.format("Failed to check if table exists \"%s\": %s", table, ex.getMessage()), ex);
+            av.getLogger().error(String.format("Failed to check if table exists \"%s\": %s", table, ex.getMessage()), ex);
         }
 
         return false;
@@ -192,7 +192,7 @@ public class MySQL extends HostnameDatabase {
 
             return true;
         } catch (SQLException ex) {
-            AvaIre.getLogger().error(String.format("Failed to truncate \"%s\": %s", table, ex.getMessage()), ex);
+            av.getLogger().error(String.format("Failed to truncate \"%s\": %s", table, ex.getMessage()), ex);
         }
 
         return false;

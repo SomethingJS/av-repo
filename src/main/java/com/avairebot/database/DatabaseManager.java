@@ -1,38 +1,38 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database;
+package com.avbot.database;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.database.BatchQueryFunction;
-import com.avairebot.contracts.database.Database;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.connections.MySQL;
-import com.avairebot.database.connections.SQLite;
-import com.avairebot.database.exceptions.DatabaseException;
-import com.avairebot.database.migrate.Migrations;
-import com.avairebot.database.query.QueryBuilder;
-import com.avairebot.database.schema.Schema;
-import com.avairebot.database.seeder.SeederManager;
-import com.avairebot.metrics.Metrics;
+import com.avbot.av;
+import com.avbot.contracts.database.BatchQueryFunction;
+import com.avbot.contracts.database.Database;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.connections.MySQL;
+import com.avbot.database.connections.SQLite;
+import com.avbot.database.exceptions.DatabaseException;
+import com.avbot.database.migrate.Migrations;
+import com.avbot.database.query.QueryBuilder;
+import com.avbot.database.schema.Schema;
+import com.avbot.database.seeder.SeederManager;
+import com.avbot.metrics.Metrics;
 import com.mysql.jdbc.exceptions.MySQLTransactionRollbackException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,7 @@ public class DatabaseManager {
 
     private static final Logger log = LoggerFactory.getLogger(DatabaseManager.class);
 
-    private final AvaIre avaire;
+    private final av av;
     private final Schema schema;
     private final Migrations migrations;
     private final SeederManager seeder;
@@ -60,8 +60,8 @@ public class DatabaseManager {
     private int queryRetries = 5;
     private Database connection = null;
 
-    public DatabaseManager(AvaIre avaire) {
-        this.avaire = avaire;
+    public DatabaseManager(av av) {
+        this.av = av;
         this.schema = new Schema(this);
         this.migrations = new Migrations(this);
         this.seeder = new SeederManager();
@@ -70,8 +70,8 @@ public class DatabaseManager {
         this.runningBatchRequests = new HashSet<>();
     }
 
-    public AvaIre getAvaire() {
-        return avaire;
+    public av getav() {
+        return av;
     }
 
     public Schema getSchema() {
@@ -88,7 +88,7 @@ public class DatabaseManager {
 
     public Database getConnection() throws SQLException, DatabaseException {
         if (connection == null) {
-            switch (avaire.getConfig().getString("database.type", "invalid").toLowerCase()) {
+            switch (av.getConfig().getString("database.type", "invalid").toLowerCase()) {
                 case "mysql":
                     connection = new MySQL(this);
                     break;

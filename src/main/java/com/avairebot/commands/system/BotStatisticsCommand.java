@@ -1,41 +1,41 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AppInfo;
-import com.avairebot.AvaIre;
-import com.avairebot.audio.AudioHandler;
-import com.avairebot.audio.AudioTrackContainer;
-import com.avairebot.audio.GuildMusicManager;
-import com.avairebot.audio.LavalinkManager;
-import com.avairebot.chat.MessageType;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.commands.utility.UptimeCommand;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.language.I18n;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.AppInfo;
+import com.avbot.av;
+import com.avbot.audio.AudioHandler;
+import com.avbot.audio.AudioTrackContainer;
+import com.avbot.audio.GuildMusicManager;
+import com.avbot.audio.LavalinkManager;
+import com.avbot.chat.MessageType;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.commands.utility.UptimeCommand;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.language.I18n;
+import com.avbot.metrics.Metrics;
+import com.avbot.utilities.NumberUtil;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import lavalink.client.io.Link;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -50,8 +50,8 @@ import java.util.List;
 
 public class BotStatisticsCommand extends SystemCommand {
 
-    public BotStatisticsCommand(AvaIre avaire) {
-        super(avaire);
+    public BotStatisticsCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -100,23 +100,23 @@ public class BotStatisticsCommand extends SystemCommand {
                 NumberUtil.formatNicely(Metrics.databaseQueries.labels("DELETE").get())
             ), true),
             new MessageEmbed.Field("Discord Shards", I18n.format("**{0}** Shards\n**{1} ms** Average Ping",
-                avaire.getShardManager().getShards().size(),
-                NumberUtil.formatNicely(avaire.getShardManager().getAveragePing())
+                av.getShardManager().getShards().size(),
+                NumberUtil.formatNicely(av.getShardManager().getAveragePing())
             ), true),
             new MessageEmbed.Field("Member Stats", I18n.format("**{0}** Unique Users\n**{1}** Unique Bots",
-                NumberUtil.formatNicely(avaire.getShardManager().getUsers().stream().filter(user -> !user.isBot()).count()),
-                NumberUtil.formatNicely(avaire.getShardManager().getUsers().stream().filter(User::isBot).count())
+                NumberUtil.formatNicely(av.getShardManager().getUsers().stream().filter(user -> !user.isBot()).count()),
+                NumberUtil.formatNicely(av.getShardManager().getUsers().stream().filter(User::isBot).count())
             ), true),
             new MessageEmbed.Field("Channel Stats", I18n.format("**{0}** Text Channels\n**{1}** Voice Channels",
-                NumberUtil.formatNicely(avaire.getShardEntityCounter().getTextChannels()),
-                NumberUtil.formatNicely(avaire.getShardEntityCounter().getVoiceChannels())
+                NumberUtil.formatNicely(av.getShardEntityCounter().getTextChannels()),
+                NumberUtil.formatNicely(av.getShardEntityCounter().getVoiceChannels())
             ), true),
             new MessageEmbed.Field("Guild Stats", I18n.format("**{0}** Guilds in Shard\n**{1}** Total Guilds",
                 NumberUtil.formatNicely(context.getJDA().getGuilds().size()),
-                NumberUtil.formatNicely(avaire.getShardManager().getGuilds().size())
+                NumberUtil.formatNicely(av.getShardManager().getGuilds().size())
             ), true)
         )
-            .setAuthor("AvaIre v" + AppInfo.getAppInfo().version, "https://avairebot.com/support", avaire.getSelfUser().getEffectiveAvatarUrl())
+            .setAuthor("av v" + AppInfo.getAppInfo().version, "https://avbot.com/support", av.getSelfUser().getEffectiveAvatarUrl())
             .setDescription("The bot has been online for " + formatUptimeNicely())
             .queue();
 
@@ -173,7 +173,7 @@ public class BotStatisticsCommand extends SystemCommand {
             synchronized (LavalinkManager.LavalinkManagerHolder.lavalink.getLavalink().getLinks()) {
                 for (Link link : LavalinkManager.LavalinkManagerHolder.lavalink.getLavalink().getLinks()) {
                     if (link.getChannel() != null) {
-                        VoiceChannel voiceChannel = avaire.getShardManager().getVoiceChannelById(link.getChannel());
+                        VoiceChannel voiceChannel = av.getShardManager().getVoiceChannelById(link.getChannel());
                         if (voiceChannel != null) {
                             listeners += voiceChannel.getMembers().size();
                         }

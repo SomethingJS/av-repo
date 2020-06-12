@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.ai.dialogflow.intents;
+package com.avbot.ai.dialogflow.intents;
 
 import ai.api.model.AIResponse;
-import com.avairebot.AvaIre;
-import com.avairebot.cache.CacheType;
-import com.avairebot.commands.CommandContainer;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.music.PlayCommand;
-import com.avairebot.contracts.ai.Intent;
-import com.avairebot.database.transformers.ChannelTransformer;
-import com.avairebot.utilities.RandomUtil;
+import com.avbot.av;
+import com.avbot.cache.CacheType;
+import com.avbot.commands.CommandContainer;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.music.PlayCommand;
+import com.avbot.contracts.ai.Intent;
+import com.avbot.database.transformers.ChannelTransformer;
+import com.avbot.utilities.RandomUtil;
 import com.google.gson.JsonElement;
 import org.jsoup.Jsoup;
 
@@ -55,8 +55,8 @@ public class RequestSong extends Intent {
         categories.put("pop", Collections.singletonList("purely-pop"));
     }
 
-    public RequestSong(AvaIre avaire) {
-        super(avaire);
+    public RequestSong(av av) {
+        super(av);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class RequestSong extends Intent {
     }
 
     private String getRandomSong(final String category) {
-        Object cacheItem = avaire.getCache().getAdapter(CacheType.FILE).remember("music-type." + category.toLowerCase(), 31536000, () -> {
+        Object cacheItem = av.getCache().getAdapter(CacheType.FILE).remember("music-type." + category.toLowerCase(), 31536000, () -> {
             try {
                 String item = Jsoup.connect(
                     String.format("https://libraries.amped.fm/libraries/%s/musicbot", category)
@@ -109,7 +109,7 @@ public class RequestSong extends Intent {
 
                 return Arrays.asList(Arrays.copyOfRange(items, 2, items.length));
             } catch (IOException e) {
-                AvaIre.getLogger().error("Failed to load {} music category from libraries.amped.fm", category.toLowerCase(), e);
+                av.getLogger().error("Failed to load {} music category from libraries.amped.fm", category.toLowerCase(), e);
                 return null;
             }
         });

@@ -1,32 +1,32 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.scheduler.jobs;
+package com.avbot.scheduler.jobs;
 
-import com.avairebot.AvaIre;
-import com.avairebot.cache.CacheType;
-import com.avairebot.contracts.scheduler.Job;
-import com.avairebot.contracts.scheduler.Task;
-import com.avairebot.factories.RequestFactory;
-import com.avairebot.requests.Response;
+import com.avbot.av;
+import com.avbot.cache.CacheType;
+import com.avbot.contracts.scheduler.Job;
+import com.avbot.contracts.scheduler.Task;
+import com.avbot.factories.RequestFactory;
+import com.avbot.requests.Response;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,17 +38,17 @@ public class FetchMemeTypesJob extends Job {
     private final String cacheToken = "meme.types";
     private final String apiEndpoint = "https://memegen.link/api/templates/";
 
-    public FetchMemeTypesJob(AvaIre avaire) {
-        super(avaire, 7, 7, TimeUnit.DAYS);
+    public FetchMemeTypesJob(av av) {
+        super(av, 7, 7, TimeUnit.DAYS);
 
-        if (!avaire.getCache().getAdapter(CacheType.FILE).has(cacheToken)) {
+        if (!av.getCache().getAdapter(CacheType.FILE).has(cacheToken)) {
             run();
         }
     }
 
     @Override
     public void run() {
-        handleTask((Task) avaire -> {
+        handleTask((Task) av -> {
             RequestFactory.makeGET(apiEndpoint)
                 .addHeader("Cache-Control", "no-cache")
                 .addHeader("Content-Type", "application/json")
@@ -65,7 +65,7 @@ public class FetchMemeTypesJob extends Job {
 
                     }
 
-                    avaire.getCache().getAdapter(CacheType.FILE).forever(cacheToken, cache);
+                    av.getCache().getAdapter(CacheType.FILE).forever(cacheToken, cache);
                 });
         });
     }

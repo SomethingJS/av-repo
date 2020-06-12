@@ -1,31 +1,31 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.handlers.adapter;
+package com.avbot.handlers.adapter;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.contracts.handlers.EventAdapter;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.GuildTransformer;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.contracts.handlers.EventAdapter;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.GuildTransformer;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.core.events.role.update.RoleUpdateNameEvent;
@@ -36,16 +36,16 @@ import java.util.Map;
 public class RoleEventAdapter extends EventAdapter {
 
     /**
-     * Instantiates the event adapter and sets the avaire class instance.
+     * Instantiates the event adapter and sets the av class instance.
      *
-     * @param avaire The AvaIre application class instance.
+     * @param av The av application class instance.
      */
-    public RoleEventAdapter(AvaIre avaire) {
-        super(avaire);
+    public RoleEventAdapter(av av) {
+        super(av);
     }
 
     public void onRoleUpdateName(RoleUpdateNameEvent event) {
-        GuildTransformer transformer = GuildController.fetchGuild(avaire, event.getGuild());
+        GuildTransformer transformer = GuildController.fetchGuild(av, event.getGuild());
         if (transformer == null || transformer.getSelfAssignableRoles().isEmpty()) {
             return;
         }
@@ -56,11 +56,11 @@ public class RoleEventAdapter extends EventAdapter {
 
         try {
             transformer.getSelfAssignableRoles().put(event.getRole().getId(), event.getRole().getName().toLowerCase());
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .useAsync(true)
                 .where("id", event.getGuild().getId())
                 .update(statement -> {
-                    statement.set("claimable_roles", AvaIre.gson.toJson(transformer.getSelfAssignableRoles()), true);
+                    statement.set("claimable_roles", av.gson.toJson(transformer.getSelfAssignableRoles()), true);
                 });
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,7 +68,7 @@ public class RoleEventAdapter extends EventAdapter {
     }
 
     public void onRoleDelete(RoleDeleteEvent event) {
-        GuildTransformer transformer = GuildController.fetchGuild(avaire, event.getGuild());
+        GuildTransformer transformer = GuildController.fetchGuild(av, event.getGuild());
         if (transformer == null) {
             return;
         }
@@ -87,7 +87,7 @@ public class RoleEventAdapter extends EventAdapter {
 
         try {
             transformer.setMuteRole(null);
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .useAsync(true)
                 .where("id", event.getGuild().getId())
                 .update(statement -> statement.set("mute_role", null));
@@ -103,7 +103,7 @@ public class RoleEventAdapter extends EventAdapter {
 
         try {
             transformer.setAutorole(null);
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .useAsync(true)
                 .where("id", event.getGuild().getId())
                 .update(statement -> statement.set("autorole", null));
@@ -126,11 +126,11 @@ public class RoleEventAdapter extends EventAdapter {
 
         try {
             transformer.getLevelRoles().remove(key);
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .useAsync(true)
                 .where("id", event.getGuild().getId())
                 .update(statement -> {
-                    statement.set("level_roles", AvaIre.gson.toJson(transformer.getLevelRoles()), true);
+                    statement.set("level_roles", av.gson.toJson(transformer.getLevelRoles()), true);
                 });
         } catch (SQLException e) {
             e.printStackTrace();
@@ -144,7 +144,7 @@ public class RoleEventAdapter extends EventAdapter {
 
         try {
             transformer.setDjRole(null);
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .useAsync(true)
                 .where("id", event.getGuild().getId())
                 .update(statement -> {
@@ -162,11 +162,11 @@ public class RoleEventAdapter extends EventAdapter {
 
         try {
             transformer.getSelfAssignableRoles().remove(event.getRole().getId());
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .useAsync(true)
                 .where("id", event.getGuild().getId())
                 .update(statement -> {
-                    statement.set("claimable_roles", AvaIre.gson.toJson(transformer.getSelfAssignableRoles()), true);
+                    statement.set("claimable_roles", av.gson.toJson(transformer.getSelfAssignableRoles()), true);
                 });
         } catch (SQLException e) {
             e.printStackTrace();
@@ -176,7 +176,7 @@ public class RoleEventAdapter extends EventAdapter {
 
     public void updateRoleData(Guild guild) {
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .useAsync(true)
                 .where("id", guild.getId())
                 .update(statement -> {

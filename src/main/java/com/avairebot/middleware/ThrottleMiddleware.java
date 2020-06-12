@@ -1,37 +1,37 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.middleware;
+package com.avbot.middleware;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.CacheFingerprint;
-import com.avairebot.contracts.middleware.Middleware;
-import com.avairebot.contracts.middleware.ThrottleMessage;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.time.Carbon;
-import com.avairebot.utilities.CacheUtil;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.CacheFingerprint;
+import com.avbot.contracts.middleware.Middleware;
+import com.avbot.contracts.middleware.ThrottleMessage;
+import com.avbot.factories.MessageFactory;
+import com.avbot.metrics.Metrics;
+import com.avbot.time.Carbon;
+import com.avbot.utilities.CacheUtil;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RestActionUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -46,8 +46,8 @@ public class ThrottleMiddleware extends Middleware {
         .expireAfterWrite(60, TimeUnit.SECONDS)
         .build();
 
-    public ThrottleMiddleware(AvaIre avaire) {
-        super(avaire);
+    public ThrottleMiddleware(av av) {
+        super(av);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ThrottleMiddleware extends Middleware {
     @Override
     public boolean handle(@Nonnull Message message, @Nonnull MiddlewareStack stack, String... args) {
         if (args.length < 3) {
-            AvaIre.getLogger().warn(String.format(
+            av.getLogger().warn(String.format(
                 "\"%s\" is parsing invalid amount of arguments to the throttle middleware, 3 arguments are required.", stack.getCommand()
             ));
             return stack.next();
@@ -77,11 +77,11 @@ public class ThrottleMiddleware extends Middleware {
             ThrottleEntity entity = getEntityFromCache(fingerprint, maxAttempts, decaySeconds);
             if (entity.getHits() >= maxAttempts) {
                 Carbon expires = type.equals(ThrottleType.USER)
-                    ? avaire.getBlacklist().getRatelimit().hit(type, message.getAuthor().getIdLong())
-                    : avaire.getBlacklist().getRatelimit().hit(type, message.getGuild().getIdLong());
+                    ? av.getBlacklist().getRatelimit().hit(type, message.getAuthor().getIdLong())
+                    : av.getBlacklist().getRatelimit().hit(type, message.getGuild().getIdLong());
 
                 if (expires != null) {
-                    avaire.getBlacklist().getRatelimit().sendBlacklistMessage(
+                    av.getBlacklist().getRatelimit().sendBlacklistMessage(
                         type.equals(ThrottleType.USER) ? message.getAuthor() : message.getChannel(), expires
                     );
                     return false;
@@ -98,7 +98,7 @@ public class ThrottleMiddleware extends Middleware {
 
             return response;
         } catch (NumberFormatException e) {
-            AvaIre.getLogger().warn(String.format(
+            av.getLogger().warn(String.format(
                 "Invalid integers given to throttle command by \"%s\", args: (%s, %s)", stack.getCommand().getName(), args[1], args[2]
             ));
         }

@@ -1,6 +1,6 @@
 
 #--------------------------------------------------------------------------
-# Welcome to the AvaIre Configuration
+# Welcome to the av Configuration
 #--------------------------------------------------------------------------
 #
 # Below you'll find all the configurable options for Ava, if you're using
@@ -14,7 +14,7 @@
 # management system? Try out https://codebeautify.org/yaml-validator
 #
 # Got any questions? Contact the development team on the official support
-# server for Ava at https://avairebot.com/support
+# server for Ava at https://avbot.com/support
 #
 
 #--------------------------------------------------------------------------
@@ -26,7 +26,7 @@
 # since having the console flooded with information can be very
 # overwhelming if you don't know what you're looking at.
 #
-# AvaIre supports two different environments, "production" and "development"
+# av supports two different environments, "production" and "development"
 #
 # Production is used for minimal console output and for all parts of the
 # application to be enabled. Development is used for debugging messages
@@ -49,7 +49,7 @@ environment: 'production'
 # name, then click on "Create a Bot User", and you're good to go!
 # https://discordapp.com/developers/applications/me
 #
-# AvaIre needs your Discord application token to login and interact with
+# av needs your Discord application token to login and interact with
 # users, and optionally the application ID for handling music using
 # Lavalink instead of doing it internally, you can also use the
 # application ID to create a invite link for your bot.
@@ -82,10 +82,10 @@ discord:
 # Database Information
 #--------------------------------------------------------------------------
 #
-# AvaIre uses a database for storing things like custom prefixes, playlists,
+# av uses a database for storing things like custom prefixes, playlists,
 # user XP and levels, statistics, autoroles, aliases and everything else.
 #
-# AvaIre currently supports MySQL and SQLite database types, with support for
+# av currently supports MySQL and SQLite database types, with support for
 # more types coming in the future, to get started simply just populate the
 # fields below with your database login information.
 #
@@ -137,7 +137,7 @@ database:
 
   # This is the name of the database that Ava should use for all tables.
   #
-  database: 'avaire'
+  database: 'av'
 
   # This is the hostname of the database, if you're hosting the database on
   # the same machine the bot is also hosted on you should be fine keeping
@@ -170,7 +170,7 @@ database:
 # All internal commands registered with Ava will be linked to a command
 # category, each category has a default prefix which are used for all
 # commands linked to that category, below you can set the default
-# prefix used by all the official AvaIre command categories.
+# prefix used by all the official av command categories.
 #
 # Note: Plugins that adds commands and categories to the Ava registry doesn't
 # necessarily have to follow the default prefix set below, check in with the
@@ -203,7 +203,7 @@ system-prefix: ';'
 
 playing:
   - '!help'
-  - 'watching:avairebot.com'
+  - 'watching:avbot.com'
   - 'listening:%users% users'
   - 'playing:in %guilds% servers'
 
@@ -582,7 +582,7 @@ web-servlet:
   # any requests to the vote route that is either missing the auth header, or
   # has a key that does not match the key below will be ignored.
   #
-  authToken: 'avaire-auth-token'
+  authToken: 'av-auth-token'
 
 #--------------------------------------------------------------------------
 # Vote Locking
@@ -658,7 +658,7 @@ apiKeys:
   # the AI will be disabled without the API key, you can register for
   # an API key on their website as well as creating your own custom
   # AI agent, if you want to use the same AI agent Ava uses you
-  # can find it on github at: https://github.com/avaire/agent
+  # can find it on github at: https://github.com/av/agent
   #
   # Get a key at: https://dialogflow.com/docs/reference/agent
   #

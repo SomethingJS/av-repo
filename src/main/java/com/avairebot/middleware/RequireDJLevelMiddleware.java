@@ -1,38 +1,38 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.middleware;
+package com.avbot.middleware;
 
-import com.avairebot.AvaIre;
-import com.avairebot.audio.AudioHandler;
-import com.avairebot.audio.DJGuildLevel;
-import com.avairebot.commands.CommandContainer;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.administration.IAmCommand;
-import com.avairebot.contracts.middleware.DJCheckMessage;
-import com.avairebot.contracts.middleware.Middleware;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.language.I18n;
+import com.avbot.av;
+import com.avbot.audio.AudioHandler;
+import com.avbot.audio.DJGuildLevel;
+import com.avbot.commands.CommandContainer;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.administration.IAmCommand;
+import com.avbot.contracts.middleware.DJCheckMessage;
+import com.avbot.contracts.middleware.Middleware;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.factories.MessageFactory;
+import com.avbot.language.I18n;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
 
@@ -42,8 +42,8 @@ import java.util.concurrent.TimeUnit;
 
 public class RequireDJLevelMiddleware extends Middleware {
 
-    public RequireDJLevelMiddleware(AvaIre avaire) {
-        super(avaire);
+    public RequireDJLevelMiddleware(av av) {
+        super(av);
     }
 
     @Nullable
@@ -83,14 +83,14 @@ public class RequireDJLevelMiddleware extends Middleware {
         if (args.length > 0) {
             DJGuildLevel level = DJGuildLevel.fromName(args[0]);
 
-            if (level != null && AudioHandler.getDefaultAudioHandler().canRunDJAction(avaire, message, level)) {
+            if (level != null && AudioHandler.getDefaultAudioHandler().canRunDJAction(av, message, level)) {
                 return stack.next();
             }
 
             return sendErrorMessage(message, stack);
         }
 
-        if (AudioHandler.getDefaultAudioHandler().canRunDJAction(avaire, message, DJGuildLevel.NORMAL)) {
+        if (AudioHandler.getDefaultAudioHandler().canRunDJAction(av, message, DJGuildLevel.NORMAL)) {
             return stack.next();
         }
 

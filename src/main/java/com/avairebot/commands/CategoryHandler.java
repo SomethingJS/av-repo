@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands;
+package com.avbot.commands;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.shared.DiscordConstants;
-import com.avairebot.utilities.RandomUtil;
+import com.avbot.av;
+import com.avbot.contracts.commands.Command;
+import com.avbot.shared.DiscordConstants;
+import com.avbot.utilities.RandomUtil;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -40,14 +40,14 @@ public class CategoryHandler {
         ).setGlobal(true));
     }
 
-    public static boolean addCategory(@Nonnull AvaIre avaire, @Nonnull String name, @Nonnull String defaultPrefix) {
+    public static boolean addCategory(@Nonnull av av, @Nonnull String name, @Nonnull String defaultPrefix) {
         for (Category category : VALUES) {
             if (category.getName().equalsIgnoreCase(name)) {
                 return false;
             }
         }
 
-        VALUES.add(new Category(avaire, name, defaultPrefix));
+        VALUES.add(new Category(av, name, defaultPrefix));
         return true;
     }
 

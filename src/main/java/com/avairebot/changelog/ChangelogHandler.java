@@ -1,28 +1,28 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.changelog;
+package com.avbot.changelog;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.changelog.ChangelogLoader;
+import com.avbot.av;
+import com.avbot.contracts.changelog.ChangelogLoader;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageHistory;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -51,14 +51,14 @@ public class ChangelogHandler {
             )).values();
     }
 
-    public synchronized static void loadAndGetMessages(AvaIre avaire, ChangelogLoader loader) {
+    public synchronized static void loadAndGetMessages(av av, ChangelogLoader loader) {
         if (!messages.isEmpty()) {
             loader.handle(sortAndFormatMessages(messages.values()));
             return;
         }
 
-        TextChannel changelogChannel = AvaIre.getInstance().getShardManager().getTextChannelById(
-            avaire.getConstants().getChangelogChannelId()
+        TextChannel changelogChannel = av.getInstance().getShardManager().getTextChannelById(
+            av.getConstants().getChangelogChannelId()
         );
 
         if (changelogChannel == null) {

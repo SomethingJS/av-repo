@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.servlet.routes;
+package com.avbot.servlet.routes;
 
-import com.avairebot.AppInfo;
-import com.avairebot.AvaIre;
-import com.avairebot.GitInfo;
-import com.avairebot.contracts.metrics.SparkRoute;
+import com.avbot.AppInfo;
+import com.avbot.av;
+import com.avbot.GitInfo;
+import com.avbot.contracts.metrics.SparkRoute;
 import net.dv8tion.jda.core.JDA;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -72,7 +72,7 @@ public class GetStats extends SparkRoute {
     private JSONArray buildShards() {
         JSONArray shards = new JSONArray();
 
-        for (JDA shard : AvaIre.getInstance().getShardManager().getShards()) {
+        for (JDA shard : av.getInstance().getShardManager().getShards()) {
             JSONObject stats = new JSONObject();
             stats.put("id", shard.getShardInfo().getShardId())
                 .put("guilds", shard.getGuilds().size())
@@ -89,13 +89,13 @@ public class GetStats extends SparkRoute {
 
     private JSONObject buildGlobal() {
         JSONObject global = new JSONObject();
-        global.put("guilds", AvaIre.getInstance().getShardEntityCounter().getGuilds());
-        global.put("users", AvaIre.getInstance().getShardEntityCounter().getUsers());
+        global.put("guilds", av.getInstance().getShardEntityCounter().getGuilds());
+        global.put("users", av.getInstance().getShardEntityCounter().getUsers());
 
         JSONObject channels = new JSONObject();
-        channels.put("total", AvaIre.getInstance().getShardEntityCounter().getChannels());
-        channels.put("text", AvaIre.getInstance().getShardEntityCounter().getTextChannels());
-        channels.put("voice", AvaIre.getInstance().getShardEntityCounter().getVoiceChannels());
+        channels.put("total", av.getInstance().getShardEntityCounter().getChannels());
+        channels.put("text", av.getInstance().getShardEntityCounter().getTextChannels());
+        channels.put("voice", av.getInstance().getShardEntityCounter().getVoiceChannels());
 
         global.put("channels", channels);
 

@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.blacklist.Scope;
-import com.avairebot.chat.SimplePaginator;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.language.I18n;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.blacklist.Scope;
+import com.avbot.chat.SimplePaginator;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.language.I18n;
+import com.avbot.utilities.NumberUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,8 +36,8 @@ import java.util.List;
 
 public class BlacklistCommand extends SystemCommand {
 
-    public BlacklistCommand(AvaIre avaire) {
-        super(avaire);
+    public BlacklistCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class BlacklistCommand extends SystemCommand {
     private boolean listBlacklist(CommandMessage context, String[] args) {
         List<String> records = new ArrayList<>();
 
-        avaire.getBlacklist().getBlacklistEntities().forEach(entity -> {
+        av.getBlacklist().getBlacklistEntities().forEach(entity -> {
             records.add(I18n.format("{0} **{1}** `{2}`\n ► _\"{3}\"_",
                 entity.getScope().getId() == 0 ? "\uD83E\uDD26" : "\uD83C\uDFEC",
                 entity.getScope().getName(),
@@ -135,11 +135,11 @@ public class BlacklistCommand extends SystemCommand {
             return sendErrorMessage(context, "Invalid ID given, the ID must be a valid number value!");
         }
 
-        if (!avaire.getBlacklist().isBlacklisted(id)) {
+        if (!av.getBlacklist().isBlacklisted(id)) {
             return sendErrorMessage(context, "There are no records in the blacklist with an ID of `{0}`", "" + id);
         }
 
-        avaire.getBlacklist().remove(id);
+        av.getBlacklist().remove(id);
 
         context.makeSuccess("The Blacklist record with an ID of **:id** has been removed from the blacklist")
             .set("id", id)
@@ -171,7 +171,7 @@ public class BlacklistCommand extends SystemCommand {
             reason = String.join(" ", args);
         }
 
-        avaire.getBlacklist().addIdToBlacklist(scope, id, reason);
+        av.getBlacklist().addIdToBlacklist(scope, id, reason);
 
         context.makeSuccess("The **:type** with an ID of **:id** has been added to the blacklist!")
             .set("type", scope.name().toLowerCase())

@@ -1,32 +1,32 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.search;
+package com.avbot.commands.search;
 
-import com.avairebot.AvaIre;
-import com.avairebot.chat.MessageType;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.factories.MessageFactory;
+import com.avbot.av;
+import com.avbot.chat.MessageType;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.factories.MessageFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -51,8 +51,8 @@ public class DuckDuckGoCommand extends Command {
         HTTP_HEADERS.put("Expires", "0");
     }
 
-    public DuckDuckGoCommand(AvaIre avaire) {
-        super(avaire);
+    public DuckDuckGoCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class DuckDuckGoCommand extends Command {
 
     @Override
     public List<String> getExampleUsage() {
-        return Collections.singletonList("`:command AvaIre Bot`");
+        return Collections.singletonList("`:command av Bot`");
     }
 
     @Override
@@ -98,7 +98,7 @@ public class DuckDuckGoCommand extends Command {
         try {
             Map<String, String> headers = new HashMap<>();
             headers.putAll(HTTP_HEADERS);
-            headers.put("User-Agent", "AvaIre-Discord-Bot (" + avaire.getSelfUser().getId() + ")");
+            headers.put("User-Agent", "av-Discord-Bot (" + av.getSelfUser().getId() + ")");
 
             context.getMessageChannel().sendTyping().queue();
 
@@ -147,7 +147,7 @@ public class DuckDuckGoCommand extends Command {
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-            AvaIre.getLogger().error("Failed to complete search query: ", e);
+            av.getLogger().error("Failed to complete search query: ", e);
         }
         return false;
     }

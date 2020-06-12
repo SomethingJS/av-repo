@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.migrate;
+package com.avbot.database.migrate;
 
-import com.avairebot.contracts.database.migrations.Migration;
-import com.avairebot.database.DatabaseManager;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.query.QueryBuilder;
-import com.avairebot.database.schema.Blueprint;
-import com.avairebot.database.schema.DefaultSQLAction;
+import com.avbot.contracts.database.migrations.Migration;
+import com.avbot.database.DatabaseManager;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.query.QueryBuilder;
+import com.avbot.database.schema.Blueprint;
+import com.avbot.database.schema.DefaultSQLAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,7 @@ public class Migrations {
     private final DatabaseManager dbm;
     private final List<MigrationContainer> migrations;
 
-    private final String migrationTableName = "avaire_migrations";
+    private final String migrationTableName = "av_migrations";
     private boolean ranSetup = false;
 
     public Migrations(DatabaseManager dbm) {
@@ -54,10 +54,10 @@ public class Migrations {
      * Registers a list of migrations to the migration containers, the migrations
      * will be used in {@link #up() up()}, {@link #down() down()} and {@link #rollback(int) rollback(int)}
      * <p>
-     * All migrations must follow the {@link com.avairebot.contracts.database.migrations.Migration Migration contract}.
+     * All migrations must follow the {@link com.avbot.contracts.database.migrations.Migration Migration contract}.
      *
      * @param migration the list of migrations that should be registered
-     * @see com.avairebot.contracts.database.migrations.Migration
+     * @see com.avbot.contracts.database.migrations.Migration
      */
     public void register(Migration... migration) {
         ENTIRE_LOOP:

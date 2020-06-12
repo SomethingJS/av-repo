@@ -1,38 +1,38 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.music.playlist;
+package com.avbot.commands.music.playlist;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.music.PlaylistCommand;
-import com.avairebot.contracts.commands.playlist.PlaylistSubCommand;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.connections.SQLite;
-import com.avairebot.database.controllers.PlaylistController;
-import com.avairebot.database.query.ChangeableStatement;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.music.PlaylistCommand;
+import com.avbot.contracts.commands.playlist.PlaylistSubCommand;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.connections.SQLite;
+import com.avbot.database.controllers.PlaylistController;
+import com.avbot.database.query.ChangeableStatement;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.utilities.NumberUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +44,8 @@ public class CreatePlaylist extends PlaylistSubCommand {
 
     private static final Logger log = LoggerFactory.getLogger(CreatePlaylist.class);
 
-    public CreatePlaylist(AvaIre avaire, PlaylistCommand command) {
-        super(avaire, command);
+    public CreatePlaylist(av av, PlaylistCommand command) {
+        super(av, command);
     }
 
     @Override
@@ -88,14 +88,14 @@ public class CreatePlaylist extends PlaylistSubCommand {
     }
 
     private void storeInDatabase(CommandMessage context, String name) throws SQLException {
-        avaire.getDatabase().newQueryBuilder(Constants.MUSIC_PLAYLIST_TABLE_NAME)
+        av.getDatabase().newQueryBuilder(Constants.MUSIC_PLAYLIST_TABLE_NAME)
             .insert(statement -> {
                 addIncrementingIdWhenUsingSQLite(statement);
 
                 statement.set("guild_id", context.getGuild().getId());
                 statement.set("name", name, true);
                 statement.set("amount", 0);
-                statement.set("songs", AvaIre.gson.toJson(new ArrayList<>()));
+                statement.set("songs", av.gson.toJson(new ArrayList<>()));
             });
 
         PlaylistController.forgetCache(context.getGuild().getIdLong());
@@ -103,11 +103,11 @@ public class CreatePlaylist extends PlaylistSubCommand {
 
     private void addIncrementingIdWhenUsingSQLite(ChangeableStatement statement) {
         try {
-            if (!(avaire.getDatabase().getConnection() instanceof SQLite)) {
+            if (!(av.getDatabase().getConnection() instanceof SQLite)) {
                 return;
             }
 
-            DataRow row = avaire.getDatabase().newQueryBuilder(Constants.MUSIC_PLAYLIST_TABLE_NAME)
+            DataRow row = av.getDatabase().newQueryBuilder(Constants.MUSIC_PLAYLIST_TABLE_NAME)
                 .orderBy("created_at", "desc")
                 .take(1)
                 .get()

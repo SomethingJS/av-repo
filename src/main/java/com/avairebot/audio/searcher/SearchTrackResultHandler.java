@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.audio.searcher;
+package com.avbot.audio.searcher;
 
-import com.avairebot.audio.AudioHandler;
-import com.avairebot.audio.TrackRequestContext;
-import com.avairebot.audio.exceptions.Http503Exception;
-import com.avairebot.audio.exceptions.InvalidSearchProviderException;
-import com.avairebot.audio.exceptions.SearchingException;
-import com.avairebot.audio.exceptions.TrackLoadFailedException;
-import com.avairebot.database.controllers.SearchController;
-import com.avairebot.database.transformers.SearchResultTransformer;
-import com.avairebot.metrics.Metrics;
+import com.avbot.audio.AudioHandler;
+import com.avbot.audio.TrackRequestContext;
+import com.avbot.audio.exceptions.Http503Exception;
+import com.avbot.audio.exceptions.InvalidSearchProviderException;
+import com.avbot.audio.exceptions.SearchingException;
+import com.avbot.audio.exceptions.TrackLoadFailedException;
+import com.avbot.database.controllers.SearchController;
+import com.avbot.database.transformers.SearchResultTransformer;
+import com.avbot.metrics.Metrics;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;

@@ -1,28 +1,28 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.utilities;
+package com.avbot.utilities;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.reflection.Reflectional;
+import com.avbot.av;
+import com.avbot.contracts.reflection.Reflectional;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public class AutoloaderUtil {
     /**
      * Loads all the classes in the given package path that implements the
      * {@link Reflectional reflectional interface}, all classes found
-     * will be instantiated with the AvaIre instance passed to the
+     * will be instantiated with the av instance passed to the
      * class constructor, and the class will then be sent to
      * the consumer callback so it can be used.
      *
@@ -56,17 +56,17 @@ public class AutoloaderUtil {
      * and the class will then be sent to the consumer
      * callback so it can be used.
      * <p>
-     * If the {@code parseAvaIreInstance} argument is set to true, the AvaIre
+     * If the {@code parseavInstance} argument is set to true, the av
      * application instance will be parsed to the constructor of the class,
      * however if it is set false then the class will be instantiated
      * without any arguments parsed to the its constructor.
      *
      * @param path                The package path that should be autoloaded.
      * @param callback            The consumer used to register the loaded class.
-     * @param parseAvaIreInstance Determines if the AvaIre instance should be passed
+     * @param parseavInstance Determines if the av instance should be passed
      *                            to the loaded class constructor.
      */
-    public static void load(String path, Consumer<Reflectional> callback, boolean parseAvaIreInstance) {
+    public static void load(String path, Consumer<Reflectional> callback, boolean parseavInstance) {
         Set<Class<? extends Reflectional>> types = new Reflections(path).getSubTypesOf(Reflectional.class);
 
         for (Class<? extends Reflectional> reflectionClass : types) {
@@ -75,13 +75,13 @@ public class AutoloaderUtil {
             }
 
             try {
-                if (parseAvaIreInstance) {
+                if (parseavInstance) {
                     Class[] arguments = new Class[1];
-                    arguments[0] = AvaIre.class;
+                    arguments[0] = av.class;
 
                     //noinspection JavaReflectionMemberAccess
                     callback.accept(reflectionClass.getDeclaredConstructor(arguments).newInstance(
-                        AvaIre.getInstance()
+                        av.getInstance()
                     ));
                 } else {
                     callback.accept(reflectionClass.getDeclaredConstructor().newInstance());

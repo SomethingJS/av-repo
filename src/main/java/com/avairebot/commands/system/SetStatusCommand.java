@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.scheduler.tasks.ChangeGameTask;
-import com.avairebot.utilities.ComparatorUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.scheduler.tasks.ChangeGameTask;
+import com.avbot.utilities.ComparatorUtil;
 import net.dv8tion.jda.core.entities.Game;
 
 import java.util.Arrays;
@@ -36,8 +36,8 @@ import java.util.List;
 
 public class SetStatusCommand extends SystemCommand {
 
-    public SetStatusCommand(AvaIre avaire) {
-        super(avaire);
+    public SetStatusCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class SetStatusCommand extends SystemCommand {
 
         if (ComparatorUtil.isFuzzyFalse(String.join(" ", args))) {
             ChangeGameTask.hasCustomStatus = true;
-            avaire.getShardManager().setGame(null);
+            av.getShardManager().setGame(null);
 
             context.makeSuccess("The status message has been **disabled**")
                 .queue();
@@ -99,7 +99,7 @@ public class SetStatusCommand extends SystemCommand {
         }
 
         Game game = parseGame(args);
-        avaire.getShardManager().setGame(game);
+        av.getShardManager().setGame(game);
 
         context.makeSuccess("Changed status to **:type :status**")
             .set("type", getTypeAsString(game.getType()))

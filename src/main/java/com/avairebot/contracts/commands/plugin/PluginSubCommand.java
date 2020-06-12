@@ -1,42 +1,42 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.commands.plugin;
+package com.avbot.contracts.commands.plugin;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.system.PluginCommand;
-import com.avairebot.contracts.plugin.Plugin;
-import com.avairebot.contracts.plugin.PluginAsset;
-import com.avairebot.contracts.plugin.PluginRelease;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.system.PluginCommand;
+import com.avbot.contracts.plugin.Plugin;
+import com.avbot.contracts.plugin.PluginAsset;
+import com.avbot.contracts.plugin.PluginRelease;
 
 import java.sql.SQLException;
 
 public abstract class PluginSubCommand {
 
     /**
-     * The main {@link AvaIre avaire} application instance.
+     * The main {@link av av} application instance.
      */
-    protected final AvaIre avaire;
+    protected final av av;
 
     /**
      * The parent playlist command, used for accessing command specific
@@ -47,11 +47,11 @@ public abstract class PluginSubCommand {
     /**
      * Creates a new plugin sub command instance.
      *
-     * @param avaire  The main avaire application instance.
+     * @param av  The main av application instance.
      * @param command The parent plugin command instance.
      */
-    public PluginSubCommand(AvaIre avaire, PluginCommand command) {
-        this.avaire = avaire;
+    public PluginSubCommand(av av, PluginCommand command) {
+        this.av = av;
         this.command = command;
     }
 
@@ -80,7 +80,7 @@ public abstract class PluginSubCommand {
      * @throws SQLException Thrown if the database failed to write the record to the database.
      */
     protected final void createPluginIndex(Plugin plugin, PluginRelease release, PluginAsset asset) throws SQLException {
-        avaire.getDatabase().newQueryBuilder(Constants.INSTALLED_PLUGINS_TABLE_NAME)
+        av.getDatabase().newQueryBuilder(Constants.INSTALLED_PLUGINS_TABLE_NAME)
             .insert(statement -> {
                 statement.set("name", plugin.getName());
                 statement.set("version", release.getTag());
@@ -98,7 +98,7 @@ public abstract class PluginSubCommand {
      * @throws SQLException Thrown if the database failed to delete the record from the database.
      */
     protected final void deletePluginIndex(Plugin plugin) throws SQLException {
-        avaire.getDatabase().newQueryBuilder(Constants.INSTALLED_PLUGINS_TABLE_NAME)
+        av.getDatabase().newQueryBuilder(Constants.INSTALLED_PLUGINS_TABLE_NAME)
             .where("name", plugin.getName())
             .where("source", plugin.getRepository().getSource().getName())
             .where("repository", plugin.getRepository().getRepository())

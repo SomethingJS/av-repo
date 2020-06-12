@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.middleware.global;
+package com.avbot.middleware.global;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.Category;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.administration.ToggleCategoryCommand;
-import com.avairebot.contracts.middleware.Middleware;
-import com.avairebot.database.transformers.ChannelTransformer;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.middleware.MiddlewareStack;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.commands.Category;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.administration.ToggleCategoryCommand;
+import com.avbot.contracts.middleware.Middleware;
+import com.avbot.database.transformers.ChannelTransformer;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.factories.MessageFactory;
+import com.avbot.middleware.MiddlewareStack;
+import com.avbot.utilities.RestActionUtil;
 import net.dv8tion.jda.core.entities.Message;
 
 import javax.annotation.Nonnull;
@@ -46,8 +46,8 @@ public class IsCategoryEnabled extends Middleware {
         disabledCategories = new HashMap<>();
     }
 
-    public IsCategoryEnabled(AvaIre avaire) {
-        super(avaire);
+    public IsCategoryEnabled(av av) {
+        super(av);
     }
 
     public static void enableCategory(Category category) {
@@ -62,7 +62,7 @@ public class IsCategoryEnabled extends Middleware {
     @SuppressWarnings("ConstantConditions")
     public boolean handle(@Nonnull Message message, @Nonnull MiddlewareStack stack, String... args) {
         if (disabledCategories.containsKey(stack.getCommandContainer().getCategory().getName())) {
-            if (avaire.getBotAdmins().getUserById(message.getAuthor().getIdLong()).isAdmin()) {
+            if (av.getBotAdmins().getUserById(message.getAuthor().getIdLong()).isAdmin()) {
                 return stack.next();
             }
 
@@ -113,11 +113,11 @@ public class IsCategoryEnabled extends Middleware {
     }
 
     private boolean isCategoryCommands(MiddlewareStack stack) {
-        return stack.getCommand().getClass().getTypeName().equals("com.avairebot.commands.administration.ToggleCategoryCommand") ||
-            stack.getCommand().getClass().getTypeName().equals("com.avairebot.commands.administration.CategoriesCommand");
+        return stack.getCommand().getClass().getTypeName().equals("com.avbot.commands.administration.ToggleCategoryCommand") ||
+            stack.getCommand().getClass().getTypeName().equals("com.avbot.commands.administration.CategoriesCommand");
     }
 
     private boolean isHelpCommand(MiddlewareStack stack) {
-        return stack.getCommand().getClass().getTypeName().equals("com.avairebot.commands.help.HelpCommand");
+        return stack.getCommand().getClass().getTypeName().equals("com.avbot.commands.help.HelpCommand");
     }
 }

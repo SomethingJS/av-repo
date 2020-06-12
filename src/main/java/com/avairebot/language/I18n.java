@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.language;
+package com.avbot.language;
 
-import com.avairebot.AvaIre;
-import com.avairebot.config.YamlConfiguration;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.GuildTransformer;
+import com.avbot.av;
+import com.avbot.config.YamlConfiguration;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.GuildTransformer;
 import net.dv8tion.jda.core.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,17 +41,17 @@ public class I18n {
     private static final LanguageContainer defaultLanguage = new LanguageContainer(Language.EN_US);
     private static final Logger log = LoggerFactory.getLogger(I18n.class);
 
-    private static AvaIre avaire;
+    private static av av;
 
     /**
      * Starts the internationalization and localization container,
      * loading all the languages into memory, this method should
      * only be called once during the startup of the bot.
      *
-     * @param avaire The main AvaIre application instance.
+     * @param av The main av application instance.
      */
-    public static void start(AvaIre avaire) {
-        I18n.avaire = avaire;
+    public static void start(av av) {
+        I18n.av = av;
 
         languages.clear();
         languages.add(defaultLanguage);
@@ -153,7 +153,7 @@ public class I18n {
         }
 
         try {
-            GuildTransformer transformer = GuildController.fetchGuild(avaire, guild);
+            GuildTransformer transformer = GuildController.fetchGuild(av, guild);
 
             if (transformer != null) {
                 return getLocale(transformer);

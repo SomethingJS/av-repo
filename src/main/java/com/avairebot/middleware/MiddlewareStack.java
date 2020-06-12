@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.middleware;
+package com.avbot.middleware;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandContainer;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.middleware.Middleware;
-import com.avairebot.handlers.DatabaseEventHolder;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.middleware.global.IncrementMetricsForCommand;
-import com.avairebot.middleware.global.IsCategoryEnabled;
-import com.avairebot.middleware.global.ProcessCommand;
+import com.avbot.av;
+import com.avbot.commands.CommandContainer;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.middleware.Middleware;
+import com.avbot.handlers.DatabaseEventHolder;
+import com.avbot.metrics.Metrics;
+import com.avbot.middleware.global.IncrementMetricsForCommand;
+import com.avbot.middleware.global.IsCategoryEnabled;
+import com.avbot.middleware.global.ProcessCommand;
 import net.dv8tion.jda.core.entities.Message;
 
 import java.util.ArrayList;
@@ -73,12 +73,12 @@ public class MiddlewareStack {
     /**
      * Builds the global messages so they can be used when building the middleware stack.
      *
-     * @param avaire The AvaIre application instance.
+     * @param av The av application instance.
      */
-    static void buildGlobalMiddlewares(AvaIre avaire) {
-        processCommand = new ProcessCommand(avaire);
-        isCategoryEnabled = new IsCategoryEnabled(avaire);
-        incrementMetricsForCommand = new IncrementMetricsForCommand(avaire);
+    static void buildGlobalMiddlewares(av av) {
+        processCommand = new ProcessCommand(av);
+        isCategoryEnabled = new IsCategoryEnabled(av);
+        incrementMetricsForCommand = new IncrementMetricsForCommand(av);
     }
 
     /**

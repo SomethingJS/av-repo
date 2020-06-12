@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.scheduler.jobs;
+package com.avbot.scheduler.jobs;
 
-import com.avairebot.AvaIre;
-import com.avairebot.audio.LavalinkManager;
-import com.avairebot.contracts.scheduler.Job;
-import com.avairebot.utilities.CacheUtil;
+import com.avbot.av;
+import com.avbot.audio.LavalinkManager;
+import com.avbot.contracts.scheduler.Job;
+import com.avbot.utilities.CacheUtil;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -46,8 +46,8 @@ public class LavalinkGarbageNodeCollectorJob extends Job {
             }
         });
 
-    public LavalinkGarbageNodeCollectorJob(AvaIre avaire) {
-        super(avaire, 0, 5, TimeUnit.SECONDS);
+    public LavalinkGarbageNodeCollectorJob(av av) {
+        super(av, 0, 5, TimeUnit.SECONDS);
     }
 
     @Override

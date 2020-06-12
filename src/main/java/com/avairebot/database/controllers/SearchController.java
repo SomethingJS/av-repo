@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.controllers;
+package com.avbot.database.controllers;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.audio.TrackRequestContext;
-import com.avairebot.audio.searcher.SearchProvider;
-import com.avairebot.contracts.database.Database;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.transformers.SearchResultTransformer;
-import com.avairebot.language.I18n;
-import com.avairebot.scheduler.ScheduleHandler;
-import com.avairebot.time.Carbon;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.audio.TrackRequestContext;
+import com.avbot.audio.searcher.SearchProvider;
+import com.avbot.contracts.database.Database;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.transformers.SearchResultTransformer;
+import com.avbot.language.I18n;
+import com.avbot.scheduler.ScheduleHandler;
+import com.avbot.time.Carbon;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
@@ -58,14 +58,14 @@ public class SearchController {
         defaultMaxCacheAge = TimeUnit.SECONDS.toMillis(
             Math.max(
                 60,
-                AvaIre.getInstance().getConfig()
+                av.getInstance().getConfig()
                     .getLong("audio-cache.default-max-cache-age", TimeUnit.HOURS.toSeconds(48))
             )
         );
 
         cache = CacheBuilder.newBuilder()
             .recordStats()
-            .maximumSize(AvaIre.getInstance().getConfig()
+            .maximumSize(av.getInstance().getConfig()
                 .getInt("audio-cache.maximum-cache-size", 1000)
             )
             .expireAfterAccess(30, TimeUnit.MINUTES)
@@ -110,7 +110,7 @@ public class SearchController {
         }
 
         try {
-            Collection result = AvaIre.getInstance().getDatabase().query(
+            Collection result = av.getInstance().getDatabase().query(
                 createSearchQueryFromContext(context, maxCacheAgeInMilis)
             );
 
@@ -120,7 +120,7 @@ public class SearchController {
 
             ScheduleHandler.getScheduler().submit(() -> {
                 try {
-                    AvaIre.getInstance().getDatabase().queryUpdate(
+                    av.getInstance().getDatabase().queryUpdate(
                         createUpdateLookupQueryFromContext(context)
                     );
                 } catch (SQLException e) {
@@ -175,7 +175,7 @@ public class SearchController {
                 prepareStringForQuery(time.toString())
             );
 
-            AvaIre.getInstance().getDatabase().queryUpdate(query);
+            av.getInstance().getDatabase().queryUpdate(query);
         } catch (SQLException e) {
             log.error("Failed to create audio track record for query \"{}\" using provider {}, error: {}",
                 context.getQuery(), context.getProvider().name(), e.getMessage(), e
@@ -188,7 +188,7 @@ public class SearchController {
 
         ScheduleHandler.getScheduler().submit(() -> {
             try {
-                AvaIre.getInstance().getDatabase().queryBatch(I18n.format(
+                av.getInstance().getDatabase().queryBatch(I18n.format(
                     "INSERT INTO `{0}` (`provider`, `query`, `result`, `created_at`) " +
                         "SELECT * FROM (SELECT ?, ?, ?, ?) AS tmp " +
                         "WHERE NOT EXISTS (" +
@@ -232,7 +232,7 @@ public class SearchController {
     @SuppressWarnings("StringBufferReplaceableByString")
     private static String createUpdateLookupQueryFromContext(TrackRequestContext context) throws SQLException {
         StringBuilder updateQuery = new StringBuilder(StringUtils.chop(
-            AvaIre.getInstance().getDatabase().newQueryBuilder(Constants.MUSIC_SEARCH_CACHE_TABLE_NAME)
+            av.getInstance().getDatabase().newQueryBuilder(Constants.MUSIC_SEARCH_CACHE_TABLE_NAME)
                 .toSQL(Database.QueryType.UPDATE)
         ));
 
@@ -256,7 +256,7 @@ public class SearchController {
 
     @SuppressWarnings("ConstantConditions")
     private static String createSearchQueryFromContext(TrackRequestContext context, long maxCacheAgeInMilis) throws SQLException {
-        String base = AvaIre.getInstance().getDatabase().newQueryBuilder(Constants.MUSIC_SEARCH_CACHE_TABLE_NAME)
+        String base = av.getInstance().getDatabase().newQueryBuilder(Constants.MUSIC_SEARCH_CACHE_TABLE_NAME)
             .where("provider", context.getProvider().getId())
             .toSQL();
 
@@ -277,6 +277,6 @@ public class SearchController {
     }
 
     private static String prepareStringForQuery(String str) throws SQLException {
-        return AvaIre.getInstance().getDatabase().getConnection().prepareDataValueString(str);
+        return av.getInstance().getDatabase().getConnection().prepareDataValueString(str);
     }
 }

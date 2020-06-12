@@ -1,31 +1,31 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.controllers;
+package com.avbot.database.controllers;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.database.transformers.PurchasesTransformer;
-import com.avairebot.language.I18n;
-import com.avairebot.utilities.CacheUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.database.transformers.PurchasesTransformer;
+import com.avbot.language.I18n;
+import com.avbot.utilities.CacheUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.entities.User;
@@ -75,7 +75,7 @@ public class PurchaseController {
                     purchaseColumns[index++] = value;
                 }
 
-                String selectQuery = AvaIre.getInstance().getDatabase()
+                String selectQuery = av.getInstance().getDatabase()
                     .newQueryBuilder(Constants.VOTES_TABLE_NAME)
                     .select("selected_bg")
                     .where("user_id", userId)
@@ -86,7 +86,7 @@ public class PurchaseController {
                 );
 
                 return new PurchasesTransformer(
-                    AvaIre.getInstance().getDatabase()
+                    av.getInstance().getDatabase()
                         .newQueryBuilder(Constants.PURCHASES_TABLE_NAME)
                         .selectRaw(String.join(", ", purchaseColumns))
                         .where("user_id", userId)

@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.language.I18n;
-import com.avairebot.time.Carbon;
-import com.avairebot.utilities.MentionableUtil;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.vote.VoteCacheEntity;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.language.I18n;
+import com.avbot.time.Carbon;
+import com.avbot.utilities.MentionableUtil;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.vote.VoteCacheEntity;
 import net.dv8tion.jda.core.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +43,8 @@ public class VotePointsCommand extends SystemCommand {
 
     private static final Logger log = LoggerFactory.getLogger(VotePointsCommand.class);
 
-    public VotePointsCommand(AvaIre avaire) {
-        super(avaire);
+    public VotePointsCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class VotePointsCommand extends SystemCommand {
         User user = MentionableUtil.getUser(context, args, 1);
         if (user == null) {
             try {
-                user = avaire.getShardManager().getUserById(args[1]);
+                user = av.getShardManager().getUserById(args[1]);
 
                 if (user == null) {
                     return sendErrorMessage(context, "errors.invalidProperty", "user", "user");
@@ -112,7 +112,7 @@ public class VotePointsCommand extends SystemCommand {
         }
 
         try {
-            VoteCacheEntity entity = avaire.getVoteManager().getVoteEntity(user);
+            VoteCacheEntity entity = av.getVoteManager().getVoteEntity(user);
 
             if (entity == null) {
                 createRecord(user.getIdLong(), type.equals(Type.GIVE) ? amount : 0);
@@ -149,13 +149,13 @@ public class VotePointsCommand extends SystemCommand {
             return sendErrorMessage(context, "errors.missingArgument", "amount");
         }
 
-        avaire.getVoteManager().getVoteEntity(context.getAuthor());
+        av.getVoteManager().getVoteEntity(context.getAuthor());
 
         return true;
     }
 
     private void createRecord(long userId, int amount) throws SQLException {
-        avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
+        av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
             .insert(statement -> {
                 statement.set("user_id", userId);
                 statement.set("expires_in", Carbon.now().toDayDateTimeString());
@@ -170,7 +170,7 @@ public class VotePointsCommand extends SystemCommand {
         }
 
         int finalAmount = amount;
-        avaire.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
+        av.getDatabase().newQueryBuilder(Constants.VOTES_TABLE_NAME)
             .where("user_id", entity.getUserId())
             .update(statement -> {
                 statement.setRaw("points", I18n.format("`points` {0} {1}",

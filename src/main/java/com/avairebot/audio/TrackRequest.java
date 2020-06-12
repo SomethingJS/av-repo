@@ -1,34 +1,34 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.audio;
+package com.avbot.audio;
 
-import com.avairebot.audio.exceptions.InvalidSearchProviderException;
-import com.avairebot.audio.exceptions.SearchingException;
-import com.avairebot.audio.exceptions.TrackLoadFailedException;
-import com.avairebot.audio.searcher.SearchProvider;
-import com.avairebot.audio.searcher.SearchTrackResultHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.async.Future;
-import com.avairebot.exceptions.NoMatchFoundException;
+import com.avbot.audio.exceptions.InvalidSearchProviderException;
+import com.avbot.audio.exceptions.SearchingException;
+import com.avbot.audio.exceptions.TrackLoadFailedException;
+import com.avbot.audio.searcher.SearchProvider;
+import com.avbot.audio.searcher.SearchTrackResultHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.async.Future;
+import com.avbot.exceptions.NoMatchFoundException;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 

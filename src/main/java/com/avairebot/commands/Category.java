@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands;
+package com.avbot.commands;
 
-import com.avairebot.AvaIre;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.utilities.CacheUtil;
+import com.avbot.av;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.utilities.CacheUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -39,14 +39,14 @@ public class Category {
         .expireAfterWrite(2500, TimeUnit.MILLISECONDS)
         .build();
 
-    private final AvaIre avaire;
+    private final av av;
     private final String name;
     private final String prefix;
 
     private boolean isGlobal = false;
 
-    public Category(AvaIre avaire, String name, String prefix) {
-        this.avaire = avaire;
+    public Category(av av, String name, String prefix) {
+        this.av = av;
         this.name = name;
         this.prefix = prefix;
     }
@@ -69,7 +69,7 @@ public class Category {
         }
 
         return (String) CacheUtil.getUncheckedUnwrapped(cache, asKey(message), () -> {
-            GuildTransformer transformer = GuildController.fetchGuild(avaire, message);
+            GuildTransformer transformer = GuildController.fetchGuild(av, message);
 
             return transformer == null ? getPrefix() : transformer.getPrefixes().getOrDefault(
                 getName().toLowerCase(), getPrefix()

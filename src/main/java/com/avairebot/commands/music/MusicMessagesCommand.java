@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.music;
+package com.avbot.commands.music;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.utilities.ComparatorUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.utilities.ComparatorUtil;
 
 import javax.annotation.Nonnull;
 import java.sql.SQLException;
@@ -37,7 +37,7 @@ import java.util.List;
 
 public class MusicMessagesCommand extends Command {
 
-    public MusicMessagesCommand(AvaIre plugin) {
+    public MusicMessagesCommand(av plugin) {
         super(plugin, false);
     }
 
@@ -105,7 +105,7 @@ public class MusicMessagesCommand extends Command {
         try {
             context.getGuildTransformer().setMusicMessages(type.getValue());
 
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .useAsync(true)
                 .where("id", context.getGuild().getId())
                 .update(statement -> statement.set("music_messages", type.getValue()));

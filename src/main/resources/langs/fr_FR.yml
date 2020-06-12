@@ -9,7 +9,7 @@ errors:
     missingMusicQueue: "Musique manquante `query`, tu dois inclure lien de la musique que tu souhaites écouter, ou au moins un titre de musique!"
     cantMentionEveryone: "You don't have permissions to mention everyone."
     requireLevelFeatureToBeEnabled: "Cette commande requiert que la fonctionnalité `Levels & Experience` soit active pour le serveur, tu peux demander à un admin serveur si ils veulent l'activer avec `{0}`"
-    errorOccurredWhileLoading: "Une erreur est survenue lors du chargement de {0}, réessayer, si le problème persiste reportez le à l'un de mes développeurs sur le [serveur de support AvaIre](https://avairebot.com/support)."
+    errorOccurredWhileLoading: "Une erreur est survenue lors du chargement de {0}, réessayer, si le problème persiste reportez le à l'un de mes développeurs sur le [serveur de support av](https://avbot.com/support)."
 
 levelupMessages:
     - "GG :user, tu as atteint le **Niveau :level**"
@@ -91,7 +91,7 @@ administration:
         invalidAmountGiven: "The `amount` property must be between 1 and {0} to add or take XP from a user."
         aboutToResetEverything: "You're about to reset the XP for everyone on the entire server. If you're sure you wanna continue, run the command to completely reset the servers XP.\n\n```:command server-reset :token```\nThis command will only work for 60 seconds, after that the token becomes invalid and the command has to be ran again to get a new token."
         aboutToSyncEverything: "You're about to sync the XP with the global leaderboard, this will effectively revert any custom XP changes made on the entire server. If you're sure you wanna continue, run the command to completely sync the servers XP.\n\n```:command server-sync :token```\nThis command will only work for 60 seconds, after that the token becomes invalid and the command has to be ran again to get a new token."
-        failedToSaveChanges: "Failed to save the changes to the database, please try again, if the error continues to happen, please contact support on the official [AvaIre support server](https://avairebot.com/support)."
+        failedToSaveChanges: "Failed to save the changes to the database, please try again, if the error continues to happen, please contact support on the official [av support server](https://avbot.com/support)."
         mustBeAnAdmin: "You must be a server admin to use this action."
         invalidSecurityToken: "Invalid security token given, please provide the correct security token to reset all the servers XP."
         warning: "Warning!"
@@ -198,7 +198,7 @@ administration:
     LanguageCommand:
         invalidLanguageCode:  "Code de langue invalide donné, `{0}` n'est pas un code de langue valide, ou il n'est pas encore supporté !"
         changed: "La langue du serveur a été mise à jour avec succès pour utiliser la langue :name !"
-        note: "AvaIre supporte plusieurs langues fournies par l'utilisateur que tu peux sélectionner avec cette commande. Les traductions peuvent ne pas être à 100% exactes ou complètes. Pour sélectionner une langue, utilisez `{0} <code>`"
+        note: "av supporte plusieurs langues fournies par l'utilisateur que tu peux sélectionner avec cette commande. Les traductions peuvent ne pas être à 100% exactes ou complètes. Pour sélectionner une langue, utilisez `{0} <code>`"
 
     LevelAlertsCommand:
         message: "Les alertes de niveau supérieur ont été :status pour le serveur.:note"
@@ -868,7 +868,7 @@ utility:
             other: "lent. :dizzy_face:"
 
     RankBackgroundCommand:
-        canBeUnlocked: "Rank backgrounds can be unlocked using **[Vote Points](https://discordbots.org/bot/avaire)**,\nyou'll get **1 point** each time you vote for the bot."
+        canBeUnlocked: "Rank backgrounds can be unlocked using **[Vote Points](https://discordbots.org/bot/av)**,\nyou'll get **1 point** each time you vote for the bot."
         listTitle: "Rank Backgrounds ({0})"
         youHaveVotePoints: "You have {0} vote points."
         exampleTitle: "{0} Example"
@@ -925,8 +925,8 @@ utility:
         totalShards: "Total des fragments"
 
     SourceCommand:
-        noArgs: "code source AvaIre:"
-        command: "code source AvaIre pour la commande **:command**:"
+        noArgs: "code source av:"
+        command: "code source av pour la commande **:command**:"
         invalidCommand: "Commande invalide, voici plutôt le code source complet."
         externalCommand: "La commande est enregistrée via un plugin externe, les auteurs de ce plugin n'ont pas rendu public les sources de la commande, ou ils ont oublié d'ajouter le lien, voici à la place le code source complet du bot."
 
@@ -983,9 +983,9 @@ utility:
 
     VersionCommand:
         current: "Je suis actuellement `:difference` versions :type derrière!"
-        getLatest: "Tu peux obtenir ma dernière version sur github [avaire/avaire](https://github.com/avaire/avaire)"
-        usingLatest: "Vous utilisez la dernière version de AvaIre!"
-        latestVersion: "La dernière version de AvaIre est v{0}"
+        getLatest: "Tu peux obtenir ma dernière version sur github [av/av](https://github.com/av/av)"
+        usingLatest: "Vous utilisez la dernière version de av!"
+        latestVersion: "La dernière version de av est v{0}"
         latestChanges: "Derniers changements :"
         versions:
             majorName: "Majeure"

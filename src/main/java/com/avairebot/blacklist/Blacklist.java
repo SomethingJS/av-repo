@@ -1,31 +1,31 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.blacklist;
+package com.avbot.blacklist;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.query.ChangeableStatement;
-import com.avairebot.time.Carbon;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.query.ChangeableStatement;
+import com.avbot.time.Carbon;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
@@ -40,17 +40,17 @@ import java.util.List;
 @SuppressWarnings("SuspiciousMethodCalls")
 public class Blacklist {
 
-    private final AvaIre avaire;
+    private final av av;
     private final List<BlacklistEntity> blacklist;
     private final Ratelimit ratelimit;
 
     /**
      * Creates a new blacklist instance.
      *
-     * @param avaire The main avaire instance.
+     * @param av The main av instance.
      */
-    public Blacklist(AvaIre avaire) {
-        this.avaire = avaire;
+    public Blacklist(av av) {
+        this.av = av;
 
         this.blacklist = new BlacklistList();
         this.ratelimit = new Ratelimit(this);
@@ -96,7 +96,7 @@ public class Blacklist {
      * @return <code>True</code> if the user is on the blacklist, <code>False</code> otherwise.
      */
     public boolean isBlacklisted(@Nonnull User user) {
-        if (avaire.getBotAdmins().getUserById(user.getIdLong(), true).isAdmin()) {
+        if (av.getBotAdmins().getUserById(user.getIdLong(), true).isAdmin()) {
             return false;
         }
 
@@ -158,11 +158,11 @@ public class Blacklist {
         }
 
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.BLACKLIST_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.BLACKLIST_TABLE_NAME)
                 .where("id", id)
                 .delete();
         } catch (SQLException e) {
-            AvaIre.getLogger().error("Failed to sync blacklist with the database: " + e.getMessage(), e);
+            av.getLogger().error("Failed to sync blacklist with the database: " + e.getMessage(), e);
         }
     }
 
@@ -225,11 +225,11 @@ public class Blacklist {
         blacklist.add(new BlacklistEntity(scope, id, reason, expiresIn));
 
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.BLACKLIST_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.BLACKLIST_TABLE_NAME)
                 .where("id", id).andWhere("type", scope.getId())
                 .delete();
 
-            avaire.getDatabase().newQueryBuilder(Constants.BLACKLIST_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.BLACKLIST_TABLE_NAME)
                 .useAsync(true)
                 .insert((ChangeableStatement statement) -> {
                     statement.set("id", id);
@@ -245,7 +245,7 @@ public class Blacklist {
                     }
                 });
         } catch (SQLException e) {
-            AvaIre.getLogger().error("Failed to sync blacklist with the database: " + e.getMessage(), e);
+            av.getLogger().error("Failed to sync blacklist with the database: " + e.getMessage(), e);
         }
     }
 
@@ -266,7 +266,7 @@ public class Blacklist {
     public synchronized void syncBlacklistWithDatabase() {
         blacklist.clear();
         try {
-            Collection collection = avaire.getDatabase().newQueryBuilder(Constants.BLACKLIST_TABLE_NAME)
+            Collection collection = av.getDatabase().newQueryBuilder(Constants.BLACKLIST_TABLE_NAME)
                 .where("expires_in", ">", Carbon.now())
                 .get();
 
@@ -290,7 +290,7 @@ public class Blacklist {
                 }
             });
         } catch (SQLException e) {
-            AvaIre.getLogger().error("Failed to sync blacklist with the database: " + e.getMessage(), e);
+            av.getLogger().error("Failed to sync blacklist with the database: " + e.getMessage(), e);
         }
     }
 

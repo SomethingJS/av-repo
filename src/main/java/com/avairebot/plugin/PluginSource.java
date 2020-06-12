@@ -1,28 +1,28 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.plugin;
+package com.avbot.plugin;
 
-import com.avairebot.contracts.plugin.PluginSourceManager;
-import com.avairebot.plugin.sources.GitHubSourceManager;
+import com.avbot.contracts.plugin.PluginSourceManager;
+import com.avbot.plugin.sources.GitHubSourceManager;
 
 import java.util.regex.Matcher;
 
@@ -81,7 +81,7 @@ public enum PluginSource {
      * this is usually the git repository name, followed by a forward
      * slash, and then the actual project name.
      * <p>
-     * Example: "avaire/avaire", "senither/meow-api/", etc.
+     * Example: "av/av", "senither/meow-api/", etc.
      *
      * @param name The project name that should be formatted into the source URL.
      * @return The complete source URL endpoint for the plugin source.
@@ -95,7 +95,7 @@ public enum PluginSource {
      * this is usually the git repository name, followed by a forward
      * slash, and then the actual project name.
      * <p>
-     * Example: "avaire/avaire", "senither/meow-api/", etc.
+     * Example: "av/av", "senither/meow-api/", etc.
      *
      * @param name The project name that should be formatted into the release URL.
      * @return The complete release URL endpoint for the plugin source.

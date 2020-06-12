@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.transformers;
+package com.avbot.database.transformers;
 
-import com.avairebot.AvaIre;
-import com.avairebot.audio.TrackRequestContext;
-import com.avairebot.audio.cache.AudioTrackSerializer;
-import com.avairebot.audio.searcher.SearchProvider;
-import com.avairebot.contracts.database.transformers.Transformer;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.exceptions.InvalidStateException;
+import com.avbot.av;
+import com.avbot.audio.TrackRequestContext;
+import com.avbot.audio.cache.AudioTrackSerializer;
+import com.avbot.audio.searcher.SearchProvider;
+import com.avbot.contracts.database.transformers.Transformer;
+import com.avbot.database.collection.DataRow;
+import com.avbot.exceptions.InvalidStateException;
 import com.google.gson.reflect.TypeToken;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.BasicAudioPlaylist;
@@ -50,7 +50,7 @@ public class SearchResultTransformer extends Transformer {
         if (hasData()) {
             provider = SearchProvider.fromId(data.getInt("provider", -1));
             query = data.getString("query");
-            serializableAudioPlaylist = AvaIre.gson.fromJson(
+            serializableAudioPlaylist = av.gson.fromJson(
                 data.getString("result"), new TypeToken<SerializableAudioPlaylist>() {
                 }.getType()
             );
@@ -155,7 +155,7 @@ public class SearchResultTransformer extends Transformer {
 
         @Override
         public String toString() {
-            return AvaIre.gson.toJson(this);
+            return av.gson.toJson(this);
         }
     }
 }

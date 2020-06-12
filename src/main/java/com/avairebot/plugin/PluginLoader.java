@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.plugin;
+package com.avbot.plugin;
 
-import com.avairebot.AppInfo;
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.config.YamlConfiguration;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.exceptions.InvalidPluginException;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.AppInfo;
+import com.avbot.av;
+import com.avbot.commands.CommandHandler;
+import com.avbot.config.YamlConfiguration;
+import com.avbot.contracts.commands.Command;
+import com.avbot.exceptions.InvalidPluginException;
+import com.avbot.utilities.NumberUtil;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import javax.annotation.Nullable;
@@ -69,7 +69,7 @@ public class PluginLoader {
             authors.add(configuration.getString("author"));
         }
 
-        classLoader = new PluginClassLoader(this, AvaIre.class.getClassLoader(), dataFolder, file);
+        classLoader = new PluginClassLoader(this, av.class.getClassLoader(), dataFolder, file);
     }
 
     /**
@@ -133,10 +133,10 @@ public class PluginLoader {
      * call the {@link JavaPlugin#onEnable() onEnable()} method
      * on the {@link JavaPlugin JavaPlugin} instance.
      *
-     * @param avaire The AvaIre class instance.
+     * @param av The av class instance.
      */
-    public void invokePlugin(AvaIre avaire) {
-        classLoader.getPlugin().init(avaire, this);
+    public void invokePlugin(av av) {
+        classLoader.getPlugin().init(av, this);
         classLoader.getPlugin().onEnable();
     }
 
@@ -145,9 +145,9 @@ public class PluginLoader {
      * calling the {@link JavaPlugin#onDisable() onDisable()} method, and
      * unregister all events and commands associated with the plugin.
      *
-     * @param avaire The AvaIre class instance.
+     * @param av The av class instance.
      */
-    public void unregisterPlugin(AvaIre avaire) {
+    public void unregisterPlugin(av av) {
         classLoader.getPlugin().onDisable();
         classLoader.getPlugin().getEventListeners().clear();
 
@@ -228,7 +228,7 @@ public class PluginLoader {
         }
 
         if (configuration.contains("requires") && !compareVersion(configuration.getString("requires"))) {
-            throw new InvalidPluginException(getName() + ": Invalid plugin.yml file, the plugin requires AvaIre version %s or higher to work correctly!",
+            throw new InvalidPluginException(getName() + ": Invalid plugin.yml file, the plugin requires av version %s or higher to work correctly!",
                 configuration.getString("requires")
             );
         }

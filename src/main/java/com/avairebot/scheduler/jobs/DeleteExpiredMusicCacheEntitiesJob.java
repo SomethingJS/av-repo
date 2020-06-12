@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.scheduler.jobs;
+package com.avbot.scheduler.jobs;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.contracts.scheduler.Job;
-import com.avairebot.time.Carbon;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.contracts.scheduler.Job;
+import com.avbot.time.Carbon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,19 +35,19 @@ public class DeleteExpiredMusicCacheEntitiesJob extends Job {
 
     private static final Logger log = LoggerFactory.getLogger(DeleteExpiredMusicCacheEntitiesJob.class);
 
-    public DeleteExpiredMusicCacheEntitiesJob(AvaIre avaire) {
-        super(avaire, 5, 15, TimeUnit.MINUTES);
+    public DeleteExpiredMusicCacheEntitiesJob(av av) {
+        super(av, 5, 15, TimeUnit.MINUTES);
     }
 
     @Override
     public void run() {
         final Carbon time = Carbon.now().subSeconds(Math.max(
-            Math.max(avaire.getConfig().getInt("audio-cache.default-max-cache-age", 86400), 60),
-            avaire.getConfig().getInt("audio-cache.max-persistence-age", 172800)
+            Math.max(av.getConfig().getInt("audio-cache.default-max-cache-age", 86400), 60),
+            av.getConfig().getInt("audio-cache.max-persistence-age", 172800)
         ));
 
         try {
-            AvaIre.getInstance().getDatabase().newQueryBuilder(Constants.MUSIC_SEARCH_CACHE_TABLE_NAME)
+            av.getInstance().getDatabase().newQueryBuilder(Constants.MUSIC_SEARCH_CACHE_TABLE_NAME)
                 .where("created_at", "<", time)
                 .delete();
         } catch (SQLException e) {

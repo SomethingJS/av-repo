@@ -1,40 +1,40 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.chat.SimplePaginator;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.language.I18n;
-import com.avairebot.modlog.ModlogType;
-import com.avairebot.time.Carbon;
-import com.avairebot.utilities.MentionableUtil;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.chat.SimplePaginator;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.language.I18n;
+import com.avbot.modlog.ModlogType;
+import com.avbot.time.Carbon;
+import com.avbot.utilities.MentionableUtil;
+import com.avbot.utilities.NumberUtil;
 import net.dv8tion.jda.core.entities.User;
 
 import javax.annotation.Nonnull;
@@ -46,8 +46,8 @@ import java.util.List;
 
 public class ModlogHistoryCommand extends Command {
 
-    public ModlogHistoryCommand(AvaIre avaire) {
-        super(avaire, false);
+    public ModlogHistoryCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class ModlogHistoryCommand extends Command {
         }
 
         try {
-            Collection items = avaire.getDatabase().newQueryBuilder(Constants.LOG_TABLE_NAME)
+            Collection items = av.getDatabase().newQueryBuilder(Constants.LOG_TABLE_NAME)
                 .where("guild_id", context.getGuild().getId())
                 .where("target_id", user.getId())
                 .where("pardon", 0)
@@ -144,7 +144,7 @@ public class ModlogHistoryCommand extends Command {
                 records.add(context.i18n("entry",
                     modlogCaseId,
                     type == null ? "Unknown" : type.getEmote() + " " + type.getName(context.getGuild()),
-                    formatUser(avaire.getShardManager().getUserById(row.getLong("user_id")), row),
+                    formatUser(av.getShardManager().getUserById(row.getLong("user_id")), row),
                     time == null ? "Unknown" : time.format("EEE, MMM dd, yyyy h:mm aaa z"),
                     reason
                 ));
@@ -165,7 +165,7 @@ public class ModlogHistoryCommand extends Command {
                 ))
                 .queue();
         } catch (SQLException e) {
-            AvaIre.getLogger().error("Failed to load log records for user {} in guild {}",
+            av.getLogger().error("Failed to load log records for user {} in guild {}",
                 user.getId(), context.getGuild().getId(), e
             );
 

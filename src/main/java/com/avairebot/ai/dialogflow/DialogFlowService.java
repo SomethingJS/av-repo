@@ -1,41 +1,41 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.ai.dialogflow;
+package com.avbot.ai.dialogflow;
 
 import ai.api.AIConfiguration;
 import ai.api.AIDataService;
 import ai.api.AIServiceException;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.chat.ConsoleColor;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.ai.IntelligenceService;
-import com.avairebot.contracts.ai.Intent;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.handlers.DatabaseEventHolder;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.utilities.AutoloaderUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.chat.ConsoleColor;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.ai.IntelligenceService;
+import com.avbot.contracts.ai.Intent;
+import com.avbot.factories.MessageFactory;
+import com.avbot.handlers.DatabaseEventHolder;
+import com.avbot.metrics.Metrics;
+import com.avbot.utilities.AutoloaderUtil;
 import io.prometheus.client.Histogram;
 import net.dv8tion.jda.core.entities.Message;
 import org.slf4j.Logger;
@@ -75,8 +75,8 @@ public class DialogFlowService implements IntelligenceService {
     }
 
     @Override
-    public void registerService(AvaIre avaire) {
-        String dialogFlowClientToken = avaire.getConfig().getString("apiKeys.dialogflow", "invalid");
+    public void registerService(av av) {
+        String dialogFlowClientToken = av.getConfig().getString("apiKeys.dialogflow", "invalid");
         if (dialogFlowClientToken.length() != 32) {
             executor = null;
             return;
@@ -95,7 +95,7 @@ public class DialogFlowService implements IntelligenceService {
     }
 
     @Override
-    public void unregisterService(AvaIre avaire) {
+    public void unregisterService(av av) {
         if (executor != null) {
             executor.shutdownNow();
         }

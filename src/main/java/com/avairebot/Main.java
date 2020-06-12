@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot;
+package com.avbot;
 
 import ch.qos.logback.classic.util.ContextInitializer;
-import com.avairebot.chat.ConsoleColor;
-import com.avairebot.exceptions.InvalidApplicationEnvironmentException;
-import com.avairebot.shared.ExitCodes;
+import com.avbot.chat.ConsoleColor;
+import com.avbot.exceptions.InvalidApplicationEnvironmentException;
+import com.avbot.shared.ExitCodes;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class Main {
         options.addOption(new Option("env", "use-environment-variables", false, "Enables environment variables override for the config options, this allows for setting up environment variables like \"AVA_DISCORD_TOKEN\" to override the \"discord.token\" option in the config. Every option in the config can be overwritten with an environment variable called \"AVA_\" plus the path to the config option in all uppercase, and any special characters replaced with an underscore(_), for example \"database.type\" would be \"AVA_DATABASE_TYPE\".\nNote: None of the values are stored in the config permanently, removing the environment variable will make the bot use the config option again(after a restart)."));
         options.addOption(new Option("nocolor", "no-colors", false, "Disables colors for commands and AI actions in the terminal."));
         options.addOption(new Option("d", "debug", false, "Enables debugging mode, this will log extra information to the terminal."));
-        options.addOption(new Option("gsf", "generate-json-file", false, "Enters command generation mode, when this flag is enabled, the bot won't actually start, but will instead generate a \"commandMap.json\" file containing information about all the registered commands. This file is used for avairebot.com to generate the commands page."));
+        options.addOption(new Option("gsf", "generate-json-file", false, "Enters command generation mode, when this flag is enabled, the bot won't actually start, but will instead generate a \"commandMap.json\" file containing information about all the registered commands. This file is used for avbot.com to generate the commands page."));
 
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
@@ -66,11 +66,11 @@ public class Main {
                 formatter.printHelp("Help Menu", options);
                 System.exit(ExitCodes.EXIT_CODE_NORMAL);
             } else if (cmd.hasOption("version")) {
-                System.out.println(AvaIre.getVersionInfo(settings));
+                System.out.println(av.getVersionInfo(settings));
                 System.exit(ExitCodes.EXIT_CODE_NORMAL);
             }
 
-            AvaIre.avaire = new AvaIre(settings);
+            av.av = new av(settings);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             formatter.printHelp("", options);

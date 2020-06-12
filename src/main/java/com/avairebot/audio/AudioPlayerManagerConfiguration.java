@@ -1,29 +1,29 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.audio;
+package com.avbot.audio;
 
-import com.avairebot.AvaIre;
-import com.avairebot.audio.source.PlaylistImportSourceManager;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.audio.source.PlaylistImportSourceManager;
+import com.avbot.utilities.NumberUtil;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.bandcamp.BandcampAudioSourceManager;
@@ -56,34 +56,34 @@ public class AudioPlayerManagerConfiguration implements Supplier<AudioPlayerMana
 
     private static final Logger log = LoggerFactory.getLogger(AudioPlayerManagerConfiguration.class);
 
-    private final AvaIre avaire;
+    private final av av;
     private final AudioPlayerManager audioPlayerManager;
 
     /**
      * Creates a new audio player manager configuration instance
      * with a default audio player manager.
      *
-     * @param avaire The main AvaIre application instance.
+     * @param av The main av application instance.
      */
-    public AudioPlayerManagerConfiguration(AvaIre avaire) {
-        this(avaire, new DefaultAudioPlayerManager());
+    public AudioPlayerManagerConfiguration(av av) {
+        this(av, new DefaultAudioPlayerManager());
     }
 
     /**
      * Creates a new audio player manager configuration instance
      * using the given audio player manager instance.
      *
-     * @param avaire             The main AvaIre application instance.
+     * @param av             The main av application instance.
      * @param audioPlayerManager The audio player manager that should be configured.
      */
-    public AudioPlayerManagerConfiguration(AvaIre avaire, AudioPlayerManager audioPlayerManager) {
-        this.avaire = avaire;
+    public AudioPlayerManagerConfiguration(av av, AudioPlayerManager audioPlayerManager) {
+        this.av = av;
         this.audioPlayerManager = audioPlayerManager;
 
         log.debug("Creating new audio player manager instance");
 
         this.registerAudioSources(
-            avaire.getConfig().getBoolean("audio-ratelimit.ip-blocks", false)
+            av.getConfig().getBoolean("audio-ratelimit.ip-blocks", false)
                 ? buildRoutePlanner()
                 : null
         );
@@ -135,7 +135,7 @@ public class AudioPlayerManagerConfiguration implements Supplier<AudioPlayerMana
     private AbstractRoutePlanner buildRoutePlanner() {
         List<IpBlock> ipBlocks = new ArrayList<>();
 
-        for (String cidrBlock : avaire.getConfig().getStringList("audio-ratelimit.ip-blocks")) {
+        for (String cidrBlock : av.getConfig().getStringList("audio-ratelimit.ip-blocks")) {
             if (Ipv4Block.isIpv4CidrBlock(cidrBlock)) {
                 ipBlocks.add(new Ipv4Block(cidrBlock));
             } else if (Ipv6Block.isIpv6CidrBlock(cidrBlock)) {
@@ -167,7 +167,7 @@ public class AudioPlayerManagerConfiguration implements Supplier<AudioPlayerMana
             NumberUtil.formatNicely(totalAddresses)
         );
 
-        boolean searchTriggerFail = avaire.getConfig().getBoolean("audio-ratelimit.search-triggers-fail", true);
+        boolean searchTriggerFail = av.getConfig().getBoolean("audio-ratelimit.search-triggers-fail", true);
         switch (getRatelimitStrategy().toLowerCase()) {
             case "rotateonban":
                 return new RotatingIpRoutePlanner(ipBlocks, filter, searchTriggerFail);
@@ -195,7 +195,7 @@ public class AudioPlayerManagerConfiguration implements Supplier<AudioPlayerMana
     private List<InetAddress> getExcludedAddresses() {
         List<InetAddress> excludedAddresses = new ArrayList<>();
 
-        for (String address : avaire.getConfig().getStringList("audio-ratelimit.exclude-ips")) {
+        for (String address : av.getConfig().getStringList("audio-ratelimit.exclude-ips")) {
             try {
                 excludedAddresses.add(InetAddress.getByName(address));
             } catch (UnknownHostException e) {
@@ -212,6 +212,6 @@ public class AudioPlayerManagerConfiguration implements Supplier<AudioPlayerMana
      * @return The selected rate limit strategy.
      */
     private String getRatelimitStrategy() {
-        return avaire.getConfig().getString("audio-ratelimit.strategy", "unknown").trim();
+        return av.getConfig().getString("audio-ratelimit.strategy", "unknown").trim();
     }
 }

@@ -1,39 +1,39 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.controllers.ReactionController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.GuildTypeTransformer;
-import com.avairebot.database.transformers.ReactionTransformer;
-import com.avairebot.utilities.RestActionUtil;
-import com.avairebot.utilities.RoleUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.controllers.ReactionController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.GuildTypeTransformer;
+import com.avbot.database.transformers.ReactionTransformer;
+import com.avbot.utilities.RestActionUtil;
+import com.avbot.utilities.RoleUtil;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
@@ -52,8 +52,8 @@ public class AddReactionRoleCommand extends Command {
 
     private static final Logger log = LoggerFactory.getLogger(AddReactionRoleCommand.class);
 
-    public AddReactionRoleCommand(AvaIre avaire) {
-        super(avaire, false);
+    public AddReactionRoleCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class AddReactionRoleCommand extends Command {
             context.delete().queue(null, RestActionUtil.ignore);
 
             Message message = messages.get(1);
-            ReactionTransformer reactionTransformer = ReactionController.fetchReactionFromMessage(avaire, message);
+            ReactionTransformer reactionTransformer = ReactionController.fetchReactionFromMessage(av, message);
             if (reactionTransformer == null) {
                 createNewReactionRoleMessage(context, guildTransformer, emote, role, message);
                 return;
@@ -170,12 +170,12 @@ public class AddReactionRoleCommand extends Command {
             reactionTransformer.addReaction(emote, role);
 
             try {
-                avaire.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
+                av.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
                     .where("guild_id", reactionTransformer.getGuildId())
                     .where("channel_id", reactionTransformer.getChannelId())
                     .where("message_id", reactionTransformer.getMessageId())
                     .update(statement -> {
-                        statement.set("roles", AvaIre.gson.toJson(reactionTransformer.getRoles()));
+                        statement.set("roles", av.gson.toJson(reactionTransformer.getRoles()));
                     });
 
                 GuildTypeTransformer.GuildTypeLimits.GuildReactionRoles reactionLimits = guildTransformer.getType().getLimits().getReactionRoles();
@@ -185,7 +185,7 @@ public class AddReactionRoleCommand extends Command {
                     .set("role", role.getAsMention())
                     .set("emote", emote.getAsMention())
                     .set("roleSlots", reactionLimits.getRolesPerMessage() - reactionTransformer.getRoles().size())
-                    .set("messageSlots", reactionLimits.getMessages() - ReactionController.fetchReactions(avaire, context.getGuild()).size())
+                    .set("messageSlots", reactionLimits.getMessages() - ReactionController.fetchReactions(av, context.getGuild()).size())
                     .queue(successMessage -> successMessage.delete().queueAfter(15, TimeUnit.SECONDS, null, RestActionUtil.ignore));
 
                 ReactionController.forgetCache(context.getGuild().getIdLong());
@@ -215,7 +215,7 @@ public class AddReactionRoleCommand extends Command {
 
     @SuppressWarnings("UnusedReturnValue")
     private boolean createNewReactionRoleMessage(CommandMessage context, GuildTransformer transformer, Emote emote, Role role, Message message) {
-        Collection collection = ReactionController.fetchReactions(avaire, context.getGuild());
+        Collection collection = ReactionController.fetchReactions(av, context.getGuild());
         if (collection == null) {
             return sendErrorMessage(context, "errors.errorOccurredWhileLoading",
                 "reaction roles"
@@ -239,12 +239,12 @@ public class AddReactionRoleCommand extends Command {
                 }
 
                 String finalMessageContent = messageContent;
-                avaire.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
+                av.getDatabase().newQueryBuilder(Constants.REACTION_ROLES_TABLE_NAME)
                     .insert(statement -> {
                         statement.set("guild_id", message.getGuild().getId());
                         statement.set("channel_id", message.getChannel().getId());
                         statement.set("message_id", message.getId());
-                        statement.set("roles", AvaIre.gson.toJson(reactionTransformer.getRoles()));
+                        statement.set("roles", av.gson.toJson(reactionTransformer.getRoles()));
                         statement.set("snippet", finalMessageContent.substring(
                             0, Math.min(finalMessageContent.length(), 64)
                         ), true);

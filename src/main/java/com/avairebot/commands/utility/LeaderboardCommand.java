@@ -1,42 +1,42 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.utility;
+package com.avbot.commands.utility;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.chat.SimplePaginator;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.administration.LevelCommand;
-import com.avairebot.contracts.commands.CacheFingerprint;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.utilities.CacheUtil;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.chat.SimplePaginator;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.administration.LevelCommand;
+import com.avbot.contracts.commands.CacheFingerprint;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.utilities.CacheUtil;
+import com.avbot.utilities.NumberUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.entities.Member;
@@ -61,8 +61,8 @@ public class LeaderboardCommand extends Command {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalLeaderboardCommand.class);
 
-    public LeaderboardCommand(AvaIre avaire) {
-        super(avaire, false);
+    public LeaderboardCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class LeaderboardCommand extends Command {
             paginator.setCurrentPage(NumberUtil.parseInt(args[0], 1));
         }
 
-        long zeroExperience = avaire.getLevelManager().getExperienceFromLevel(transformer, 0) - 100;
+        long zeroExperience = av.getLevelManager().getExperienceFromLevel(transformer, 0) - 100;
 
         paginator.forEach((index, key, row) -> {
             Member member = context.getGuild().getMemberById(row.getLong("user_id"));
@@ -149,7 +149,7 @@ public class LeaderboardCommand extends Command {
                 .replace(":num", "" + (index + 1))
                 .replace(":username", username)
                 .replace(":level", NumberUtil.formatNicely(
-                    avaire.getLevelManager().getLevelFromExperience(transformer, experience + zeroExperience)
+                    av.getLevelManager().getLevelFromExperience(transformer, experience + zeroExperience)
                 ))
                 .replace(":experience", NumberUtil.formatNicely(experience - 100))
             );
@@ -158,7 +158,7 @@ public class LeaderboardCommand extends Command {
         PlaceholderMessage message = context.makeInfo(String.join("\n", messages))
             .setTitle("\uD83C\uDFC6 " +
                     context.i18n("title", context.getGuild().getName()),
-                "https://avairebot.com/leaderboard/" + context.getGuild().getId()
+                "https://avbot.com/leaderboard/" + context.getGuild().getId()
             )
             .requestedBy(context.getMember());
 
@@ -169,7 +169,7 @@ public class LeaderboardCommand extends Command {
                 message.addField("➡ " + context.i18n("yourRank"), context.i18n("line")
                         .replace(":num", NumberUtil.formatNicely(rank))
                         .replace(":username", context.getAuthor().getName() + "#" + context.getAuthor().getDiscriminator())
-                        .replace(":level", NumberUtil.formatNicely(avaire.getLevelManager().getLevelFromExperience(
+                        .replace(":level", NumberUtil.formatNicely(av.getLevelManager().getLevelFromExperience(
                             context.getGuildTransformer(), context.getPlayerTransformer().getExperience() + zeroExperience
                         )))
                         .replace(":experience", NumberUtil.formatNicely(context.getPlayerTransformer().getExperience() - 100))
@@ -192,7 +192,7 @@ public class LeaderboardCommand extends Command {
     private Collection loadTop100From(CommandMessage context) {
         return (Collection) CacheUtil.getUncheckedUnwrapped(cache, asKey(context, false), () -> {
             try {
-                return avaire.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
+                return av.getDatabase().newQueryBuilder(Constants.PLAYER_EXPERIENCE_TABLE_NAME)
                     .where("guild_id", context.getGuild().getId())
                     .where("active", 1)
                     .orderBy("experience", "desc")
@@ -209,7 +209,7 @@ public class LeaderboardCommand extends Command {
     private Collection loadUserRank(CommandMessage context) {
         return (Collection) CacheUtil.getUncheckedUnwrapped(cache, asKey(context, true), () -> {
             try {
-                return avaire.getDatabase().query(String.format(
+                return av.getDatabase().query(String.format(
                     "SELECT COUNT(*) AS rank FROM (" +
                         "    SELECT `user_id` FROM `experiences` WHERE `guild_id` = '%s' AND `active` = 1 GROUP BY `user_id` HAVING SUM(`experience`) > (" +
                         "        SELECT SUM(`experience`) FROM `experiences` WHERE `user_id` = '%s' AND `guild_id` = '%s' AND `active` = 1" +

@@ -1,39 +1,39 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.help;
+package com.avbot.commands.help;
 
-import com.avairebot.AvaIre;
-import com.avairebot.admin.AdminUser;
-import com.avairebot.chat.MessageType;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.commands.*;
-import com.avairebot.commands.utility.SourceCommand;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.database.transformers.ChannelTransformer;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.language.I18n;
-import com.avairebot.utilities.StringReplacementUtil;
+import com.avbot.av;
+import com.avbot.admin.AdminUser;
+import com.avbot.chat.MessageType;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.commands.*;
+import com.avbot.commands.utility.SourceCommand;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.database.transformers.ChannelTransformer;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.factories.MessageFactory;
+import com.avbot.language.I18n;
+import com.avbot.utilities.StringReplacementUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 
@@ -44,8 +44,8 @@ import java.util.stream.Stream;
 
 public class HelpCommand extends Command {
 
-    public HelpCommand(AvaIre avaire) {
-        super(avaire);
+    public HelpCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class HelpCommand extends Command {
 
     @Override
     public String getDescription() {
-        return "Tells you about what commands AvaIre has, what they do, and how you can use them.";
+        return "Tells you about what commands av has, what they do, and how you can use them.";
     }
 
     @Override
@@ -89,7 +89,7 @@ public class HelpCommand extends Command {
     @Override
     public boolean onCommand(CommandMessage context, String[] args) {
         if (args.length == 0) {
-            if (!avaire.getSettings().isMusicOnlyMode()) {
+            if (!av.getSettings().isMusicOnlyMode()) {
                 return showCategories(context);
             }
             return showCategoryCommands(context, CategoryHandler.fromLazyName("music"), "music");
@@ -128,7 +128,7 @@ public class HelpCommand extends Command {
             return false;
         }
 
-        AdminUser adminUser = avaire.getBotAdmins().getUserById(context.getAuthor().getIdLong());
+        AdminUser adminUser = av.getBotAdmins().getUserById(context.getAuthor().getIdLong());
         if (isSystemCategory(category.getName()) && !adminUser.isAdmin()) {
             context.makeError(context.i18n("tryingToViewSystemCommands"))
                 .queue();
@@ -262,7 +262,7 @@ public class HelpCommand extends Command {
     }
 
     private String getCategories(CommandMessage context) {
-        AdminUser adminUser = avaire.getBotAdmins().getUserById(context.getAuthor().getIdLong());
+        AdminUser adminUser = av.getBotAdmins().getUserById(context.getAuthor().getIdLong());
 
         List<Category> categories = CategoryHandler.getValues().stream()
             .filter(category -> !category.isGlobal())

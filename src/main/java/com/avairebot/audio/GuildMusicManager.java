@@ -1,34 +1,34 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.audio;
+package com.avbot.audio;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.debug.Evalable;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.scheduler.ScheduleHandler;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.debug.Evalable;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.scheduler.ScheduleHandler;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.LavaplayerPlayerWrapper;
 import net.dv8tion.jda.core.Permission;
@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GuildMusicManager extends Evalable {
 
-    protected final AvaIre avaire;
+    protected final av av;
     protected final Guild guild;
     protected final long guildId;
 
@@ -53,8 +53,8 @@ public class GuildMusicManager extends Evalable {
     private CommandMessage lastActiveMessage = null;
     private RepeatState repeatState = RepeatState.LOOPOFF;
 
-    public GuildMusicManager(AvaIre avaire, Guild guild) {
-        this.avaire = avaire;
+    public GuildMusicManager(av av, Guild guild) {
+        this.av = av;
         this.guild = guild;
         this.guildId = guild.getIdLong();
 
@@ -65,7 +65,7 @@ public class GuildMusicManager extends Evalable {
         hasPlayedSongBefore = false;
         defaultVolume = 100;
 
-        GuildTransformer transformer = GuildController.fetchGuild(avaire, guild);
+        GuildTransformer transformer = GuildController.fetchGuild(av, guild);
         defaultVolume = transformer != null ? transformer.getDefaultVolume() : 100;
     }
 
@@ -77,8 +77,8 @@ public class GuildMusicManager extends Evalable {
         this.lastActiveMessage = lastActiveMessage;
     }
 
-    public AvaIre getAvaire() {
-        return avaire;
+    public av getav() {
+        return av;
     }
 
     public Guild getGuild() {
@@ -90,7 +90,7 @@ public class GuildMusicManager extends Evalable {
     }
 
     public GuildTransformer getGuildTransformer() {
-        return GuildController.fetchGuild(avaire, guild);
+        return GuildController.fetchGuild(av, guild);
     }
 
     public IPlayer getPlayer() {

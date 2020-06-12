@@ -1,40 +1,40 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.level;
+package com.avbot.level;
 
-import com.avairebot.AvaIre;
-import com.avairebot.chat.MessageType;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.controllers.PlayerController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.PlayerTransformer;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.language.I18n;
-import com.avairebot.scheduler.ScheduleHandler;
-import com.avairebot.utilities.CacheUtil;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RandomUtil;
-import com.avairebot.utilities.RoleUtil;
+import com.avbot.av;
+import com.avbot.chat.MessageType;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.controllers.PlayerController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.PlayerTransformer;
+import com.avbot.factories.MessageFactory;
+import com.avbot.language.I18n;
+import com.avbot.scheduler.ScheduleHandler;
+import com.avbot.utilities.CacheUtil;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RandomUtil;
+import com.avbot.utilities.RoleUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.Permission;
@@ -247,22 +247,22 @@ public class LevelManager {
      * saving it to the transformer, storing it temporarily in memory, if the
      * event is not a guild message event the method call will be canceled.
      *
-     * @param avaire  The AvaIre application instance.
+     * @param av  The av application instance.
      * @param message The guild message event that should be used.
      * @param user    The user that should be given the experience.
      * @param amount  The amount of experience that should be given to the user.
      */
-    public void giveExperience(@Nonnull AvaIre avaire, @Nonnull Message message, @Nonnull User user, int amount) {
+    public void giveExperience(@Nonnull av av, @Nonnull Message message, @Nonnull User user, int amount) {
         if (!message.getChannelType().isGuild()) {
             return;
         }
 
-        GuildTransformer guildTransformer = GuildController.fetchGuild(avaire, message);
+        GuildTransformer guildTransformer = GuildController.fetchGuild(av, message);
         if (guildTransformer == null) {
             return;
         }
 
-        PlayerTransformer playerTransformer = PlayerController.fetchPlayer(avaire, message, user);
+        PlayerTransformer playerTransformer = PlayerController.fetchPlayer(av, message, user);
         if (playerTransformer == null) {
             return;
         }

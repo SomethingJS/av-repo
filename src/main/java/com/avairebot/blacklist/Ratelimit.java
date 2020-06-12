@@ -1,32 +1,32 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.blacklist;
+package com.avbot.blacklist;
 
-import com.avairebot.contracts.blacklist.PunishmentLevel;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.middleware.ThrottleMiddleware;
-import com.avairebot.time.Carbon;
-import com.avairebot.utilities.CacheUtil;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.contracts.blacklist.PunishmentLevel;
+import com.avbot.factories.MessageFactory;
+import com.avbot.middleware.ThrottleMiddleware;
+import com.avbot.time.Carbon;
+import com.avbot.utilities.CacheUtil;
+import com.avbot.utilities.RestActionUtil;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -139,7 +139,7 @@ public class Ratelimit {
         user.openPrivateChannel().queue(channel -> {
             channel.sendMessage(MessageFactory.createEmbeddedBuilder()
                 .setColor(Color.decode("#A5306B"))
-                .setTitle("Whoa there!", "https://avairebot.com/")
+                .setTitle("Whoa there!", "https://avbot.com/")
                 .setFooter("Expires", null)
                 .setTimestamp(expires.getTime().toInstant())
                 .setDescription("Looks like you're using commands a bit too fast, I've banned you "
@@ -164,7 +164,7 @@ public class Ratelimit {
     public void sendBlacklistMessage(MessageChannel channel, Carbon expires) {
         channel.sendMessage(MessageFactory.createEmbeddedBuilder()
             .setColor(Color.decode("#A5306B"))
-            .setTitle("Whoa there!", "https://avairebot.com/")
+            .setTitle("Whoa there!", "https://avbot.com/")
             .setFooter("Expires", null)
             .setTimestamp(expires.getTime().toInstant())
             .setDescription("Looks like people on the server are using commands a bit too fast, "

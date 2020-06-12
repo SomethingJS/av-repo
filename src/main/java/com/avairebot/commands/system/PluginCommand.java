@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.system.plugin.InstallPlugin;
-import com.avairebot.commands.system.plugin.ListPlugins;
-import com.avairebot.commands.system.plugin.ShowPlugin;
-import com.avairebot.commands.system.plugin.UninstallPlugin;
-import com.avairebot.contracts.commands.SystemCommand;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.system.plugin.InstallPlugin;
+import com.avbot.commands.system.plugin.ListPlugins;
+import com.avbot.commands.system.plugin.ShowPlugin;
+import com.avbot.commands.system.plugin.UninstallPlugin;
+import com.avbot.contracts.commands.SystemCommand;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,13 +39,13 @@ public class PluginCommand extends SystemCommand {
     private final ListPlugins listPlugins;
     private final ShowPlugin showPlugin;
 
-    public PluginCommand(AvaIre avaire) {
-        super(avaire);
+    public PluginCommand(av av) {
+        super(av);
 
-        uninstallPlugin = new UninstallPlugin(avaire, this);
-        installPlugin = new InstallPlugin(avaire, this);
-        listPlugins = new ListPlugins(avaire, this);
-        showPlugin = new ShowPlugin(avaire, this);
+        uninstallPlugin = new UninstallPlugin(av, this);
+        installPlugin = new InstallPlugin(av, this);
+        listPlugins = new ListPlugins(av, this);
+        showPlugin = new ShowPlugin(av, this);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class PluginCommand extends SystemCommand {
 
     @Override
     public String getDescription() {
-        return "Can be used to list installed plugins, as well as available plugins that are officially recognized by the AvaIre development team, you can also display more information about a specific plugin by name.";
+        return "Can be used to list installed plugins, as well as available plugins that are officially recognized by the av development team, you can also display more information about a specific plugin by name.";
     }
 
     @Override

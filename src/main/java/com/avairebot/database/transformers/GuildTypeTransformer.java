@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.transformers;
+package com.avbot.database.transformers;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.database.transformers.Transformer;
-import com.avairebot.contracts.debug.Evalable;
-import com.avairebot.database.collection.DataRow;
+import com.avbot.av;
+import com.avbot.contracts.database.transformers.Transformer;
+import com.avbot.contracts.debug.Evalable;
+import com.avbot.database.collection.DataRow;
 
 public class GuildTypeTransformer extends Transformer {
 
@@ -47,7 +47,7 @@ public class GuildTypeTransformer extends Transformer {
             }
 
             if (data.getString("type_limits", null) != null) {
-                GuildTypeLimits typeLimits = AvaIre.gson.fromJson(data.getString("type_limits"), GuildTypeLimits.class);
+                GuildTypeLimits typeLimits = av.gson.fromJson(data.getString("type_limits"), GuildTypeLimits.class);
                 if (typeLimits != null) {
                     if (typeLimits.levelRoles < limits.levelRoles) {
                         typeLimits.levelRoles = limits.levelRoles;

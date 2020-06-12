@@ -1,37 +1,37 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.scheduler.tasks;
+package com.avbot.scheduler.tasks;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.scheduler.Task;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.language.I18n;
-import com.avairebot.modlog.Modlog;
-import com.avairebot.modlog.ModlogAction;
-import com.avairebot.modlog.ModlogType;
-import com.avairebot.mute.MuteContainer;
-import com.avairebot.scheduler.ScheduleHandler;
-import com.avairebot.time.Carbon;
+import com.avbot.av;
+import com.avbot.contracts.scheduler.Task;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.language.I18n;
+import com.avbot.modlog.Modlog;
+import com.avbot.modlog.ModlogAction;
+import com.avbot.modlog.ModlogType;
+import com.avbot.mute.MuteContainer;
+import com.avbot.scheduler.ScheduleHandler;
+import com.avbot.time.Carbon;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
@@ -48,12 +48,12 @@ public class DrainMuteQueueTask implements Task {
     private static final Logger log = LoggerFactory.getLogger(DrainMuteQueueTask.class);
 
     @Override
-    public void handle(AvaIre avaire) {
-        if (avaire.getMuteManger() == null || avaire.getMuteManger().getMutes().isEmpty()) {
+    public void handle(av av) {
+        if (av.getMuteManger() == null || av.getMuteManger().getMutes().isEmpty()) {
             return;
         }
 
-        for (Map.Entry<Long, HashSet<MuteContainer>> entry : avaire.getMuteManger().getMutes().entrySet()) {
+        for (Map.Entry<Long, HashSet<MuteContainer>> entry : av.getMuteManger().getMutes().entrySet()) {
             for (MuteContainer container : entry.getValue()) {
                 if (container.isPermanent() || container.getSchedule() != null) {
                     continue;
@@ -72,7 +72,7 @@ public class DrainMuteQueueTask implements Task {
                     );
 
                     container.setSchedule(ScheduleHandler.getScheduler().schedule(
-                        () -> handleAutomaticUnmute(avaire, container),
+                        () -> handleAutomaticUnmute(av, container),
                         differenceInSeconds,
                         TimeUnit.SECONDS
                     ));
@@ -85,26 +85,26 @@ public class DrainMuteQueueTask implements Task {
         return System.currentTimeMillis() / 1000L;
     }
 
-    private void handleAutomaticUnmute(AvaIre avaire, MuteContainer container) {
+    private void handleAutomaticUnmute(av av, MuteContainer container) {
         try {
-            Guild guild = avaire.getShardManager().getGuildById(container.getGuildId());
+            Guild guild = av.getShardManager().getGuildById(container.getGuildId());
             if (guild == null) {
-                if (avaire.areWeReadyYet()) {
-                    unregisterDatabaseRecord(avaire, container);
+                if (av.areWeReadyYet()) {
+                    unregisterDatabaseRecord(av, container);
                 }
 
                 container.cancelSchedule();
                 return;
             }
 
-            unregisterDatabaseRecord(avaire, container);
+            unregisterDatabaseRecord(av, container);
 
             Member member = guild.getMemberById(container.getUserId());
             if (member == null) {
                 return;
             }
 
-            GuildTransformer transformer = GuildController.fetchGuild(avaire, guild);
+            GuildTransformer transformer = GuildController.fetchGuild(av, guild);
             if (transformer == null || transformer.getMuteRole() == null) {
                 return;
             }
@@ -126,7 +126,7 @@ public class DrainMuteQueueTask implements Task {
                     I18n.getString(guild, "administration.UnmuteCommand.userAutoUnmutedReason")
                 );
 
-                String caseId = Modlog.log(avaire, guild, transformer, modlogAction);
+                String caseId = Modlog.log(av, guild, transformer, modlogAction);
                 Modlog.notifyUser(member.getUser(), guild, modlogAction, caseId);
             }, throwable -> {
                 log.debug("Failed to remove role from {} on the {} guild, error: {}",
@@ -138,9 +138,9 @@ public class DrainMuteQueueTask implements Task {
         }
     }
 
-    private void unregisterDatabaseRecord(AvaIre avaire, MuteContainer container) {
+    private void unregisterDatabaseRecord(av av, MuteContainer container) {
         try {
-            avaire.getMuteManger().unregisterMute(container.getGuildId(), container.getUserId());
+            av.getMuteManger().unregisterMute(container.getGuildId(), container.getUserId());
         } catch (SQLException e) {
             log.error("Failed to unregister mute for guildId:{}, userId:{}",
                 container.getGuildId(), container.getUserId(), e

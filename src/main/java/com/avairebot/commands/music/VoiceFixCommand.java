@@ -1,34 +1,34 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.music;
+package com.avbot.commands.music;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandContext;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.shared.DiscordConstants;
-import com.avairebot.utilities.RandomUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandContext;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.shared.DiscordConstants;
+import com.avbot.utilities.RandomUtil;
 import net.dv8tion.jda.core.Region;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -43,8 +43,8 @@ import java.util.concurrent.TimeUnit;
 
 public class VoiceFixCommand extends Command {
 
-    public VoiceFixCommand(AvaIre avaire) {
-        super(avaire, false);
+    public VoiceFixCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -67,8 +67,8 @@ public class VoiceFixCommand extends Command {
             "fix music 99%s of the time.\n\n",
             "If you're still experiencing voice issues you can try making the bot leave the voice",
             "channel by using a command like `%sstop`, and then running this command again.\n\n",
-            "Still having issues even after all that?\nYou can join the [support server](https://avairebot.com/support)",
-            "to get help from the AvaIre support team directly."
+            "Still having issues even after all that?\nYou can join the [support server](https://avbot.com/support)",
+            "to get help from the av support team directly."
         ), "%", prefix);
     }
 
@@ -168,7 +168,7 @@ public class VoiceFixCommand extends Command {
 
     private void logError(CommandMessage context, Throwable exception) {
         context.makeError(context.i18n("error", exception.getMessage()));
-        AvaIre.getLogger().error("An error was thrown in the Voice Fix command while trying to change the server region: "
+        av.getLogger().error("An error was thrown in the Voice Fix command while trying to change the server region: "
             + exception.getMessage(), exception
         );
     }

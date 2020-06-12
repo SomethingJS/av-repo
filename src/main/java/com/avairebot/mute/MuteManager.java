@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.mute;
+package com.avbot.mute;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.language.I18n;
-import com.avairebot.modlog.ModlogType;
-import com.avairebot.time.Carbon;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.language.I18n;
+import com.avbot.modlog.ModlogType;
+import com.avbot.time.Carbon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,17 +42,17 @@ public class MuteManager {
     private final Logger log = LoggerFactory.getLogger(MuteManager.class);
     private final HashMap<Long, HashSet<MuteContainer>> mutes = new HashMap<>();
 
-    private final AvaIre avaire;
+    private final av av;
 
     /**
-     * Creates the mute manager instance with the given AvaIre
+     * Creates the mute manager instance with the given av
      * application instance, the mute manager will sync the
      * mutes entities from the database into memory.
      *
-     * @param avaire The main AvaIre instance.
+     * @param av The main av instance.
      */
-    public MuteManager(AvaIre avaire) {
-        this.avaire = avaire;
+    public MuteManager(av av) {
+        this.av = av;
 
         syncWithDatabase();
     }
@@ -85,7 +85,7 @@ public class MuteManager {
             unregisterMute(guildId, userId);
         }
 
-        avaire.getDatabase().newQueryBuilder(Constants.MUTE_TABLE_NAME)
+        av.getDatabase().newQueryBuilder(Constants.MUTE_TABLE_NAME)
             .insert(statement -> {
                 statement.set("guild_id", guildId);
                 statement.set("modlog_id", caseId);
@@ -184,7 +184,7 @@ public class MuteManager {
 
         try {
             int size = getTotalAmountOfMutes();
-            for (DataRow row : avaire.getDatabase().query(query)) {
+            for (DataRow row : av.getDatabase().query(query)) {
                 long guildId = row.getLong("guild_id");
 
                 if (!mutes.containsKey(guildId)) {
@@ -207,7 +207,7 @@ public class MuteManager {
     }
 
     private void cleanupMutes(long guildId, long userId) throws SQLException {
-        Collection collection = avaire.getDatabase().newQueryBuilder(Constants.MUTE_TABLE_NAME)
+        Collection collection = av.getDatabase().newQueryBuilder(Constants.MUTE_TABLE_NAME)
             .select(Constants.MUTE_TABLE_NAME + ".modlog_id as id")
             .innerJoin(
                 Constants.LOG_TABLE_NAME,
@@ -227,7 +227,7 @@ public class MuteManager {
                 Constants.MUTE_TABLE_NAME
             );
 
-            avaire.getDatabase().queryBatch(query, statement -> {
+            av.getDatabase().queryBatch(query, statement -> {
                 for (DataRow row : collection) {
                     statement.setLong(1, guildId);
                     statement.setString(2, row.getString("id"));

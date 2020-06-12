@@ -1,38 +1,38 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.handlers.adapter;
+package com.avbot.handlers.adapter;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.audio.AudioHandler;
-import com.avairebot.audio.GuildMusicManager;
-import com.avairebot.audio.LavalinkManager;
-import com.avairebot.chat.ConsoleColor;
-import com.avairebot.contracts.handlers.EventAdapter;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.scheduler.ScheduleHandler;
-import com.avairebot.scheduler.tasks.MusicActivityTask;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.audio.AudioHandler;
+import com.avbot.audio.GuildMusicManager;
+import com.avbot.audio.LavalinkManager;
+import com.avbot.chat.ConsoleColor;
+import com.avbot.contracts.handlers.EventAdapter;
+import com.avbot.metrics.Metrics;
+import com.avbot.scheduler.ScheduleHandler;
+import com.avbot.scheduler.tasks.MusicActivityTask;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RestActionUtil;
 import lavalink.client.io.jda.JdaLink;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -50,17 +50,17 @@ import java.time.Instant;
 public class GuildStateEventAdapter extends EventAdapter {
 
     /**
-     * Instantiates the event adapter and sets the avaire class instance.
+     * Instantiates the event adapter and sets the av class instance.
      *
-     * @param avaire The AvaIre application class instance.
+     * @param av The av application class instance.
      */
-    public GuildStateEventAdapter(AvaIre avaire) {
-        super(avaire);
+    public GuildStateEventAdapter(av av) {
+        super(av);
     }
 
     public void onGuildUpdateName(GuildUpdateNameEvent event) {
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .useAsync(true)
                 .where("id", event.getGuild().getId())
                 .update(statement -> statement.set("name", event.getGuild().getName(), true));
@@ -75,19 +75,19 @@ public class GuildStateEventAdapter extends EventAdapter {
     }
 
     public void onGuildJoin(GuildJoinEvent event) {
-        AvaIre.getLogger().info(ConsoleColor.format(
+        av.getLogger().info(ConsoleColor.format(
             "%greenJoined guild with an ID of " + event.getGuild().getId() + " called: " + event.getGuild().getName() + "%reset"
         ));
 
-        if (!avaire.areWeReadyYet()) {
+        if (!av.areWeReadyYet()) {
             return;
         }
 
         Metrics.guilds.inc();
         Metrics.geoTracker.labels(event.getGuild().getRegion().getName()).inc();
 
-        TextChannel channel = avaire.getShardManager().getTextChannelById(
-            avaire.getConstants().getActivityLogChannelId()
+        TextChannel channel = av.getShardManager().getTextChannelById(
+            av.getConstants().getActivityLogChannelId()
         );
 
         if (channel == null) {
@@ -125,19 +125,19 @@ public class GuildStateEventAdapter extends EventAdapter {
     }
 
     private void handleSendGuildLeaveWebhook(Guild guild) {
-        AvaIre.getLogger().info(ConsoleColor.format(
+        av.getLogger().info(ConsoleColor.format(
             "%redLeft guild with an ID of " + guild.getId() + " called: " + guild.getName() + "%reset"
         ));
 
-        if (!avaire.areWeReadyYet()) {
+        if (!av.areWeReadyYet()) {
             return;
         }
 
         Metrics.guilds.dec();
         Metrics.geoTracker.labels(guild.getRegion().getName()).dec();
 
-        TextChannel channel = avaire.getShardManager().getTextChannelById(
-            avaire.getConstants().getActivityLogChannelId()
+        TextChannel channel = av.getShardManager().getTextChannelById(
+            av.getConstants().getActivityLogChannelId()
         );
 
         if (channel == null) {

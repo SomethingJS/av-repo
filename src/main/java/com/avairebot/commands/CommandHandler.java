@@ -1,37 +1,37 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands;
+package com.avbot.commands;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.system.JSONCmdMapCommand;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandSource;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.exceptions.InvalidCommandPrefixException;
-import com.avairebot.exceptions.MissingCommandDescriptionException;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.middleware.MiddlewareHandler;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.system.JSONCmdMapCommand;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandSource;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.exceptions.InvalidCommandPrefixException;
+import com.avbot.exceptions.MissingCommandDescriptionException;
+import com.avbot.metrics.Metrics;
+import com.avbot.middleware.MiddlewareHandler;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.utils.Checks;
 
@@ -103,17 +103,17 @@ public class CommandHandler {
      * If no commands was found matching the given command string, the guilds
      * aliases will be checked instead if the current guild has any.
      *
-     * @param avaire  The AvaIre application class instance.
+     * @param av  The av application class instance.
      * @param message The JDA message object for the current message.
      * @param command The command string that should be matched with the commands.
      * @return Possibly-null, The command matching the given command with the highest priority, or the alias command matching the given command.
      */
-    public static CommandContainer getCommand(AvaIre avaire, Message message, @Nonnull String command) {
+    public static CommandContainer getCommand(av av, Message message, @Nonnull String command) {
         CommandContainer commandContainer = getCommand(message);
         if (commandContainer != null) {
             return commandContainer;
         }
-        return getCommandByAlias(avaire, message, command);
+        return getCommandByAlias(av, message, command);
     }
 
     /**
@@ -174,13 +174,13 @@ public class CommandHandler {
      * Gets the command matching the given command alias for the current message if
      * the message was sent in a guild and the guild has at least one alias set.
      *
-     * @param avaire  The AvaIre application class instance.
+     * @param av  The av application class instance.
      * @param message The JDA message object for the current message.
      * @param command The command string that should be matched with the commands.
      * @return Possibly-null, The command matching the given alias with the highest priority.
      */
-    public static CommandContainer getCommandByAlias(AvaIre avaire, Message message, @Nonnull String command) {
-        GuildTransformer transformer = GuildController.fetchGuild(avaire, message);
+    public static CommandContainer getCommandByAlias(av av, Message message, @Nonnull String command) {
+        GuildTransformer transformer = GuildController.fetchGuild(av, message);
         if (transformer == null || transformer.getAliases().isEmpty()) {
             return null;
         }
@@ -396,7 +396,7 @@ public class CommandHandler {
 
     private static boolean hasImplementedADescriptionMethod(Command command) {
         try {
-            AvaIre.getLogger().info("{} called hasImplementedADescriptionMethod::withArgs", command.getClass().getTypeName());
+            av.getLogger().info("{} called hasImplementedADescriptionMethod::withArgs", command.getClass().getTypeName());
             //noinspection JavaReflectionMemberAccess
             command.getClass().getMethod("getDescription", CommandMessage.class);
 
@@ -405,7 +405,7 @@ public class CommandHandler {
         }
 
         try {
-            AvaIre.getLogger().info("{} called hasImplementedADescriptionMethod::noArgs", command.getClass().getTypeName());
+            av.getLogger().info("{} called hasImplementedADescriptionMethod::noArgs", command.getClass().getTypeName());
             command.getClass().getMethod("getDescription");
 
             return true;

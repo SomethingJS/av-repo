@@ -1,35 +1,35 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.utility;
+package com.avbot.commands.utility;
 
-import com.avairebot.AppInfo;
-import com.avairebot.AvaIre;
-import com.avairebot.cache.CacheType;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.AppInfo;
+import com.avbot.av;
+import com.avbot.cache.CacheType;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.utilities.NumberUtil;
 import com.google.gson.internal.LinkedTreeMap;
 import org.jsoup.Jsoup;
 
@@ -40,8 +40,8 @@ import java.util.List;
 
 public class VersionCommand extends Command {
 
-    public VersionCommand(AvaIre avaire) {
-        super(avaire);
+    public VersionCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class VersionCommand extends Command {
     public boolean onCommand(CommandMessage context, String[] args) {
         SemanticVersion latestVersion = getLatestVersion();
         if (latestVersion == null) {
-            return sendErrorMessage(context, "Failed to fetch the latest version of AvaIre, try again later.");
+            return sendErrorMessage(context, "Failed to fetch the latest version of av, try again later.");
         }
 
         String template = String.join("\n",
@@ -125,8 +125,8 @@ public class VersionCommand extends Command {
 
     @SuppressWarnings("unchecked")
     private PlaceholderMessage addAndFormatLatestCommits(CommandMessage context, PlaceholderMessage message) {
-        if (avaire.getCache().getAdapter(CacheType.FILE).has("github.commits")) {
-            List<LinkedTreeMap<String, Object>> items = (List<LinkedTreeMap<String, Object>>) avaire.getCache()
+        if (av.getCache().getAdapter(CacheType.FILE).has("github.commits")) {
+            List<LinkedTreeMap<String, Object>> items = (List<LinkedTreeMap<String, Object>>) av.getCache()
                 .getAdapter(CacheType.FILE).get("github.commits");
 
             StringBuilder commitChanges = new StringBuilder();
@@ -147,12 +147,12 @@ public class VersionCommand extends Command {
     }
 
     private SemanticVersion getLatestVersion() {
-        Object version = avaire.getCache().getAdapter(CacheType.FILE).remember("github.version", 1800, () -> {
+        Object version = av.getCache().getAdapter(CacheType.FILE).remember("github.version", 1800, () -> {
             try {
-                return Jsoup.connect("https://raw.githubusercontent.com/avaire/avaire/master/build.gradle")
+                return Jsoup.connect("https://raw.githubusercontent.com/av/av/master/build.gradle")
                     .execute().body().split("version = '")[1].split("'")[0];
             } catch (IOException e) {
-                AvaIre.getLogger().error("Failed to get latest version from github", e);
+                av.getLogger().error("Failed to get latest version from github", e);
                 return null;
             }
         });

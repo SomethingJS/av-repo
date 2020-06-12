@@ -23,7 +23,7 @@
  *
  */
 
-package com.avairebot.audio.queue;
+package com.avbot.audio.queue;
 
 /**
  * Created by napster on 16.03.17.

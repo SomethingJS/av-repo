@@ -1,41 +1,41 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandContext;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.query.QueryBuilder;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.shared.DiscordConstants;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandContext;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.query.QueryBuilder;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.factories.MessageFactory;
+import com.avbot.shared.DiscordConstants;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RestActionUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -51,8 +51,8 @@ import java.util.concurrent.TimeUnit;
 
 public class ModlogReasonCommand extends Command {
 
-    public ModlogReasonCommand(AvaIre avaire) {
-        super(avaire, false);
+    public ModlogReasonCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class ModlogReasonCommand extends Command {
         final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 
         try {
-            QueryBuilder query = avaire.getDatabase().newQueryBuilder(Constants.LOG_TABLE_NAME)
+            QueryBuilder query = av.getDatabase().newQueryBuilder(Constants.LOG_TABLE_NAME)
                 .where("guild_id", context.getGuild().getId())
                 .where("modlogCase", caseId);
 
@@ -163,7 +163,7 @@ public class ModlogReasonCommand extends Command {
                 return sendErrorMessage(context, context.i18n("couldntFindModlogChannel"));
             }
 
-            avaire.getDatabase().newQueryBuilder(Constants.LOG_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.LOG_TABLE_NAME)
                 .useAsync(true)
                 .where("guild_id", context.getGuild().getId())
                 .where("modlogCase", caseId)

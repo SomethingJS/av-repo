@@ -1,32 +1,32 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.middleware;
+package com.avbot.contracts.middleware;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.middleware.MiddlewareStack;
-import com.avairebot.plugin.JavaPlugin;
-import com.avairebot.utilities.CacheUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.metrics.Metrics;
+import com.avbot.middleware.MiddlewareStack;
+import com.avbot.plugin.JavaPlugin;
+import com.avbot.utilities.CacheUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -42,7 +42,7 @@ public abstract class Middleware {
      * The Guava cache instance, used for caching the sent messages, and
      * helps determine if the response message should be sent or not.
      *
-     * @see Metrics#setup(AvaIre) Metrics setup.
+     * @see Metrics#setup(av) Metrics setup.
      */
     public static final Cache<Long, Boolean> messageCache = CacheBuilder.newBuilder()
         .recordStats()
@@ -50,27 +50,27 @@ public abstract class Middleware {
         .build();
 
     /**
-     * The AvaIre class instance, this is used to access
+     * The av class instance, this is used to access
      * and interact with the rest of the application.
      */
-    protected final AvaIre avaire;
+    protected final av av;
 
     /**
-     * Instantiates the middleware and sets the avaire class instance.
+     * Instantiates the middleware and sets the av class instance.
      *
-     * @param avaire The AvaIre application class instance.
+     * @param av The av application class instance.
      */
-    public Middleware(AvaIre avaire) {
-        this.avaire = avaire;
+    public Middleware(av av) {
+        this.av = av;
     }
 
     /**
-     * Instantiates the middleware and sets the avaire class instance through the plugin instance.
+     * Instantiates the middleware and sets the av class instance through the plugin instance.
      *
-     * @param plugin The AvaIre application class instance.
+     * @param plugin The av application class instance.
      */
     public Middleware(JavaPlugin plugin) {
-        this.avaire = plugin.getAvaire();
+        this.av = plugin.getav();
     }
 
     /**

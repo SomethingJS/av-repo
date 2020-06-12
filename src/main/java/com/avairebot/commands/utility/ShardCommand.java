@@ -1,38 +1,38 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.utility;
+package com.avbot.commands.utility;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.chat.PlaceholderMessage;
-import com.avairebot.chat.SimplePaginator;
-import com.avairebot.commands.CommandContainer;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.chat.PlaceholderMessage;
+import com.avbot.chat.SimplePaginator;
+import com.avbot.commands.CommandContainer;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.utilities.NumberUtil;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.SelfUser;
@@ -45,8 +45,8 @@ import java.util.List;
 
 public class ShardCommand extends Command {
 
-    public ShardCommand(AvaIre avaire) {
-        super(avaire);
+    public ShardCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -57,12 +57,12 @@ public class ShardCommand extends Command {
     @Override
     public String getDescription() {
         // If the shard manager is null, we're still starting up the bot.
-        if (avaire.getShardManager() == null) {
+        if (av.getShardManager() == null) {
             return "If you're seeing this message, contact one of the bot developers.";
         }
 
         return "Displays the status of all the shards for the bot, including their server count, channel count, user count and latency."
-            + ((avaire.getShardManager().getShards().size() < 2) ? "\n**Shards are currently disabled: This command will just run the stats command.**" : "");
+            + ((av.getShardManager().getShards().size() < 2) ? "\n**Shards are currently disabled: This command will just run the stats command.**" : "");
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ShardCommand extends Command {
 
     @Override
     public CommandPriority getCommandPriority() {
-        if (avaire.areWeReadyYet() && avaire.getShardManager().getShards().size() < 2) {
+        if (av.areWeReadyYet() && av.getShardManager().getShards().size() < 2) {
             return CommandPriority.HIDDEN;
         }
         return super.getCommandPriority();
@@ -96,7 +96,7 @@ public class ShardCommand extends Command {
 
     @Override
     public boolean onCommand(CommandMessage context, String[] args) {
-        if (avaire.getSettings().getShardCount() < 2) {
+        if (av.getSettings().getShardCount() < 2) {
             CommandContainer container = CommandHandler.getCommand(StatsCommand.class);
             if (container == null) {
                 return sendErrorMessage(context, "Sharding is not enabled right now :(");
@@ -114,8 +114,8 @@ public class ShardCommand extends Command {
             : 0;
 
         List<MessageEmbed.Field> shards = new ArrayList<>();
-        for (int i = avaire.getSettings().getShardCount() - 1; i >= 0; i--) {
-            JDA shard = avaire.getShardManager().getShardById(i);
+        for (int i = av.getSettings().getShardCount() - 1; i >= 0; i--) {
+            JDA shard = av.getShardManager().getShardById(i);
 
             if (shard == null) {
                 shards.add(new MessageEmbed.Field(String.format("Shard #%s %s",
@@ -150,17 +150,17 @@ public class ShardCommand extends Command {
         PlaceholderMessage message = context.makeEmbeddedMessage()
             .requestedBy(context)
             .setDescription("Currently serving **:users** users in **:channels** channels, and **:servers** servers.")
-            .set("servers", NumberUtil.formatNicely(avaire.getShardEntityCounter().getGuilds()))
-            .set("channels", NumberUtil.formatNicely(avaire.getShardEntityCounter().getChannels()))
-            .set("users", NumberUtil.formatNicely(avaire.getShardEntityCounter().getUsers()));
+            .set("servers", NumberUtil.formatNicely(av.getShardEntityCounter().getGuilds()))
+            .set("channels", NumberUtil.formatNicely(av.getShardEntityCounter().getChannels()))
+            .set("users", NumberUtil.formatNicely(av.getShardEntityCounter().getUsers()));
 
         paginator.forEach((index, key, val) -> message.addField(val));
         message.addField("", paginator.generateFooter(context.getGuild(), generateCommandTrigger(context.getMessage())), false);
 
-        SelfUser selfUser = avaire.getSelfUser();
+        SelfUser selfUser = av.getSelfUser();
         message.setAuthor(
             "Shard Information",
-            "http://status.avairebot.com/",
+            "http://status.avbot.com/",
             selfUser == null ? null : selfUser.getEffectiveAvatarUrl()
         ).queue();
 

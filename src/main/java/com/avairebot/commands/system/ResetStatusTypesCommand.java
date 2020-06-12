@@ -1,32 +1,32 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.database.migrate.migrations.CreateGuildTypeTableMigration;
-import com.avairebot.utilities.RandomUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.database.migrate.migrations.CreateGuildTypeTableMigration;
+import com.avbot.utilities.RandomUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.slf4j.Logger;
@@ -47,8 +47,8 @@ public class ResetStatusTypesCommand extends SystemCommand {
 
     private static final Logger log = LoggerFactory.getLogger(ResetStatusTypesCommand.class);
 
-    public ResetStatusTypesCommand(AvaIre avaire) {
-        super(avaire);
+    public ResetStatusTypesCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class ResetStatusTypesCommand extends SystemCommand {
         }
 
         try {
-            avaire.getDatabase().getMigrations()
+            av.getDatabase().getMigrations()
                 .rerun(new CreateGuildTypeTableMigration());
 
             context.makeSuccess("The server status types have been reset successfully!").queue();

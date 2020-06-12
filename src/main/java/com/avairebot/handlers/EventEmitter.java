@@ -1,46 +1,46 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.handlers;
+package com.avbot.handlers;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.handlers.EventListener;
-import com.avairebot.plugin.PluginLoader;
+import com.avbot.av;
+import com.avbot.contracts.handlers.EventListener;
+import com.avbot.plugin.PluginLoader;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.dv8tion.jda.core.utils.Checks;
 
 public class EventEmitter {
 
-    private final AvaIre avaire;
+    private final av av;
 
     /**
      * Creates a new event emitter instance using
-     * the given AvaIre application instance.
+     * the given av application instance.
      *
-     * @param avaire The AvaIre instance that the event
+     * @param av The av instance that the event
      *               emitter should be created for.
      */
-    public EventEmitter(AvaIre avaire) {
-        this.avaire = avaire;
+    public EventEmitter(av av) {
+        this.av = av;
     }
 
     /**
@@ -52,7 +52,7 @@ public class EventEmitter {
      */
     public void push(Event event) {
         Checks.notNull(event, "event instance");
-        for (PluginLoader plugin : avaire.getPluginManager().getPlugins()) {
+        for (PluginLoader plugin : av.getPluginManager().getPlugins()) {
             for (ListenerAdapter listener : plugin.getEventListeners()) {
                 if (listener != null && listener instanceof EventListener) {
                     ((EventListener) listener).onCustomEvent(event);

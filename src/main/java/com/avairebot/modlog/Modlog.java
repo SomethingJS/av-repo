@@ -1,38 +1,38 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.modlog;
+package com.avbot.modlog;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandContainer;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.administration.ModlogReasonCommand;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.factories.MessageFactory;
-import com.avairebot.handlers.events.ModlogActionEvent;
-import com.avairebot.language.I18n;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandContainer;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.administration.ModlogReasonCommand;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.factories.MessageFactory;
+import com.avbot.handlers.events.ModlogActionEvent;
+import com.avbot.language.I18n;
+import com.avbot.utilities.RestActionUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
@@ -49,45 +49,45 @@ public class Modlog {
     /**
      * Logs an action to the modlog channel for the given context.
      *
-     * @param avaire  The main AvaIre application instance.
+     * @param av  The main av application instance.
      * @param context The command context the modlog action is occurring in.
      * @param action  The action that should be logged to the modlog.
      * @return Possibly-null, the case ID if the modlog was logged successfully,
      *         otherwise <code>null</code> will be returned.
      */
     @Nullable
-    public static String log(AvaIre avaire, CommandMessage context, ModlogAction action) {
-        return log(avaire, context.getGuild(), action);
+    public static String log(av av, CommandMessage context, ModlogAction action) {
+        return log(av, context.getGuild(), action);
     }
 
     /**
      * Logs an action to the modlog channel for the given message.
      *
-     * @param avaire  The main AvaIre application instance.
+     * @param av  The main av application instance.
      * @param message The message that triggered the modlog action.
      * @param action  The action that should be logged to the modlog.
      * @return Possibly-null, the case ID if the modlog was logged successfully,
      *         otherwise <code>null</code> will be returned.
      */
     @Nullable
-    public static String log(AvaIre avaire, Message message, ModlogAction action) {
-        return log(avaire, message.getGuild(), action);
+    public static String log(av av, Message message, ModlogAction action) {
+        return log(av, message.getGuild(), action);
     }
 
     /**
      * Logs an action to the modlog channel for the given guild.
      *
-     * @param avaire The main AvaIre application instance.
+     * @param av The main av application instance.
      * @param guild  The guild the modlog action should be logged in.
      * @param action The action that should be logged to the modlog.
      * @return Possibly-null, the case ID if the modlog was logged successfully,
      *         otherwise <code>null</code> will be returned.
      */
     @Nullable
-    public static String log(AvaIre avaire, Guild guild, ModlogAction action) {
-        GuildTransformer transformer = GuildController.fetchGuild(avaire, guild);
+    public static String log(av av, Guild guild, ModlogAction action) {
+        GuildTransformer transformer = GuildController.fetchGuild(av, guild);
         if (transformer != null) {
-            return log(avaire, guild, transformer, action);
+            return log(av, guild, transformer, action);
         }
         return null;
     }
@@ -96,7 +96,7 @@ public class Modlog {
      * Logs an action to the modlog channel for the given guild
      * using the guild transformer, and the modlog action.
      *
-     * @param avaire      The main AvaIre application instance.
+     * @param av      The main av application instance.
      * @param guild       The guild the modlog action should be logged in.
      * @param transformer The guild transformer containing all the guild settings used in the modlog action.
      * @param action      The action that should be logged to the modlog.
@@ -104,7 +104,7 @@ public class Modlog {
      *         otherwise <code>null</code> will be returned.
      */
     @Nullable
-    public static String log(AvaIre avaire, Guild guild, GuildTransformer transformer, ModlogAction action) {
+    public static String log(av av, Guild guild, GuildTransformer transformer, ModlogAction action) {
         if (transformer.getModlog() == null) {
             return null;
         }
@@ -203,19 +203,19 @@ public class Modlog {
                 break;
         }
 
-        avaire.getEventEmitter().push(new ModlogActionEvent(
+        av.getEventEmitter().push(new ModlogActionEvent(
             guild.getJDA(), action, transformer.getModlogCase()
         ));
 
         channel.sendMessage(builder.build()).queue(success -> {
             try {
-                avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+                av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                     .where("id", guild.getId())
                     .update(statement -> {
                         statement.set("modlog_case", transformer.getModlogCase());
                     });
 
-                logActionToTheDatabase(avaire, guild, action, success, transformer.getModlogCase());
+                logActionToTheDatabase(av, guild, action, success, transformer.getModlogCase());
             } catch (SQLException ignored) {
                 //
             }
@@ -261,9 +261,9 @@ public class Modlog {
         }, RestActionUtil.ignore);
     }
 
-    private static void logActionToTheDatabase(AvaIre avaire, Guild guild, ModlogAction action, Message message, int modlogCase) {
+    private static void logActionToTheDatabase(av av, Guild guild, ModlogAction action, Message message, int modlogCase) {
         try {
-            avaire.getDatabase().newQueryBuilder(Constants.LOG_TABLE_NAME)
+            av.getDatabase().newQueryBuilder(Constants.LOG_TABLE_NAME)
                 .useAsync(true)
                 .insert(statement -> {
                     statement.set("modlogCase", modlogCase);

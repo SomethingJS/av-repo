@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.CommandPriority;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.GuildTypeTransformer;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.CommandPriority;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.GuildTypeTransformer;
+import com.avbot.utilities.NumberUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,8 +39,8 @@ import java.util.List;
 
 public class SetGuildTypeCommand extends SystemCommand {
 
-    public SetGuildTypeCommand(AvaIre avaire) {
-        super(avaire, false);
+    public SetGuildTypeCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class SetGuildTypeCommand extends SystemCommand {
                 List<String> types = new ArrayList<>();
                 types.add("**0:** Default");
 
-                avaire.getDatabase()
+                av.getDatabase()
                     .newQueryBuilder(Constants.GUILD_TYPES_TABLE_NAME)
                     .orderBy("id", "asc")
                     .get()
@@ -141,7 +141,7 @@ public class SetGuildTypeCommand extends SystemCommand {
 
         if (typeId > 0) {
             try {
-                Collection collection = avaire.getDatabase()
+                Collection collection = av.getDatabase()
                     .newQueryBuilder(Constants.GUILD_TYPES_TABLE_NAME)
                     .select("name")
                     .where("id", typeId)
@@ -158,7 +158,7 @@ public class SetGuildTypeCommand extends SystemCommand {
         }
 
         try {
-            avaire.getDatabase()
+            av.getDatabase()
                 .newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .where("id", context.getGuild().getId())
                 .update(statement -> statement.set("type", typeId));

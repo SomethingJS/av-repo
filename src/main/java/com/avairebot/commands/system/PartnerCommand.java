@@ -1,34 +1,34 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.system;
+package com.avbot.commands.system;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.SystemCommand;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.controllers.GuildController;
-import com.avairebot.utilities.ComparatorUtil;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.SystemCommand;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.controllers.GuildController;
+import com.avbot.utilities.ComparatorUtil;
+import com.avbot.utilities.NumberUtil;
 import net.dv8tion.jda.core.entities.Guild;
 
 import java.sql.SQLException;
@@ -38,8 +38,8 @@ import java.util.List;
 
 public class PartnerCommand extends SystemCommand {
 
-    public PartnerCommand(AvaIre avaire) {
-        super(avaire);
+    public PartnerCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class PartnerCommand extends SystemCommand {
             return sendErrorMessage(context, "Invalid server ID given, `{0}` is not a valid server ID", args[0]);
         }
 
-        Guild guild = avaire.getShardManager().getGuildById(args[0]);
+        Guild guild = av.getShardManager().getGuildById(args[0]);
         if (guild == null) {
             return sendErrorMessage(context, "The bot does not share any server with an ID of `{0}`", args[0]);
         }
@@ -97,7 +97,7 @@ public class PartnerCommand extends SystemCommand {
         }
 
         try {
-            Collection row = avaire.getDatabase()
+            Collection row = av.getDatabase()
                 .newQueryBuilder(Constants.GUILD_TABLE_NAME)
                 .select("partner")
                 .where("id", guild.getIdLong())
@@ -120,7 +120,7 @@ public class PartnerCommand extends SystemCommand {
             }
 
             if (isPartnered != type.getValue()) {
-                avaire.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
+                av.getDatabase().newQueryBuilder(Constants.GUILD_TABLE_NAME)
                     .where("id", guild.getIdLong())
                     .update(statement -> statement.set("partner", type.getValue() ? 1 : 0));
 

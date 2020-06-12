@@ -1,32 +1,32 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.controllers;
+package com.avbot.database.controllers;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.transformers.PlaylistTransformer;
-import com.avairebot.utilities.CacheUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.transformers.PlaylistTransformer;
+import com.avbot.utilities.CacheUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -47,14 +47,14 @@ public class PlaylistController {
     private static final Logger log = LoggerFactory.getLogger(PlaylistController.class);
 
     @CheckReturnValue
-    public static Collection fetchPlaylists(AvaIre avaire, Message message) {
+    public static Collection fetchPlaylists(av av, Message message) {
         if (!message.getChannelType().isGuild()) {
             return null;
         }
 
         return (Collection) CacheUtil.getUncheckedUnwrapped(cache, message.getGuild().getIdLong(), () -> {
             try {
-                return avaire.getDatabase().newQueryBuilder(Constants.MUSIC_PLAYLIST_TABLE_NAME)
+                return av.getDatabase().newQueryBuilder(Constants.MUSIC_PLAYLIST_TABLE_NAME)
                     .selectAll().where("guild_id", message.getGuild().getId())
                     .get();
             } catch (Exception e) {
@@ -66,8 +66,8 @@ public class PlaylistController {
     }
 
     @CheckReturnValue
-    public static PlaylistTransformer fetchPlaylistFromName(AvaIre avaire, Message message, String name) {
-        Collection playlists = fetchPlaylists(avaire, message);
+    public static PlaylistTransformer fetchPlaylistFromName(av av, Message message, String name) {
+        Collection playlists = fetchPlaylists(av, message);
         if (playlists == null || playlists.isEmpty()) {
             return null;
         }

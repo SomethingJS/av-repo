@@ -1,37 +1,37 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.utility;
+package com.avbot.commands.utility;
 
-import com.avairebot.AppInfo;
-import com.avairebot.AvaIre;
-import com.avairebot.audio.AudioHandler;
-import com.avairebot.chat.MessageType;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.language.I18n;
-import com.avairebot.metrics.Metrics;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.AppInfo;
+import com.avbot.av;
+import com.avbot.audio.AudioHandler;
+import com.avbot.chat.MessageType;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.language.I18n;
+import com.avbot.metrics.Metrics;
+import com.avbot.utilities.NumberUtil;
 import io.prometheus.client.Collector;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -45,8 +45,8 @@ import java.util.List;
 
 public class StatsCommand extends Command {
 
-    public StatsCommand(AvaIre avaire) {
-        super(avaire);
+    public StatsCommand(av av) {
+        super(av);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class StatsCommand extends Command {
     public boolean onCommand(CommandMessage context, String[] args) {
         context.makeEmbeddedMessage(MessageType.INFO,
             new MessageEmbed.Field(context.i18n("fields.author"), "[Senither#0001](https://senither.com/)", true),
-            new MessageEmbed.Field(context.i18n("fields.website"), "[avairebot.com](https://avairebot.com/)", true),
+            new MessageEmbed.Field(context.i18n("fields.website"), "[avbot.com](https://avbot.com/)", true),
             new MessageEmbed.Field(context.i18n("fields.library"), "[JDA](https://github.com/DV8FromTheWorld/JDA)", true),
             new MessageEmbed.Field(context.i18n("fields.database"), getDatabaseQueriesStats(context), true),
             new MessageEmbed.Field(context.i18n("fields.messages"), getMessagesReceivedStats(context), true),
@@ -87,12 +87,12 @@ public class StatsCommand extends Command {
             new MessageEmbed.Field(context.i18n("fields.shard"), "" + context.getJDA().getShardInfo().getShardId(), true),
             new MessageEmbed.Field(context.i18n("fields.memory"), memoryUsage(context), true),
             new MessageEmbed.Field(context.i18n("fields.uptime"), applicationUptime(), true),
-            new MessageEmbed.Field(context.i18n("fields.members"), NumberUtil.formatNicely(avaire.getShardEntityCounter().getUsers()), true),
-            new MessageEmbed.Field(context.i18n("fields.channels"), NumberUtil.formatNicely(avaire.getShardEntityCounter().getChannels()), true),
-            new MessageEmbed.Field(context.i18n("fields.servers"), NumberUtil.formatNicely(avaire.getShardEntityCounter().getGuilds()), true)
+            new MessageEmbed.Field(context.i18n("fields.members"), NumberUtil.formatNicely(av.getShardEntityCounter().getUsers()), true),
+            new MessageEmbed.Field(context.i18n("fields.channels"), NumberUtil.formatNicely(av.getShardEntityCounter().getChannels()), true),
+            new MessageEmbed.Field(context.i18n("fields.servers"), NumberUtil.formatNicely(av.getShardEntityCounter().getGuilds()), true)
         )
-            .setTitle(context.i18n("title"), "https://avairebot.com/support")
-            .setAuthor("AvaIre v" + AppInfo.getAppInfo().version, "https://avairebot.com/support", avaire.getSelfUser().getEffectiveAvatarUrl())
+            .setTitle(context.i18n("title"), "https://avbot.com/support")
+            .setAuthor("av v" + AppInfo.getAppInfo().version, "https://avbot.com/support", av.getSelfUser().getEffectiveAvatarUrl())
             .setFooter(context.i18n("footer",
                 NumberUtil.formatNicely(AudioHandler.getDefaultAudioHandler().getTotalListenersSize()),
                 NumberUtil.formatNicely(AudioHandler.getDefaultAudioHandler().getTotalQueueSize())

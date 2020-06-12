@@ -1,37 +1,37 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.chat.SimplePaginator;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.controllers.ReactionController;
-import com.avairebot.language.I18n;
-import com.avairebot.utilities.NumberUtil;
+import com.avbot.av;
+import com.avbot.chat.SimplePaginator;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.controllers.ReactionController;
+import com.avbot.language.I18n;
+import com.avbot.utilities.NumberUtil;
 import com.google.gson.reflect.TypeToken;
 import net.dv8tion.jda.core.entities.Emote;
 
@@ -41,8 +41,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ListReactionRoleCommand extends Command {
 
-    public ListReactionRoleCommand(AvaIre avaire) {
-        super(avaire, false);
+    public ListReactionRoleCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ListReactionRoleCommand extends Command {
     @Override
     @SuppressWarnings("ConstantConditions")
     public boolean onCommand(CommandMessage context, String[] args) {
-        Collection collection = ReactionController.fetchReactions(avaire, context.getGuild());
+        Collection collection = ReactionController.fetchReactions(av, context.getGuild());
         if (collection == null) {
             return sendErrorMessage(context, "errors.errorOccurredWhileLoading",
                 "reaction roles"
@@ -116,13 +116,13 @@ public class ListReactionRoleCommand extends Command {
 
             List<String> content = new ArrayList<>();
             if (row.getString("roles", null) != null) {
-                HashMap<Long, Long> dbRoles = AvaIre.gson.fromJson(
+                HashMap<Long, Long> dbRoles = av.gson.fromJson(
                     row.getString("roles"),
                     new TypeToken<HashMap<Long, Long>>() {
                     }.getType());
 
                 for (Map.Entry<Long, Long> item : dbRoles.entrySet()) {
-                    Emote emote = avaire.getShardManager().getEmoteById(item.getKey());
+                    Emote emote = av.getShardManager().getEmoteById(item.getKey());
                     if (emote == null) {
                         continue;
                     }

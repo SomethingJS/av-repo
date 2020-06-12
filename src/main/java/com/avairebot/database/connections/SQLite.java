@@ -1,36 +1,36 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.database.connections;
+package com.avbot.database.connections;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.database.StatementInterface;
-import com.avairebot.contracts.database.connections.FilenameDatabase;
-import com.avairebot.database.DatabaseManager;
-import com.avairebot.database.exceptions.DatabaseException;
-import com.avairebot.database.grammar.sqlite.*;
-import com.avairebot.database.query.QueryBuilder;
-import com.avairebot.database.schema.Blueprint;
-import com.avairebot.language.I18n;
-import com.avairebot.metrics.Metrics;
+import com.avbot.av;
+import com.avbot.contracts.database.StatementInterface;
+import com.avbot.contracts.database.connections.FilenameDatabase;
+import com.avbot.database.DatabaseManager;
+import com.avbot.database.exceptions.DatabaseException;
+import com.avbot.database.grammar.sqlite.*;
+import com.avbot.database.query.QueryBuilder;
+import com.avbot.database.schema.Blueprint;
+import com.avbot.language.I18n;
+import com.avbot.metrics.Metrics;
 
 import javax.annotation.Nonnull;
 import java.sql.*;
@@ -45,7 +45,7 @@ public class SQLite extends FilenameDatabase {
      * @param dbm The database manager class instance.
      */
     public SQLite(DatabaseManager dbm) {
-        this(dbm, dbm.getAvaire().getConfig().getString("database.filename", "database.sqlite"));
+        this(dbm, dbm.getav().getConfig().getString("database.filename", "database.sqlite"));
     }
 
     /**
@@ -91,7 +91,7 @@ public class SQLite extends FilenameDatabase {
             } catch (SQLException ex) {
                 String reason = "DBM - Could not establish an SQLite connection, SQLException: " + ex.getMessage();
 
-                AvaIre.getLogger().error(reason, ex);
+                av.getLogger().error(reason, ex);
                 throw new SQLException(reason);
             }
         }
@@ -167,7 +167,7 @@ public class SQLite extends FilenameDatabase {
             return true;
         } catch (SQLException ex) {
             if ((!ex.getMessage().toLowerCase().contains("locking")) && (!ex.getMessage().toLowerCase().contains("locked")) && (!ex.toString().contains("not return ResultSet"))) {
-                AvaIre.getLogger().error(String.format("Failed to truncate \"%s\": %s", table, ex.getMessage()), ex);
+                av.getLogger().error(String.format("Failed to truncate \"%s\": %s", table, ex.getMessage()), ex);
             }
         }
 

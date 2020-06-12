@@ -23,7 +23,7 @@
  *
  */
 
-package com.avairebot.audio.source;
+package com.avbot.audio.source;
 
 import java.util.Collections;
 import java.util.HashMap;

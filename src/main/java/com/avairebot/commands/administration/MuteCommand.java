@@ -1,37 +1,37 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.administration;
+package com.avbot.commands.administration;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.contracts.commands.*;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.modlog.Modlog;
-import com.avairebot.modlog.ModlogAction;
-import com.avairebot.modlog.ModlogType;
-import com.avairebot.time.Carbon;
-import com.avairebot.utilities.MentionableUtil;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RoleUtil;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.contracts.commands.*;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.modlog.Modlog;
+import com.avbot.modlog.ModlogAction;
+import com.avbot.modlog.ModlogType;
+import com.avbot.time.Carbon;
+import com.avbot.utilities.MentionableUtil;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RoleUtil;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
@@ -49,8 +49,8 @@ public class MuteCommand extends MuteableCommand {
 
     private final Pattern timeRegEx = Pattern.compile("([0-9]+[w|d|h|m|s])");
 
-    public MuteCommand(AvaIre avaire) {
-        super(avaire, false);
+    public MuteCommand(av av) {
+        super(av, false);
     }
 
     @Override
@@ -173,11 +173,11 @@ public class MuteCommand extends MuteableCommand {
                     : "\n" + reason
             );
 
-            String caseId = Modlog.log(avaire, context, modlogAction);
+            String caseId = Modlog.log(av, context, modlogAction);
             Modlog.notifyUser(user, context.getGuild(), modlogAction, caseId);
 
             try {
-                avaire.getMuteManger().registerMute(caseId, context.getGuild().getIdLong(), user.getIdLong(), finalExpiresAt);
+                av.getMuteManger().registerMute(caseId, context.getGuild().getIdLong(), user.getIdLong(), finalExpiresAt);
 
                 context.makeSuccess(context.i18n("userHasBeenMuted"))
                     .set("target", user.getAsMention())
@@ -186,7 +186,7 @@ public class MuteCommand extends MuteableCommand {
                         : context.i18n("time.forFormat", finalExpiresAt.diffForHumans(true)))
                     .queue();
             } catch (SQLException e) {
-                AvaIre.getLogger().error(e.getMessage(), e);
+                av.getLogger().error(e.getMessage(), e);
                 context.makeError("Failed to save the guild settings: " + e.getMessage()).queue();
             }
         });

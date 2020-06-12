@@ -1,43 +1,43 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.commands.music;
+package com.avbot.commands.music;
 
-import com.avairebot.AvaIre;
-import com.avairebot.Constants;
-import com.avairebot.commands.CommandHandler;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.commands.help.HelpCommand;
-import com.avairebot.commands.music.playlist.*;
-import com.avairebot.contracts.commands.Command;
-import com.avairebot.contracts.commands.CommandGroup;
-import com.avairebot.contracts.commands.CommandGroups;
-import com.avairebot.database.collection.Collection;
-import com.avairebot.database.collection.DataRow;
-import com.avairebot.database.connections.SQLite;
-import com.avairebot.database.controllers.PlaylistController;
-import com.avairebot.database.transformers.GuildTransformer;
-import com.avairebot.database.transformers.PlaylistTransformer;
-import com.avairebot.utilities.NumberUtil;
-import com.avairebot.utilities.RestActionUtil;
+import com.avbot.av;
+import com.avbot.Constants;
+import com.avbot.commands.CommandHandler;
+import com.avbot.commands.CommandMessage;
+import com.avbot.commands.help.HelpCommand;
+import com.avbot.commands.music.playlist.*;
+import com.avbot.contracts.commands.Command;
+import com.avbot.contracts.commands.CommandGroup;
+import com.avbot.contracts.commands.CommandGroups;
+import com.avbot.database.collection.Collection;
+import com.avbot.database.collection.DataRow;
+import com.avbot.database.connections.SQLite;
+import com.avbot.database.controllers.PlaylistController;
+import com.avbot.database.transformers.GuildTransformer;
+import com.avbot.database.transformers.PlaylistTransformer;
+import com.avbot.utilities.NumberUtil;
+import com.avbot.utilities.RestActionUtil;
 
 import javax.annotation.Nonnull;
 import java.sql.SQLException;
@@ -57,18 +57,18 @@ public class PlaylistCommand extends Command {
     private final SendPlaylists sendPlaylists;
     private final LoadPlaylist loadPlaylist;
 
-    public PlaylistCommand(AvaIre avaire) {
-        super(avaire, false);
+    public PlaylistCommand(av av) {
+        super(av, false);
 
-        removeSongFromLoadPlaylist = new RemoveSongFromPlaylist(avaire, this);
-        sendSongsInPlaylist = new SendSongsInPlaylist(avaire, this);
-        moveSongInPlaylist = new MoveSongInPlaylist(avaire, this);
-        addSongToPlaylist = new AddSongToPlaylist(avaire, this);
-        createPlaylist = new CreatePlaylist(avaire, this);
-        deletePlaylist = new DeletePlaylist(avaire, this);
-        renamePlaylist = new RenamePlaylist(avaire, this);
-        sendPlaylists = new SendPlaylists(avaire, this);
-        loadPlaylist = new LoadPlaylist(avaire, this);
+        removeSongFromLoadPlaylist = new RemoveSongFromPlaylist(av, this);
+        sendSongsInPlaylist = new SendSongsInPlaylist(av, this);
+        moveSongInPlaylist = new MoveSongInPlaylist(av, this);
+        addSongToPlaylist = new AddSongToPlaylist(av, this);
+        createPlaylist = new CreatePlaylist(av, this);
+        deletePlaylist = new DeletePlaylist(av, this);
+        renamePlaylist = new RenamePlaylist(av, this);
+        sendPlaylists = new SendPlaylists(av, this);
+        loadPlaylist = new LoadPlaylist(av, this);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class PlaylistCommand extends Command {
             return sendErrorMessage(context, "The current selected database is running an outdated version of the `SQLite` setup, if you want to use the playlist commands, either re-generate the SQLite database to get the new version, or change to a `MySQL` setup instead.");
         }
 
-        Collection playlists = PlaylistController.fetchPlaylists(avaire, context.getMessage());
+        Collection playlists = PlaylistController.fetchPlaylists(av, context.getMessage());
         if (playlists == null) {
             return sendErrorMessage(context, "errors.errorOccurredWhileLoading", "servers playlist");
         }
@@ -227,7 +227,7 @@ public class PlaylistCommand extends Command {
 
     private boolean isRunningOutdatedSQLite() {
         try {
-            if (avaire.getDatabase().getConnection() instanceof SQLite && !avaire.getDatabase().getSchema().hasColumn(
+            if (av.getDatabase().getConnection() instanceof SQLite && !av.getDatabase().getSchema().hasColumn(
                 Constants.MUSIC_PLAYLIST_TABLE_NAME, "amount"
             )) {
                 return true;

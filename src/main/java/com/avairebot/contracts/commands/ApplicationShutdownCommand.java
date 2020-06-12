@@ -1,54 +1,54 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.contracts.commands;
+package com.avbot.contracts.commands;
 
-import com.avairebot.AvaIre;
-import com.avairebot.commands.CommandMessage;
-import com.avairebot.shared.ExitCodes;
-import com.avairebot.time.Carbon;
-import com.avairebot.time.Formats;
+import com.avbot.av;
+import com.avbot.commands.CommandMessage;
+import com.avbot.shared.ExitCodes;
+import com.avbot.time.Carbon;
+import com.avbot.time.Formats;
 
 import java.text.ParseException;
 
 public abstract class ApplicationShutdownCommand extends SystemCommand {
 
     /**
-     * Creates the given command instance by calling {@link #ApplicationShutdownCommand(AvaIre, boolean)} with allowDM set to true.
+     * Creates the given command instance by calling {@link #ApplicationShutdownCommand(av, boolean)} with allowDM set to true.
      *
-     * @param avaire The AvaIre class instance.
+     * @param av The av class instance.
      */
-    public ApplicationShutdownCommand(AvaIre avaire) {
-        this(avaire, true);
+    public ApplicationShutdownCommand(av av) {
+        this(av, true);
     }
 
     /**
      * Creates the given command instance with the given
-     * AvaIre instance and the allowDM settings.
+     * av instance and the allowDM settings.
      *
-     * @param avaire  The AvaIre class instance.
+     * @param av  The av class instance.
      * @param allowDM Determines if the command can be used in DMs.
      */
-    public ApplicationShutdownCommand(AvaIre avaire, boolean allowDM) {
-        super(avaire, allowDM);
+    public ApplicationShutdownCommand(av av, boolean allowDM) {
+        super(av, allowDM);
     }
 
     /**
@@ -73,8 +73,8 @@ public abstract class ApplicationShutdownCommand extends SystemCommand {
         if (args[0].equalsIgnoreCase("now")) {
             context.makeInfo(shutdownNow())
                 .queue(
-                    shutdownMessage -> avaire.shutdown(exitCode()),
-                    throwable -> avaire.shutdown(exitCode())
+                    shutdownMessage -> av.shutdown(exitCode()),
+                    throwable -> av.shutdown(exitCode())
                 );
 
             return true;
@@ -83,8 +83,8 @@ public abstract class ApplicationShutdownCommand extends SystemCommand {
         if (args[0].equalsIgnoreCase("cancel")) {
             context.makeInfo(scheduleCancel())
                 .queue(
-                    shutdownMessage -> avaire.scheduleShutdown(null, exitCode()),
-                    throwable -> avaire.scheduleShutdown(null, exitCode())
+                    shutdownMessage -> av.scheduleShutdown(null, exitCode()),
+                    throwable -> av.scheduleShutdown(null, exitCode())
                 );
 
             return true;
@@ -105,8 +105,8 @@ public abstract class ApplicationShutdownCommand extends SystemCommand {
             .set("fromNow", time.diffForHumans(true))
             .set("date", time.format("EEEEEEEE, dd MMMMMMM yyyy - HH:mm:ss z"))
             .queue(
-                shutdownMessage -> avaire.scheduleShutdown(time, exitCode()),
-                throwable -> avaire.scheduleShutdown(time, exitCode())
+                shutdownMessage -> av.scheduleShutdown(time, exitCode()),
+                throwable -> av.scheduleShutdown(time, exitCode())
             );
 
         return true;

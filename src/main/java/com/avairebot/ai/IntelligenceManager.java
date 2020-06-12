@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.ai;
+package com.avbot.ai;
 
-import com.avairebot.AvaIre;
-import com.avairebot.contracts.ai.IntelligenceService;
-import com.avairebot.handlers.DatabaseEventHolder;
-import com.avairebot.metrics.Metrics;
+import com.avbot.av;
+import com.avbot.contracts.ai.IntelligenceService;
+import com.avbot.handlers.DatabaseEventHolder;
+import com.avbot.metrics.Metrics;
 import net.dv8tion.jda.core.entities.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,17 +35,17 @@ public class IntelligenceManager {
 
     private static final Logger log = LoggerFactory.getLogger(IntelligenceService.class);
 
-    private final AvaIre avaire;
+    private final av av;
     private IntelligenceService service;
 
     /**
      * Creates a new intelligence manager instance using
-     * the given AvaIre application instance.
+     * the given av application instance.
      *
-     * @param avaire The main AvaIre application instance.
+     * @param av The main av application instance.
      */
-    public IntelligenceManager(AvaIre avaire) {
-        this.avaire = avaire;
+    public IntelligenceManager(av av) {
+        this.av = av;
 
         service = null;
     }
@@ -74,7 +74,7 @@ public class IntelligenceManager {
     public void registerService(@Nonnull IntelligenceService service) {
         if (this.service != null) {
             try {
-                this.service.unregisterService(avaire);
+                this.service.unregisterService(av);
             } catch (Exception e) {
                 log.warn("The {} AI service threw an exception while being unregistered: {}",
                     this.service.getClass().getSimpleName(), e.getMessage(), e
@@ -82,7 +82,7 @@ public class IntelligenceManager {
             }
         }
 
-        service.registerService(avaire);
+        service.registerService(av);
 
         this.service = service;
     }
@@ -97,7 +97,7 @@ public class IntelligenceManager {
         }
 
         try {
-            service.unregisterService(avaire);
+            service.unregisterService(av);
         } catch (Exception e) {
             log.warn("The {} AI service threw an exception while being unregistered: {}",
                 this.service.getClass().getSimpleName(), e.getMessage(), e

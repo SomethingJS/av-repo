@@ -1,33 +1,33 @@
 /*
  * Copyright (c) 2019.
  *
- * This file is part of AvaIre.
+ * This file is part of av.
  *
- * AvaIre is free software: you can redistribute it and/or modify
+ * av is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * AvaIre is distributed in the hope that it will be useful,
+ * av is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with AvaIre.  If not, see <https://www.gnu.org/licenses/>.
+ * along with av.  If not, see <https://www.gnu.org/licenses/>.
  *
  *
  */
 
-package com.avairebot.plugin.sources;
+package com.avbot.plugin.sources;
 
-import com.avairebot.contracts.plugin.PluginAsset;
-import com.avairebot.contracts.plugin.PluginRelease;
-import com.avairebot.contracts.plugin.PluginSourceManager;
-import com.avairebot.plugin.PluginRepository;
-import com.avairebot.plugin.PluginSource;
-import com.avairebot.plugin.releases.GithubRelease;
-import com.avairebot.utilities.CacheUtil;
+import com.avbot.contracts.plugin.PluginAsset;
+import com.avbot.contracts.plugin.PluginRelease;
+import com.avbot.contracts.plugin.PluginSourceManager;
+import com.avbot.plugin.PluginRepository;
+import com.avbot.plugin.PluginSource;
+import com.avbot.plugin.releases.GithubRelease;
+import com.avbot.utilities.CacheUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Connection;
